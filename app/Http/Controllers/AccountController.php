@@ -23,9 +23,6 @@ class AccountController extends Controller
         $password     = $request->input('password');
         $confpassword = $request->input('confpassword');
 
-        $validated = $request->validated();
-
-
 
 
         $user = new User();

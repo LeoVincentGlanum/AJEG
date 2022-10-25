@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountController;
-use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +14,18 @@ use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
-Route::post('accounts',[AccountController::class, 'store'])
-    ->name('accounts.store')
-    ->middleware([HandlePrecognitiveRequests::class]);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/login',[AccountController::class,'login'])
-    ->name('login');
+
+Route::get('/new_tournois',[\App\Http\Controllers\TournoisController::class,'show'])->name('newTournois');
+
+
+
+
+
+require __DIR__.'/auth.php';

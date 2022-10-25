@@ -18,6 +18,7 @@ class StoreAccountRequest extends FormRequest
 
                }else{
 
+
                }
 
             }
@@ -28,7 +29,7 @@ class StoreAccountRequest extends FormRequest
     public function rules()
     {
         return [
-                'pseudo' => 'required|unique:users',
+            'pseudo' => 'required|unique:users',
             'password' => 'required|min:6',
             'confpassword' => 'required|same:password'
         ];

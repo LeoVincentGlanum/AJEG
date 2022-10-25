@@ -95,7 +95,7 @@ button:hover {
 				<div class="alert alert-warning" id="confPasswordError"></div>
             </div>
 
-			<a href="{{route('login')}}"><button class="sub log">Deja inscrit ?</button></a>
+			<a href="{{route('login')}}"><button id="login" class="sub log" onclick="return false;">Deja inscrit ?</button></a>
 			<button type="submit" class="sub reg">Inscription</button>
         </form>
     </div>
@@ -155,6 +155,11 @@ button:hover {
 			 $("#pseudoError").hide()
 			 $("#passwordError").hide()
 			 $("#confPasswordError").hide()
+
+
+			$(document).on("click", "#login", function () {
+				window.location.href = "{{route('login')}}";
+			})
 
 			$(document).on("keyup", "#exampleInputPseudo", function () {
 				wrapper();
