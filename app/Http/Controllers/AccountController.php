@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAccountRequest;
 
 class AccountController extends Controller
@@ -14,7 +15,7 @@ class AccountController extends Controller
      *
      * @param  StoreAccountRequest  $request
      *
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(StoreAccountRequest $request)
     {
@@ -24,12 +25,19 @@ class AccountController extends Controller
 
         $validated = $request->validated();
 
+
+
+
         $user = new User();
         $user->pseudo = $pseudo;
-        $user->password = $password;
+        $user->password = Hash::make($password);
         $user->save();
 
        return  redirect()->back();
+    }
+
+    public function login(){
+        return view('login');
     }
 
 }

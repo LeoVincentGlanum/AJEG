@@ -23,3 +23,5 @@ Route::post('accounts',[AccountController::class, 'store'])
     ->name('accounts.store')
     ->middleware([HandlePrecognitiveRequests::class]);
 
+Route::get('/login',[AccountController::class,'login'])
+    ->name('login');

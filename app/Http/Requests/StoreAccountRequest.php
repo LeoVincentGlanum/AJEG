@@ -9,10 +9,26 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAccountRequest extends FormRequest
 {
+     protected function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+
+            if (! $this->isPrecognitive()){
+               if(empty($validator->failed())){
+
+               }else{
+
+               }
+
+            }
+
+        });
+    }
+
     public function rules()
     {
         return [
-            'pseudo' => 'required|min:5|unique:users',
+                'pseudo' => 'required|unique:users',
             'password' => 'required|min:6',
             'confpassword' => 'required|same:password'
         ];
@@ -22,8 +38,7 @@ class StoreAccountRequest extends FormRequest
     {
         return [
             'pseudo.required' => 'Votre pseudo est requis',
-            'pseudo.min' => 'Votre pseudo doit faire + de 5 caracteres',
-            'pseudo.unique' => 'Votre pseudo doit etre unique',
+            'pseudo.unique' => 'Votre pseudo est déjà utilisé',
             'password.required' => 'Votre mot de passe est requis',
             'password.min' => 'Votre mot de passe doit faire + de 6 caracteres',
             'confpassword.required' => 'Votre confirmation de mot de passe est requis',

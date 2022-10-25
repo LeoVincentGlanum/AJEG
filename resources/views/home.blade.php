@@ -1,26 +1,102 @@
 @extends('layout.app')
 
+@section('css')
+<style>
+body {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: rgba(250, 250, 250)
+}
+
+.container {
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+}
+
+.container div > p span {
+  color: red;
+}
+
+p {
+  position: relative;
+  top: 30px;
+}
+
+p a {
+  color: black;
+  text-decoration: none;
+}
+
+.sub {
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 10px;
+  width: 200px;
+  padding: 10px 0;
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+  transition: 0.4s;
+}
+
+.reg {
+  color: white;
+  background-color: rgba(104, 85, 224, 1);
+}
+
+.log {
+  color: rgb(104, 85, 224);
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(104, 85, 224, 1);
+}
+
+button:hover {
+  color: white;
+  width:;
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+  background-color: rgba(104, 85, 224, 1);
+}
+
+
+</style>
+@endsection
+
+
 
 @section('content')
-    <div class="container">
+	<h1><center class="mt-5">AJEG </center></h1>
+	<div class="mt-5" style="background-image: url('https://user-images.githubusercontent.com/24803032/184064992-3b4a416e-ef1f-4023-89e3-a6abc35c6b09.png'); width: 100vw; height: 20vh; background-position: center"></div>
+
+
+
+	<div class="container">
         <form class="mt-5" method="post" action="{{route('accounts.store')}}">
+				<h2 class="mt-5">Inscription</h2>
             @csrf
             <div class="mb-3 mt-5">
                 <label for="exampleInputPseudo" class="form-label">Pseudo</label>
                 <input name="pseudo" type="text" class="form-control" id="exampleInputPseudo">
-				<div id="pseudoError"></div>
+				<div class="alert alert-warning" id="pseudoError"></div>
+
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input name="password" type="password" class="form-control" id="exampleInputPassword1">
-				<div id="passwordError"></div>
+				<div class="alert alert-warning" id="passwordError"></div>
             </div>
-            <div class="mb-3">
+            <div class="mb-5">
                 <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
                 <input name="confpassword" type="password" class="form-control" id="exampleInputPassword2">
-				<div id="confPasswordError"></div>
+				<div class="alert alert-warning" id="confPasswordError"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Inscription</button>
+
+			<a href="{{route('login')}}"><button class="sub log">Deja inscrit ?</button></a>
+			<button type="submit" class="sub reg">Inscription</button>
         </form>
     </div>
 
