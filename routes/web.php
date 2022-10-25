@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\GameHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/new_tournois',[\App\Http\Controllers\TournoisController::class,'show'])->name('newTournois');
 
+Route::get('/game-history',[GameHistoryController::class,'gameHistory'])
+->name('gameHistory');
 
 
 
