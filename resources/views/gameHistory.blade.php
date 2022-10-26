@@ -9,7 +9,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <livewire:user-datatables
+                    <livewire:games-history-datatables
                         searchable="name"
                         language="fr"
                     />
