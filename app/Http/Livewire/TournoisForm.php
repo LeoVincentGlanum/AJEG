@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use GuzzleHttp\Psr7\Request;
 
 class TournoisForm extends Component
 {
@@ -30,7 +31,12 @@ class TournoisForm extends Component
      public function submit()
      {
 
+
+
+
          $this->validate();
+
+          dd($this);
      }
 
 }
