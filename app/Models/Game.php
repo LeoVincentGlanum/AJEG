@@ -10,31 +10,19 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $with = [
-        'gamePlayer'
-    ];
-
-    protected $attributes = [
-        'id'
-    ];
+    protected $table = 'games';
 
     protected $fillable = [
-        'user_white',
-        'user_black',
         'status',
     ];
 
-
-    public function user_white() {
-        return $this->hasMany(User::class, 'id', 'user_white');
-    }
-
-    public function user_black() {
-        return $this->hasMany(User::class, 'id', 'user_black');
-    }
-
-    public function gamePlayer() {
+    public function gamePlayers() 
+    {
         return $this->hasMany(GamePlayer::class, 'game_id', 'id');
     }
-    
+
+    public function users() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class,'game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result');
+    }
 }

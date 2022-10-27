@@ -27,30 +27,25 @@ class GamesHistoryDatatables extends LivewireDatatable
                 ->label('ID')
                 ->sortBy('id'),
 
-            Column::name('user_white.name')
-                ->label('Joueur 1')
-                ->filterable(),
+            Column::name('users.name')
+               ->label('Joueurs')
+               ->filterable(),
 
-            Column::name('user_black.name')
-                ->label('Joueur 2')
-                ->filterable(),
-
-              //  Column::name('perdant.user.name')
-                //->label('Joueur 2')
-               // ->filterable(),
-
-            // Column::name('gamePlayer.user_id')
-            //    ->label('Résultat')
-            //    ->group('group1')
-            //    ->filterable(),
-
-            Column::name('gamePlayer.results')
-                ->label('Résultat')
-                ->filterable(),
+            // Column::name('gamePlayer.results')
+            //     ->label('Résultat')
+            //     ->filterable(),
 
             // Column::raw('')
             //     ->label('Computed (raw SQL)')
             //     ->filterable(),
+
+            // Column::raw('CONCAT(gamePlayer.user_id, " a ", gamePlayer.results ) AS game')
+            //     ->label('Computed (raw SQL)')
+            //     ->filterable(),
+
+            // Column::callback('gamePlayer.user_id', 'gamePlayer.results')
+            //     ->label('Go to bed')
+            //     ->hide(),
 
                 //Column::callback(['id', 'planet.name'], function ($id, $planetName) {
                     //      dd($planetName);

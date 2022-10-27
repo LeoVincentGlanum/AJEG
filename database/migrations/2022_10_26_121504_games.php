@@ -15,10 +15,6 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_white')
-                ->constrained('users');
-            $table->foreignId('user_black')
-                ->constrained('users');
             $table->enum('status', ['En attente', 'En cours', 'Terminé'])->default('En attente');
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ return new class extends Migration
                 ->deleteOnCascade();
             $table->foreignId('user_id')
                 ->constrained('users');
-            $table->enum('results', ['Gagné', 'Perdu', 'Null']);
+            $table->string('result', 30);
             $table->timestamps();
         });
     }
