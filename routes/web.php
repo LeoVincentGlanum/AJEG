@@ -22,9 +22,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/new_tournois',[\App\Http\Controllers\TournoisController::class,'show'])->name('newTournois');
+Route::get('/newTournois',[\App\Http\Controllers\TournoisController::class,'index'])->name('newTournois');
 
-
+Route::post('/newTournois',[\App\Http\Controllers\TournoisController::class,'store'])->name('tournois.store');
 
 
 
