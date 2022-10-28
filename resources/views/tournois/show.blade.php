@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="container mt-5">
-    <livewire:tournois-form />
+    <livewire:tournois-show />
     </div>
 
 

@@ -26,11 +26,12 @@ Route::get('/dashboard', function () {
 
 Route::get('/newTournois',[\App\Http\Controllers\TournoisController::class,'index'])->name('newTournois');
 
-Route::post('/newTournois',[\App\Http\Controllers\TournoisController::class,'store'])->name('tournois.store');
 Route::get('/game-history',[GameHistoryController::class,'gameHistory'])
 ->name('gameHistory');
+Route::get('/tournois/{id}',[\App\Http\Controllers\TournoisController::class,'show'])->name('tournois.show');
 
 
+Route::get('/game/create')->name('game.create');
 
 
 require __DIR__.'/auth.php';

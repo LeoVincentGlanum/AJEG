@@ -29,43 +29,14 @@ class TournoisController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-
-        $name = $request->input('name');
-        $cashPrize = $request->input('cashPrize');
-        $cashPrizeModo = $request->input('cashPrizeModo');
-        $notif = $request->input('notif');
-
-        if ($notif){
-            $notif = 0;
-        }
-
-        $newTournois = new Tournois();
-
-        $newTournois->name = $name;
-        $newTournois->cashprize_perso = $cashPrize;
-        $newTournois->cashprize_modo = $cashPrizeModo;
-        $newTournois->notification = $notif;
-        $newTournois->user_id = Auth::id();
-        $newTournois->save();
-
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return
      */
-    public function show()
+    public function show($id)
     {
-
+        $tournois = Tournois::find($id);
+        return view("tournois.show")->with(["tournois" => $tournois]);
     }
 
     /**
