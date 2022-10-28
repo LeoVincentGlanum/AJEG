@@ -48,9 +48,8 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('my-account')"
-                                         onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                        
+                        <x-dropdown-link :href="route('my-account')" :active="request()->routeIs('my-account')">
                             {{ __('My account') }}
                         </x-dropdown-link>
 

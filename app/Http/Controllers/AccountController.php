@@ -34,6 +34,10 @@ class AccountController extends Controller
     }
 
     public function login(){
-        return view('login');
+        return view('dashboard');
+    }
+
+    public function myaccount(){
+        return "ajdaojf";
     }
 }

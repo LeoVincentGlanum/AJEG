@@ -23,9 +23,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/my-account', function () {
-    return view('my-account');
-})->middleware(['auth', 'verified'])->name('my-account');
+Route::get('/my-account',[\App\Http\Controllers\AccountController::class,'myaccount'])->name('my-account');
 
 Route::get('/newTournois',[\App\Http\Controllers\TournoisController::class,'index'])->name('newTournois');
 
