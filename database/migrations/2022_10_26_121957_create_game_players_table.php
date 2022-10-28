@@ -20,7 +20,10 @@ return new class extends Migration
                 ->deleteOnCascade();
             $table->foreignId('user_id')
                 ->constrained('users');
-            $table->string('result', 30);
+            $table->string('color', 30)
+                ->nullable();
+            $table->string('result', 30)
+                ->nullable();
             $table->timestamps();
         });
     }
