@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\TournoisController;
 use App\Http\Controllers\GameHistoryController;
 
 /*
@@ -24,14 +27,21 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/newTournois',[\App\Http\Controllers\TournoisController::class,'index'])->name('newTournois');
+// Historique
 
 Route::get('/game-history',[GameHistoryController::class,'gameHistory'])
 ->name('gameHistory');
-Route::get('/tournois/{id}',[\App\Http\Controllers\TournoisController::class,'show'])->name('tournois.show');
+
+// Tournois
+Route::get('/newTournois',[TournoisController::class, 'index'])->name('newTournois');
+Route::get('/tournois/{id}',[TournoisController::class, 'show'])->name('tournois.show');
 
 
-Route::get('/game/create')->name('game.create');
+// Game
+Route::get('/game/create',[GameController::class,'create'])->name('game.create');
 
+
+// admin
+Route::get('/admin',[AdminController::class,'index'])->name('admin')->middleware('admin');
 
 require __DIR__.'/auth.php';
