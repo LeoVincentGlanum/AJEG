@@ -10,7 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <livewire:games-history-datatables
-                        searchable="name"
                         language="fr"
                     />
                 </div>
