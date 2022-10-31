@@ -1,66 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<center><h1>A.J.E.G</h1></center>
+<H3><center>Association des joueurs d'echec de glanum</H3>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<br>
+<i>Spect technique : PHP 8.0.14 
+Laravel : 9.19, projet orienté livewire</i>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+<h3>Sommaire : </h3>
+<ul><li>1) Profil utilisateur </li>
+<li>2) Game </li>
+<li>3) Tournois </li>
+<li>4) Monnaie virtuelle </li>
+<li>5) Notion de paris </li></ul>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<h3>PROFIL UTILISATEUR</h3>
 
-## Laravel Sponsors
+Chaque utilisateur doit s'identifier avec son email impérativement, vérification d'email. 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Un utilisateur peut etre ou non licencié à l'association par une cotisation de 5€ par trimestre
+(plus tard cela donnera des avantages sur l'application )
 
-### Premium Partners
+Un joueur a un ratio par rapport à ses parties jouées et un classement par rapport a tous les joueurs.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<h3>GAME</h3>
 
-## Code of Conduct
+Chaque utilisateur peut creer une partie, avec différents status : 
+<ul>
+<li>Pas encore commencé : envoie une notif ( mail ) aux autre joueurs</li>
+<li>En cours, pour sauvegardé une partie via une photo </li>
+<li>Terminé, l'utilisateur peut inserer les resultats de la partie et sera en attente de l'autre confirmation de l'autre joueur</li>
+</ul>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<h3>TOURNOIS</h3>
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+<h3>MONNAIE VIRTUELLE</h3>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Chaque jours, tous les joueurs pourront recolté des monaies virtuelles, plus ils 
+cummule les jours plus il gagne de piece. 
+
+Pour chaque partie jouée, les joueurs mise obligatoirement un montant (montant_min) qui peut bouger en fonction des saisons
+
+Si le joueur choisi une partie parié : 
+<BR> Il peut choisir de parier le nombre de pieces qu'il souhaite. Il gagnera alors s'il gagne les pieces qu'il a misé + la meme somme que sont adversé à misé. 
+
+
+<h3>NOTION DE PARIS</h3>
+
+Une personne lamba poura miser sur une partie en attente d'etre jouer, le systeme de pari dépend de la cote du joueur : 
+Plus son ranking est elevé plus la cote est faibe et inversement
+
+
+<h3>Notion de ranked </h3>
+Point de ranked -> On commence avec 100 points 
+<ul><li>WIN => +3 points </li>
+<li>PATH => +1 points </li>
+<li>NUL => +0 points </li>
+<li>LOOSE =>  -3 points </li>
+</ul>
+
+⚠ ces variables peut etre modifier à chaque fin de saison. 
+
+Chaque partie est ranked mais n'a pas les memes coeficients :
+
+<ul>
+<li>Normal game : coef x 1 en point </li>
+<li>Money game :  coef x 2 en point </li>
+<li>Ranked game : coef x 3 en point </li>
+</ul>
+
+
+
+<h3>Notion de saison </h3>
+Chaque mois , une nouvelle saison débute et le master de la saison qui vient de se dérouler remporte un badge de grand maitre. +1000 crédits 
+
+
+
+
+
