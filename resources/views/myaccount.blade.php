@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="container">
+        <div class="container" >
             <div class="card">
                 <h1 style="margin-left : 20px;
                            margin-top: 15px;
@@ -15,7 +15,9 @@
                            ">
                     Bonjour {{ Auth::user()->name }} :
                 </h1>
-                <div style="margin: auto; width: 50%;">
+                <div style="margin: auto;
+                            width: 50%;
+                            margin-bottom: 20px">
                     <h2 style="text-align: center;
                         text-decoration : underline;
                         font-style: normal;">
@@ -27,40 +29,6 @@
         </div>
     </div>
 </x-app-layout>
-
-{{--<script>--}}
-{{--    const data = {--}}
-{{--        labels: [--}}
-{{--            'Victoires',--}}
-{{--            'Défaites',--}}
-{{--            'Paths',--}}
-{{--            'Nulls'--}}
-{{--        ],--}}
-{{--        datasets: [{--}}
-{{--            label: 'total Games Statistique',--}}
-{{--            data: [{{$win}}, {{$lose}}, {{$path}}, {{$null}}],--}}
-{{--            backgroundColor: [--}}
-{{--                'rgb(0, 255, 0)',--}}
-{{--                'rgb(255, 99, 132)',--}}
-{{--                'rgb(54, 162, 235)',--}}
-{{--                'rgb(255, 205, 86)'--}}
-{{--            ],--}}
-{{--            hoverOffset: 4--}}
-{{--        }]--}}
-{{--    };--}}
-
-{{--    const config = {--}}
-{{--        type: 'doughnut',--}}
-{{--        data: data,--}}
-{{--    };--}}
-
-{{--</script>--}}
-{{--<script>--}}
-{{--    const myChart = new Chart(--}}
-{{--        document.getElementById('totalGames'),--}}
-{{--        config--}}
-{{--    );--}}
-{{--</script>--}}
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 <script type="text/javascript">
