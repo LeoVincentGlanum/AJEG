@@ -89,7 +89,15 @@
             options: {
                 responsive: true,
                 legend: {
-                    display: true
+                    labels: {
+                        generateLabels: (chart) => {
+                            const datasets = chart.data.datasets;
+                            return datasets[0].data.map((data, i) => ({
+                                text: `${chart.data.labels[i]}: ${data}`,
+                                fillStyle: datasets[0].backgroundColor[i],
+                            }))
+                        }
+                    }
                 }
             }
         });
