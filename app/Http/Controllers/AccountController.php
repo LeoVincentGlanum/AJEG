@@ -38,7 +38,8 @@ class AccountController extends Controller
         return view('dashboard');
     }
 
-    public function myaccount(){
+    public function myaccount()
+    {
         $user = auth()->user()->first();
         $userGames = GamePlayer::query()->where('user_id', $user->id)->get();
         $totalGames = 0;
@@ -48,23 +49,22 @@ class AccountController extends Controller
         $null = 0;
 
         foreach ($userGames as $userGame) {
-            if($userGame->result === 'win'){
+            if ($userGame->result === 'win') {
                 $win++;
-            }elseif ($userGame->result === 'lose'){
+            } elseif ($userGame->result === 'lose') {
                 $lose++;
-            }elseif ($userGame->result === 'path'){
+            } elseif ($userGame->result === 'path') {
                 $path++;
-            }elseif ($userGame->result === 'null'){
+            } elseif ($userGame->result === 'null') {
                 $null++;
             }
             $totalGames++;
         }
-        dd($user->name,
-            'win '.$win,
-        'lose '.$lose,
-        'path '.$path,
-        'null '.$null,
-        'Total game '.$totalGames);
-        return view('myaccount');
-    }
+
+        return view('myaccount', compact('win',
+                                            'lose',
+                                                       'path',
+                                                       'null',
+                                                       'totalGames'));
+        }
 }
