@@ -22,6 +22,10 @@
         {{-- Alpine JS --}}
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+        {{-- Chart JS --}}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
