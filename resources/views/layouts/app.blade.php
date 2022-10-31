@@ -39,11 +39,12 @@
         <!-- Modal with a Livewire name update form -->
     </div>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {!!  session('message')  !!}
-        </div>
-    @endif
+            @if (session()->has('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {!!  session('message')  !!}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
     <!-- Page Content -->
     <main>

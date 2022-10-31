@@ -53,6 +53,11 @@
                             {{ __('Mon compte') }}
                         </x-dropdown-link>
 
+                        @if(\Illuminate\Support\Facades\Auth::user()->admin === 1)
+                         <x-dropdown-link :href="route('admin')">
+                                {{ __('Administration') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -96,6 +101,9 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
+                   <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
