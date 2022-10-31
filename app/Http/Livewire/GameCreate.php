@@ -31,6 +31,8 @@ class GameCreate extends Component
     }
 
     public function submit(){
-        dd($this);
+        $arrayPlayer = $this->users;
+
+
     }
 }
