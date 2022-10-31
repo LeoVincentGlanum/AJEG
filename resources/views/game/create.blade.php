@@ -1,7 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <livewire:game-create />
-    </div>
-@endsection
+<x-app-layout>
+    <livewire:game-create />
+</x-app-layout>

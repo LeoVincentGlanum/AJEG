@@ -8,18 +8,15 @@ use App\Models\GameType;
 class TypeGameForm extends Component
 {
     public $label;
+
     public $ratio;
 
+    protected $rules = [
+        'label' => 'required',
+        'ratio' => 'numeric|min:1',
+    ];
 
-      protected function rules()
-    {
-        return [
-            'label' => 'required',
-            'ratio' => 'numeric|min:1',
-        ];
-    }
-
-     public function submit()
+    public function submit()
     {
         $validatedData = $this->validate();
 
@@ -37,7 +34,4 @@ class TypeGameForm extends Component
     {
         return view('livewire.admin-type-game');
     }
-
-
-
 }

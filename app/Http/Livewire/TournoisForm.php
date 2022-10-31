@@ -4,14 +4,16 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Tournois;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TournoisForm extends Component
 {
     public $name;
+
     public $cashprize_perso;
+
     public $cashprize_modo;
+
     public $notification;
 
     protected $rules = [
@@ -20,19 +22,11 @@ class TournoisForm extends Component
         'cashprize_modo' => 'required',
     ];
 
-
-
     protected $messages = [
         'name.required' => 'Le nom du tournois est requis.',
         'cashprize_perso.required' => 'Vous devez renseigner le cashprize que vous offrez',
         'cashprize_perso.required' => 'Vous devez renseigner un cashprize offert par les modos',
     ];
-
-    public function render()
-    {
-        return view('livewire.tournois-form');
-    }
-
 
      public function submit()
      {
@@ -63,4 +57,8 @@ class TournoisForm extends Component
 
      }
 
+    public function render()
+    {
+        return view('livewire.tournois-form');
+    }
 }

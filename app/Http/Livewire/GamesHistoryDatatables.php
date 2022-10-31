@@ -19,6 +19,7 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 class GamesHistoryDatatables extends LivewireDatatable
 {
     public $selected_id;
+
     public $updateMode = false;
 
     public function builder()

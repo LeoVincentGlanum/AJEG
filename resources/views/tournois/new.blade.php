@@ -1,11 +1,3 @@
-@extends('layouts.app')
-
-
-@section('content')
-
-    <div class="container mt-5">
+<x-app-layout>
     <livewire:tournois-form />
-    </div>
-
-
-@endsection
+</x-app-layout>

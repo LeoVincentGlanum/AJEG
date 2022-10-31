@@ -27,33 +27,31 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
-    <!-- Page Heading -->
-    @if (isset($header))
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endif
-    <div x-data="{ open: false }" @toast.window="open = false">
-        <!-- Modal with a Livewire name update form -->
-    </div>
-
-            @if (session()->has('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {!!  session('message')  !!}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
             @endif
+            <div x-data="{ open: false }" @toast.window="open = false">
+                <!-- Modal with a Livewire name update form -->
+            </div>
 
-    <!-- Page Content -->
-    <main>
-        @if(isset($slot))
-            {{ $slot }}
-        @endif
-        @yield('content')
-    </main>
-</div>
-@livewireScripts
-</body>
+                    @if (session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {!!  session('message')  !!}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
+
+        @livewireScripts
+    </body>
 </html>
