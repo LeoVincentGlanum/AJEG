@@ -43,43 +43,40 @@ class GamesHistoryDatatables extends LivewireDatatable
                ->label('Joueurs')
                ->filterable()
                ->linkTo('user'),
-//
-//            Column::callback('id', 'gameResult')
-//                ->label('Résultat'),
-//              ->filterable()
-//              ->filterOn('game_players.result'),
+
+            Column::callback('id', 'gameResult')
+                ->label('Résultat'),
 
             DateColumn::name('created_at')
                 ->label('Date de création')
                 ->filterable(),
         ];
-
     }
 
-//    public function gameResult($id)
-//    {dd($id);
-//        if (!$id)
-//        {
-//            return "-";
-//        }
-//
-//        $game = Game::query()->where('id', $id)->first()->users()->get();
-//
-//        foreach ($game as $player) {
-//            if ($player->pivot->result === 'win')
-//            {
-//                return $player->name." ".$player->pivot->result;
-//
-//            } elseif ($player->pivot->result === 'null')
-//            {
-//                return "Match null";
-//
-//            } elseif ($player->pivot->result === 'path')
-//            {
-//                return "Path";
-//            }
-//        }
-//
-//        return "-";
-//    }
+    public function gameResult($id)
+    {
+        if (!$id)
+        {
+            return "-";
+        }
+
+        $game = Game::query()->where('id', $id)->first()->users()->get();
+
+        foreach ($game as $player) {
+            if ($player->pivot->result === 'win')
+            {
+                return $player->name." ".$player->pivot->result;
+
+            } elseif ($player->pivot->result === 'null')
+            {
+                return "Match null";
+
+            } elseif ($player->pivot->result === 'path')
+            {
+                return "Path";
+            }
+        }
+
+        return "-";
+    }
 }
