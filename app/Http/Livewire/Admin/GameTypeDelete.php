@@ -22,7 +22,7 @@ class GameTypeDelete extends ModalComponent
     {
         $this->gameType->delete();
 
-        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListLine', [$this->gameType]]]);
+        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->gameType]]]);
     }
 
     public function render()
