@@ -39,6 +39,7 @@ class UserFactory extends Factory
                 'remember_token' => Str::random(10),
                 'coins' => fake()->randomNumber(),
                 'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
             ];
         });
     }
