@@ -9,19 +9,19 @@ use App\Models\GameType;
 use App\Models\GamePlayer;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 class GameCreate extends Component
 {
 
-    public $users;
-    public $type = "ask";
-    public $gameTypes;
-    public $resultat;
-    public $players = [];
-    public $selectBlanc = "nul";
-    public $playersColors = [];
-
-    public $partyName;
+    public Collection $users;
+    public string $type = "ask";
+    public ?Collection $gameTypes;
+    public ?string $resultat = "";
+    public ?array $players = [];
+    public ?string $selectBlanc = "nul";
+    public ?array $playersColors = [];
+    public ?string $partyName = "";
 
     protected $messages = [
         'selectBlanc.not_in' => 'Attention ! Merci de selectionner un joueur blanc',
@@ -41,11 +41,14 @@ class GameCreate extends Component
 
     public function updatedPlayers($value)
     {
-         foreach ($this->playersColors as $key => $color) {
+        if (count($this->players) > 0){
+            foreach ($this->playersColors as $key => $color) {
             if (!in_array($key,$this->players)){
                 unset($this->playersColors[$key]);
             }
         }
+        }
+
     }
 
     public function rules()
@@ -73,26 +76,36 @@ class GameCreate extends Component
         $newGame->save();
 
         foreach ($this->players as $player) {
-
+            $color = "noir";
             if (count($this->playersColors) > 0 ){
                 $color = $this->playersColors[$player];
             }
-            if($this->selectBlanc === $player) {
+            if($this->selectBlanc == $player) {
                 $color = "blanc";
             }
-            $color = "noir";
 
+            $result = "loose";
 
             if($this->resultat == "nul" || $this->resultat == "path" ){
                 $result = $this->resultat;
             }
 
+            if ($this->resultat == $player){
+                $result = "win";
+            }
+              //dd($this->resultat,$this->selectBlanc,$player);
+
+
 
             $gameplayer          = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
-            $gameplayer->user_id = $player->id;
+            $gameplayer->user_id = $player;
             $gameplayer->color   = $color;
-            $gameplayer->result  = "";
+            $gameplayer->result  = $result;
+            $gameplayer->save();
+
+            session()->flash('message', 'Post successfully updated.');
+             return redirect('dashboard');
         }
     }
 
