@@ -17,12 +17,10 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-
                     <x-nav-link :href="route('game.create')" :active="request()->routeIs('gameHistory')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-</svg><span class="ml-2">    {{ __('Creer une partie') }}</span>
-
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                        </svg><span class="ml-2">    {{ __('Creer une partie') }}</span>
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -30,10 +28,55 @@
                         {{ __('Historique des parties') }}
                     </x-nav-link>
                 </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        @if((\Carbon\Carbon::parse(Auth::user()->daily_reward)->lessThanOrEqualTo(now())) )
+                            <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
+                                {{ __('Récompense quotidienne') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link id="counter">
+                                <img src=".\img\loader.gif" width="75" height="75">
+                            </x-nav-link>
+                            @php
+                                $dateTime = strtotime(Auth::user()->daily_reward);
+                                $getDateTime = date("F d, Y H:i:s", $dateTime);
+                            @endphp
+                            <script type="text/javascript">
+                                var countDownDate = new Date("<?php echo "$getDateTime"; ?>").getTime();
+                                // Update the count down every 1 second
+                                var x = setInterval(function() {
+                                    var now = new Date().getTime();
+                                    // Find the distance between now an the count down date
+                                    var distance = countDownDate - now;
+                                    // Time calculations for days, hours, minutes and seconds
+                                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                    // Output the result in an element with id="counter"11
+                                    document.getElementById("counter").innerHTML = /*days + "Day : " +*/ hours + "h " +
+                                        minutes + "m " + seconds + "s ";
+                                    // If the count down is over, write some text
+                                    if (distance < 0) {
+                                        clearInterval(x);
+                                        document.getElementById("counter").innerHTML = "";
+                                    }
+                                }, 1000);
+                            </script>
+                        @endif
+                    </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+
+                <div class="hidden space-x-100 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link>
+                        {{ __( Auth::user()->coins) }}
+                        <img src=".\img\coins.png" width="75" height="75">
+                    </x-nav-link>
+                </div>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">

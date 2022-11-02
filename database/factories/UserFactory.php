@@ -24,6 +24,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'coins' => fake()->randomNumber(),
+            'daily_reward' => '2022-10-30 13:23:54',
         ];
     }
 
@@ -35,6 +37,8 @@ class UserFactory extends Factory
                 'email' => 'test@glanum.com',
                 'password' => Hash::make('glanum'),
                 'remember_token' => Str::random(10),
+                'coins' => fake()->randomNumber(),
+                'daily_reward' => '2022-10-30 13:23:54',
             ];
         });
     }

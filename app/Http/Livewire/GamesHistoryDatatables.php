@@ -65,7 +65,7 @@ class GamesHistoryDatatables extends LivewireDatatable
         foreach ($game as $player) {
             if ($player->pivot->result === 'win')
             {
-                return $player->name." ".$player->pivot->result;
+                return $player->name." a gagné";
 
             } elseif ($player->pivot->result === 'null')
             {

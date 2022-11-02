@@ -33,6 +33,11 @@ Route::get('/my-account',[\App\Http\Controllers\AccountController::class,'myacco
 Route::get('/game-history',[GameHistoryController::class,'gameHistory'])
 ->name('gameHistory');
 
+// Récompense quotidienne
+
+Route::get('/daily-reward',[AccountController::class,'dailyReward'])
+    ->name('dailyReward');
+
 // Tournois
 Route::get('/newTournois',[TournoisController::class, 'index'])->name('newTournois');
 Route::get('/tournois/{id}',[TournoisController::class, 'show'])->name('tournois.show');
