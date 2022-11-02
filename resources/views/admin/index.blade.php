@@ -1,7 +1,9 @@
 <x-app-layout>
-    <div class="container mt-5">
-        <h1>Administration Panel</h1>
-        <livewire:type-game-form />
-        <livewire:type-game-show />
-    </div>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Administration Panel') }}
+        </h2>
+    </x-slot>
+
+    <livewire:admin.list-game-type />
 </x-app-layout>
