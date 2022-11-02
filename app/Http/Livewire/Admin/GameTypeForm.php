@@ -16,6 +16,14 @@ class GameTypeForm extends ModalComponent
         'gameType.ratio' => 'required|regex:/^[0-9]+[.,]?[0-9]*$/i'
     ];
 
+    protected $messages = [
+        'gameType.label.required' => 'Le champ label ne peut pas être vide.',
+        'gameType.label.string' => 'Le champ label doit être une chaine de caractères.',
+        'gameType.label.max' => 'Le champ label doit faire moins de 255 caractères.',
+        'gameType.ratio.required' => 'Le champ ratio ne peut pas être vide.',
+        'gameType.ratio.regex' => 'Le champ ratio ne peut contenir que les caractères suivant : 0-9/./,',
+    ];
+
     public function mount($id)
     {
         $this->gameType = GameType::query()->find($id) ?? new GameType();
