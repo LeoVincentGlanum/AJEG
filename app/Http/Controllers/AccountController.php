@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GamePlayer;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -67,4 +68,24 @@ class AccountController extends Controller
                                                        'null',
                                                        'totalGames'));
         }
+
+        public function dailyReward()
+        {
+            if(\Carbon\Carbon::parse(auth()->user()->first()->daily_reward)->greaterThan(now())){
+                return redirect()->back();
+            }
+            $user = auth()->user()->first();
+            $user->coins = $user->coins + 100;
+            $user->daily_reward = now()->addDays(1)->addHours(1);
+            $user->save();
+
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->coins = 100;
+            $transaction->message = "Récompense quotidienne";
+            $transaction->save();
+
+            return redirect()->back();
+        }
+
 }
