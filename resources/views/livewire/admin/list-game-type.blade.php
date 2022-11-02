@@ -2,28 +2,44 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-                <h3>Liste des categories de partie</h3>
+                <div class="flex justify-content-between">
+                    <h3>Liste des categories de partie</h3>
 
+                    @php
+                        $data = json_encode(["id" => null]);
+                    @endphp
+                    <a
+                        class="btn btn-primary px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer"
+                        wire:click="$emit('openModal', 'admin.game-type-form', {{ $data }})"
+                    >
+                        Ajouter une catégorie
+                    </a>
+                </div>
                 <div class="mt-3">
                     <ul class="list-group">
                         @forelse($gameTypes as $gameType)
                             <li class="list-group-item">
-                                <div style="display: flex;justify-content: space-between;">
+                                <div class="flex justify-content-between">
                                     {{ $gameType->label }} avec un ratio de {{ $gameType->ratio }}
 
-                                    @php
-                                        $dataLineDelete = json_encode(["id" => $gameType->id]);
-                                    @endphp
-                                    <a
-                                        class="btn btn-danger deleteCat"
-                                        wire:click="$emit('openModal', 'admin.game-type-delete', {{ $dataLineDelete }})"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                             class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
-                                        </svg>
-                                    </a>
+                                    <div class="flex">
+                                        @php
+                                            $dataTypeEdit = json_encode(["id" => $gameType->id]);
+                                        @endphp
+                                        <a
+                                            class="mr-2"
+                                            wire:click="$emit('openModal', 'admin.game-type-form', {{ $dataTypeEdit }})"
+                                        >
+                                            <x-heroicon-s-pencil class="w-5 h-5 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
+                                        </a>
+
+                                        @php
+                                            $dataTypeDelete = json_encode(["id" => $gameType->id]);
+                                        @endphp
+                                        <a wire:click="$emit('openModal', 'admin.game-type-delete', {{ $dataTypeDelete }})">
+                                            <x-heroicon-s-trash class="w-5 h-5 cursor-pointer text-red-500 hover:text-red-700"/>
+                                        </a>
+                                    </div>
                                 </div>
                             </li>
                         @empty

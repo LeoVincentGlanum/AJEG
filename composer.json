@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "blade-ui-kit/blade-heroicons": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -14,7 +15,7 @@
         "maatwebsite/excel": "^3.1",
         "mediconesystems/livewire-datatables": "^0.9.5",
         "psr/simple-cache": "1.0",
-        "wire-elements/modal": "^1.0"
+        "wire-elements/modal": "1.0.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
