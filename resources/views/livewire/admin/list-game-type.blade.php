@@ -34,8 +34,7 @@
                                         </a>
 
                                         @php
-                                            //$dataTypeDelete = json_encode(["id" => $gameType->id]);
-                                            $dataTypeDelete = json_encode(["id" => 12]);
+                                            $dataTypeDelete = json_encode(["id" => $gameType->id]);
                                         @endphp
                                         <a wire:click="$emit('openModal', 'admin.game-type-delete', {{ $dataTypeDelete }})">
                                             <x-heroicon-s-trash class="w-5 h-5 cursor-pointer text-red-500 hover:text-red-700"/>
