@@ -9,8 +9,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <livewire:games-history-datatables
-                        language="fr"
+                    <livewire:games.list-games
                     />
                 </div>
             </div>
