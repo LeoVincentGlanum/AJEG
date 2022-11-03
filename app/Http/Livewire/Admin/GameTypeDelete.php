@@ -20,7 +20,12 @@ class GameTypeDelete extends ModalComponent
 
     public function delete()
     {
-        $this->gameType->delete();
+        try {
+            $this->gameType->delete();
+            $this->dispatchBrowserEvent('toast', ['message' => 'Le type à bien été supprimé', 'type' => 'success']);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+        }
 
         $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->gameType]]]);
     }

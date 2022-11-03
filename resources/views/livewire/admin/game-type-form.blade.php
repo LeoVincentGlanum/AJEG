@@ -4,9 +4,9 @@
             <div>
                 <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900">
                     @if($creation === true)
-                        Ajouter une catégorie
+                        Ajouter un type
                     @else
-                        Éditer la catégorie
+                        Éditer le type
                     @endif
                 </h3>
             </div>

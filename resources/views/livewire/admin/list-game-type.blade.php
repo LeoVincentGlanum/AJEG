@@ -3,7 +3,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
                 <div class="flex justify-between">
-                    <h3>Liste des categories de partie</h3>
+                    <h3>Liste des types de partie</h3>
 
                     @php
                         $data = json_encode(["id" => null]);
@@ -12,7 +12,7 @@
                         class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
                         wire:click="$emit('openModal', 'admin.game-type-form', {{ $data }})"
                     >
-                        Ajouter une catégorie
+                        Ajouter un type
                     </a>
                 </div>
                 <div class="mt-3">
@@ -45,19 +45,22 @@
                         @empty
                             <li>
                                 <div class="text-center">
-                                    <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de categories') }}</h3>
+                                    <x-heroicon-o-face-frown class="mx-auto h-12 w-12 text-gray-400"/>
+                                    <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">
+                                        {{ __('Pas de type') }}
+                                    </h3>
                                     <p class="mt-1 text-sm text-gray-500">
-                                        {{ __('Créer une catégorie') }}
+                                        {{ __('Créer un type') }}
                                     </p>
                                     <div class="mt-6">
                                         @php
                                             $data = json_encode(["id" => null]);
                                         @endphp
                                         <a
-                                            class="btn btn-primary inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer"
+                                            class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
                                             wire:click="$emit('openModal', 'admin.game-type-form', {{ $data }})"
                                         >
-                                           Ajouter une catégorie
+                                           Ajouter un type
                                         </a>
                                     </div>
                                 </div>
