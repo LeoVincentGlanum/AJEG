@@ -19,7 +19,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
 
-                            @foreach($games as $game)
+                            @foreach($pageGames as $game)
                                 <tr>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                         <div class="flex items-center">
@@ -55,16 +55,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="bg-blue">
+                        {{ $pageGames->links('components.pagination',['pageGames' => $pageGames]) }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-{{--    @foreach($games as $game)--}}
-{{--        <h1>----------------------{{$game->id}}---------------------</h1>--}}
-{{--        @foreach($game->users as $user)--}}
-{{--        <h3>{{$user->pivot->result}}</h3>--}}
-{{--        <h3>{{$user->pivot->color}}</h3>--}}
-{{--        @endforeach--}}
-{{--    @endforeach--}}
 </div>

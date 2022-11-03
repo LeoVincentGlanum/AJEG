@@ -5,18 +5,34 @@ namespace App\Http\Livewire\Games;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use App\Models\Game;
+use Livewire\WithPagination;
 
 class ListGames extends Component
 {
     public Collection $games;
+    use WithPagination;
 
     public function mount(){
-        $this->games = Game::query()->with(['users'])->get();
+//        $this->games = Game::query()->with(['users'])->get();
+    }
+
+    public $search = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.games.list-games');
+        return view('livewire.games.list-games', [
+            'pageGames' => Game::query()->with(['users'])->where('status', 'like', '%'.$this->search.'%')->paginate(3),
+        ]);
+    }
+
+    public function paginationView()
+    {
+        return 'component.pagination';
     }
 
     public function gameResult($game)
