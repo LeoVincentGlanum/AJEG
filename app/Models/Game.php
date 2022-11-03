@@ -26,7 +26,7 @@ class Game extends Model
 
     public function users() : BelongsToMany
     {
-        return $this->belongsToMany(User::class,'game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result');
+        return $this->belongsToMany(User::class,'game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result','color');
     }
 
     public function creator() : HasOne
