@@ -18,9 +18,8 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                        </svg><span class="ml-2"> {{ __('Créer une partie') }}</span>
+                        <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>
+                        <span class="ml-2"> {{ __('Créer une partie') }}</span>
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -69,9 +68,8 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-
                 <div class="hidden space-x-100 sm:-my-px sm:ml-10 sm:flex">
-                    {{ __( Auth::user()->coins) }}
+                    <span class="mt-2">{{ __( Auth::user()->coins) }}</span>
                     <img src=".\img\coins.png" width="75" height="75">
                 </div>
 
