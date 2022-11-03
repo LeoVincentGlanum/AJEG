@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +19,7 @@ class Game extends Model
         'status',
     ];
 
-    public function gamePlayers()
+    public function gamePlayers() : HasMany
     {
         return $this->hasMany(GamePlayer::class, 'game_id', 'id');
     }
@@ -25,5 +27,10 @@ class Game extends Model
     public function users() : BelongsToMany
     {
         return $this->belongsToMany(User::class,'game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result');
+    }
+
+    public function creator() : HasOne
+    {
+        return $this->hasOne(User::class,'id','created_by');
     }
 }

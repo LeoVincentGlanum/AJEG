@@ -9,6 +9,7 @@ use App\Models\GameType;
 use App\Models\GamePlayer;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
 class GameCreate extends Component
@@ -73,6 +74,7 @@ class GameCreate extends Component
         $newGame = new Game();
         $newGame->label = $this->partyName;
         $newGame->status = $this->type;
+        $newGame->created_by = Auth::id();
         $newGame->save();
 
         foreach ($this->players as $player) {
@@ -82,6 +84,13 @@ class GameCreate extends Component
             }
             if($this->selectBlanc == $player) {
                 $color = "blanc";
+            }
+
+
+            if ($this->type === "ask"){
+                session()->flash('message_url', route('game.show',['id' => $newGame->id]));
+                session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
+                return redirect('dashboard');
             }
 
             $result = "loose";
@@ -104,7 +113,7 @@ class GameCreate extends Component
             $gameplayer->result  = $result;
             $gameplayer->save();
 
-            session()->flash('message', 'Post successfully updated.');
+            session()->flash('message', 'Votre partie a bien été créée.');
              return redirect('dashboard');
         }
     }
