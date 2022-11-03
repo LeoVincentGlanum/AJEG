@@ -69,10 +69,11 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-
-                <div class="hidden space-x-100 sm:-my-px sm:ml-10 sm:flex">
-                    {{ __( Auth::user()->coins) }}
-                    <img src=".\img\coins.png" width="75" height="75">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex mr-4">
+                    <x-nav-link>
+                        <span class="mr-2"> {{ __( Auth::user()->coins) }}</span>
+                        <img src=".\img\coins.png" width="32" height="32">
+                    </x-nav-link>
                 </div>
 
                 <x-dropdown align="right" width="48">
