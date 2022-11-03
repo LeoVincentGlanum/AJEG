@@ -37,7 +37,12 @@ class GameTypeForm extends ModalComponent
     {
         $this->validate();
 
-        $this->gameType->save();
+        try {
+            $this->gameType->save();
+            $this->dispatchBrowserEvent('toast', ['message' => 'Le type à bien été sauvegardé', 'type' => 'success']);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+        }
 
         $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', []]]);
     }

@@ -7,11 +7,11 @@
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                        Supprimer la catégorie "{{ $gameType->label }}"
+                        Supprimer le type "{{ $gameType->label }}"
                     </h3>
                     <div class="mt-2">
                         <p class="text-sm text-gray-500">
-                            Êtes-vous sûr de vouloir supprimer cette catégorie ? Cette action est irréversible et ne pourra pas être annulée.
+                            Êtes-vous sûr de vouloir supprimer ce type ? Cette action est irréversible et ne pourra pas être annulée.
                         </p>
                     </div>
                 </div>
