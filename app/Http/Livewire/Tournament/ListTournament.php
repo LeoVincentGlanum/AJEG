@@ -14,12 +14,12 @@ class ListTournament extends Component
 
     public function mount()
     {
-        $this->tournaments = Tournament::all();
+        $this->tournaments = Tournament::query()->with(['organizer', 'gameType', 'participants', 'status', 'winner'])->get();
     }
 
     public function refreshListTournament()
     {
-        $this->tournaments = Tournament::all();
+        $this->tournaments = Tournament::query()->with(['organizer', 'gameType', 'status', 'winner'])->get();
     }
 
     public function render()
