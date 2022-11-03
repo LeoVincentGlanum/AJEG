@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "bootstrap": "^5.2.2",
-        "chart.js": "^3.9.1"
+        "chart.js": "^3.9.1",
+        "sweetalert2": "^11.6.5"
     }
 }
