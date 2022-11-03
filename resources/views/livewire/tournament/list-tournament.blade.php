@@ -68,7 +68,15 @@
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                         @forelse($tournaments as $tournament)
-                                            <tr>
+                                            @php
+                                                $nbParticipants = $tournament->participants->count();
+                                                $userIsParticipant = $tournament->participants->where('id', '=', Auth::id())->isNotEmpty()
+                                            @endphp
+                                            <tr
+                                                @class([
+                                                    'bg-green-300' => $userIsParticipant,
+                                                ])
+                                            >
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     {{ $tournament->name ?? "-" }}
                                                 </td>
@@ -76,7 +84,7 @@
                                                     {{ $tournament->organizer->name ?? "" }}
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                                    {{ $tournament->number_of_players ?? "-" }}
+                                                    {{ $nbParticipants }} / {{ $tournament->number_of_players }}
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     {{ $tournament->entrance_fee ?? "-" }}

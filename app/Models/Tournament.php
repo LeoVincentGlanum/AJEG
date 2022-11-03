@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tournament extends Model
 {
@@ -38,6 +39,13 @@ class Tournament extends Model
     public function status(): BelongsTo
     {
         return $this->belongsTo(TournamentStatus::class, 'status_id', 'id');
+    }
+
+    public function participants(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'tournament_participants')
+            ->using(TournamentParticipant::class)
+            ->withPivot(['wins', 'paths', 'draws', 'losses']);
     }
 
     public function winner(): BelongsTo
