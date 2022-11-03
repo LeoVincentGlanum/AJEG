@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tournois', function (Blueprint $table) {
+        Schema::create('tournament_status', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->boolean('notification');
-            $table->string('name');
-            $table->integer('cashprize_perso')->nullable();
-            $table->integer('cashprize_modo')->nullable();
-            $table->boolean('cashprize_ok')->nullable();
-            $table->string('status')->default('subscription');
+            $table->string('label');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tournois');
+        Schema::dropIfExists('tounament_status');
     }
 };
