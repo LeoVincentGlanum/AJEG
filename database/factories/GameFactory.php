@@ -18,6 +18,7 @@ class GameFactory extends Factory
     {
         return [
             'status' => $this->faker->randomElement(['En attente', 'En cours', 'Terminé']),
+            'created_by' => \App\Models\User::inRandomOrder()->first()->id,
         ];
     }
 }
