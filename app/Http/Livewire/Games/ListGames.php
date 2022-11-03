@@ -26,7 +26,7 @@ class ListGames extends Component
     public function render()
     {
         return view('livewire.games.list-games', [
-            'pageGames' => Game::query()->with(['users'])->where('status', 'like', '%'.$this->search.'%')->paginate(3),
+            'pageGames' => Game::query()->with(['users'])->where('status', 'like', '%'.$this->search.'%')->paginate(5),
         ]);
     }
 
