@@ -107,7 +107,9 @@
                                                 @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id())
 {{--                                                @if(12 === \Illuminate\Support\Facades\Auth::id())--}}
                                                     <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                                        <x-heroicon-s-pencil class="w-5 h-5 cursor-pointer hover:text-custom-hover"/>
+                                                        <a href="{{ route('tournament.edit', ['tournament' => $tournament->id]) }}" target="_blank">
+                                                            <x-heroicon-s-pencil class="w-5 h-5 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
+                                                        </a>
                                                     </td>
                                                 @endif
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
@@ -115,7 +117,7 @@
                                                         $data = json_encode(["id" => $tournament->id]);
                                                     @endphp
                                                     <a wire:click="$emit('openModal', 'tournament.tournament-register', {{ $data }})">
-                                                        <x-heroicon-s-ticket class="w-5 h-5 cursor-pointer hover:text-custom-hover"/>
+                                                        <x-heroicon-s-ticket class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
                                                     </a>
                                                 </td>
                                             </tr>
