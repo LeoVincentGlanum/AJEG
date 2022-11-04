@@ -16,6 +16,7 @@ class GamePlayerFactory extends Factory
      */
     public function definition()
     {
+
         return [
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'game_id' => \App\Models\Game::inRandomOrder()->first()->id,

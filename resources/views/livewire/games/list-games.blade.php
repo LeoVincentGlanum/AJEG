@@ -1,6 +1,8 @@
 <div>
     <div class="px-4 sm:px-6 lg:px-8">
-
+        <div>
+            <input wire:model="searchResultPlayer" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="nom du joueur">
+        </div>
         <div class="mt-8 flex flex-col">
             <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -9,9 +11,33 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Players</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Result</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Joueurs
+                                    <div>
+                                        <input wire:model="searchPlayer" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="nom du joueur">
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status
+                                    <div>
+                                        <select wire:model="searchStatus" class="mt-1 block w-100 h-6  rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">--Choisir un status--</option>
+                                            <option value="En cours">En cours</option>
+                                            <option value="En attente">En attente</option>
+                                            <option value="Terminé">Terminé</option>
+                                        </select>
+                                    </div>
+
+                                </th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Résultat
+                                    <div>
+                                        <select wire:model="searchResult" class="mt-1 block w-100 h-6  rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                            <option value="">--Choisir un résultat--</option>
+                                            <option value="win">Victoire</option>
+                                            <option value="lose">Défaite</option>
+                                            <option value="path">Path</option>
+                                            <option value="null">Null</option>
+                                        </select>
+                                    </div>
+                                </th>
                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -20,6 +46,8 @@
                             <tbody class="divide-y divide-gray-200 bg-white">
 
                             @foreach($pageGames as $game)
+
+
                                 <tr>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                         <div class="flex items-center">
@@ -27,7 +55,7 @@
                                                 <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                                             </div>
                                             <div class="ml-4">
-                                                <div class="text-gray-500">lindsay.walton@example.com</div>
+                                                <div class="text-gray-500">{{$game->id}}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -55,6 +83,7 @@
                             </tbody>
                         </table>
                     </div>
+
                     <div class="bg-blue">
                         {{ $pageGames->links('components.pagination',['pageGames' => $pageGames]) }}
                     </div>

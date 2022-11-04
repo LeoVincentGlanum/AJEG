@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Games;
 
+use App\Models\GamePlayer;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\Game;
 use Livewire\WithPagination;
@@ -16,7 +18,10 @@ class ListGames extends Component
 //        $this->games = Game::query()->with(['users'])->get();
     }
 
-    public $search = '';
+    public $searchStatus = '';
+    public $searchPlayer = '';
+    public $searchResult = '';
+    public $searchResultPlayer = '';
 
     public function updatingSearch()
     {
@@ -25,8 +30,32 @@ class ListGames extends Component
 
     public function render()
     {
+        $game = Game::query()->with(['users','gamePlayers'])
+            ->where('status', 'like', '%'.$this->searchStatus.'%');
+//            ->whereHas('users', function ($query) {
+//        $query->where('name', 'like','%'.$this->searchPlayer.'%');
+//    })
+//            ->whereHas('gamePlayers', function ($query) {
+//                $query->where('result', '=',$this->searchResult);
+//            })->get();
+
         return view('livewire.games.list-games', [
-            'pageGames' => Game::query()->with(['users'])->where('status', 'like', '%'.$this->search.'%')->paginate(5),
+            'pageGames' => $game
+
+                ->when(($this->searchPlayer !== '' && $this->searchResult !== ''), function ($query, $role) {
+//                    $user_id = $query->whereRelation('users', 'name', 'like', '%'.$this->searchPlayer.'%');
+//                    Log::info($user_id );
+                    return $query->whereRelation('users', 'name', 'like', '%'.$this->searchPlayer.'%')
+                          ->whereRelation('users', 'result', 'like', '%'.$this->searchResult.'%');
+                })
+//
+                ->when(($this->searchPlayer !== '' && $this->searchResult === ''), function ($query, $role) {
+                    $query->whereRelation('users', 'name', 'like', '%'.$this->searchPlayer.'%');
+                })
+                ->when(($this->searchPlayer === '' && $this->searchResult !== ''), function ($query, $role) {
+                    $query->whereRelation('users', 'result', 'like', '%'.$this->searchResult.'%');
+                })
+                ->paginate(5),
         ]);
     }
 
