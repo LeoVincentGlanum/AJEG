@@ -37,8 +37,8 @@
                                     </div>
                                 </th>
                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                    @if($Result !== ''||$Status !== '' ||$Player !== '')
-                                    <button wire:click="updateSearch" class="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg mt-4">
+                                    @if($searchStatus !== '' || $searchPlayer !== '' || $searchResult !== '')
+                                    <button wire:click="resetFilters" class="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg mt-4">
                                         X Reset
                                     </button>
                                         @endif
