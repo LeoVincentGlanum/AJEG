@@ -16,7 +16,7 @@ class GameCreate extends Component
 {
 
     public Collection $users;
-    public string $type = "ask";
+    public string $type = "En attente";
     public ?Collection $gameTypes;
     public ?string $resultat = "";
     public ?array $players = [];
@@ -88,7 +88,7 @@ class GameCreate extends Component
 
             $result = null;
 
-            if ($this->type == "end") {
+            if ($this->type == "Terminé") {
                 $result = "lose";
                 if ($this->resultat == "nul" || $this->resultat == "path") {
                     $result = $this->resultat;
@@ -109,7 +109,7 @@ class GameCreate extends Component
 
         }
 
-           if ($this->type === "ask"){
+           if ($this->type === "En attente"){
                 session()->flash('message_url', route('game.show',['id' => $newGame->id]));
                 session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
                 return redirect('dashboard');

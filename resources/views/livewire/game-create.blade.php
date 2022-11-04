@@ -108,12 +108,12 @@
                             <h3 class="my-3"> Status du match </h3>
 
                             <select wire:model="type"  name="status" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                <option value="ask">Demande de game</option>
-                                <option value="current">En cours</option>
-                                <option value="end">Terminée</option>
+                                <option value="En attente">Demande de game</option>
+                                <option value="En cours">En cours</option>
+                                <option value="Terminé">Terminé</option>
                             </select>
 
-                            @if($type === "end")
+                            @if($type === "Terminé")
                                 <div class="mt-5">
                                     <label for="exampleInputEmail1">Date de la partie</label>
                                     <input type="date" class="mt-1 block  rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" id="date">
@@ -127,7 +127,7 @@
                                             <option value="{{$player}}">{{$users->find($player)->name}} Gagnant</option>
                                         @endforeach
                                         <option value="path">Path</option>
-                                        <option value="nul">Nul</option>
+                                        <option value="null">Nul</option>
                                     </select>
                                 </div>
                             @endif

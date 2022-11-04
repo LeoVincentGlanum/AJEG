@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
     $games = Game::with('users');
     $games->whereHas('gamePlayers', function ($query) {
         $query->where('user_id', Auth::id());
-    })->where('status', '!=', 'end')->get();
+    })->where('status', '!=', 'Terminé')->get();
 
     return view('dashboard')->with(['games' => $games]);
 })->middleware(['auth', 'verified'])->name('dashboard');
