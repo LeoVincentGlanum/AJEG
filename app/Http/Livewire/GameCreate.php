@@ -86,25 +86,18 @@ class GameCreate extends Component
                 $color = "blanc";
             }
 
+            $result = null;
 
-            if ($this->type === "ask"){
-                session()->flash('message_url', route('game.show',['id' => $newGame->id]));
-                session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
-                return redirect('dashboard');
+            if ($this->type == "end") {
+                $result = "lose";
+                if ($this->resultat == "nul" || $this->resultat == "path") {
+                    $result = $this->resultat;
+                }
+
+                if ($this->resultat == $player) {
+                    $result = "win";
+                }
             }
-
-            $result = "loose";
-
-            if($this->resultat == "nul" || $this->resultat == "path" ){
-                $result = $this->resultat;
-            }
-
-            if ($this->resultat == $player){
-                $result = "win";
-            }
-              //dd($this->resultat,$this->selectBlanc,$player);
-
-
 
             $gameplayer          = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
@@ -113,9 +106,17 @@ class GameCreate extends Component
             $gameplayer->result  = $result;
             $gameplayer->save();
 
-            session()->flash('message', 'Votre partie a bien été créée.');
-             return redirect('dashboard');
+
         }
+
+           if ($this->type === "ask"){
+                session()->flash('message_url', route('game.show',['id' => $newGame->id]));
+                session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
+                return redirect('dashboard');
+            }
+
+        session()->flash('message', 'Votre partie a bien été créée.');
+             return redirect('dashboard');
     }
 
     public function render()
