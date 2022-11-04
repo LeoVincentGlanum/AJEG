@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GamePlayer;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAccountRequest;
@@ -32,7 +33,7 @@ class AccountController extends Controller
         $user->password = Hash::make($password);
         $user->save();
 
-       return  redirect()->back();
+        return  redirect()->back();
     }
 
     public function login(){
@@ -63,29 +64,29 @@ class AccountController extends Controller
         }
 
         return view('myaccount', compact('win',
-                                            'lose',
-                                                       'path',
-                                                       'null',
-                                                       'totalGames'));
-        }
+            'lose',
+            'path',
+            'null',
+            'totalGames'));
+    }
 
-        public function dailyReward()
-        {
-            if(\Carbon\Carbon::parse(auth()->user()->first()->daily_reward)->greaterThan(now())){
-                return redirect()->back();
-            }
-            $user = auth()->user()->first();
-            $user->coins = $user->coins + 100;
-            $user->daily_reward = now()->addDays(1)->addHours(1);
-            $user->save();
-
-            $transaction = new Transaction();
-            $transaction->user_id = $user->id;
-            $transaction->coins = 100;
-            $transaction->message = "Récompense quotidienne";
-            $transaction->save();
-
+    public function dailyReward()
+    {
+        if(dump(Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
             return redirect()->back();
         }
+        $user = auth()->user()->first();
+        $user->coins = $user->coins + 100;
+        $user->daily_reward = now()->timezone('Europe/Paris')->addDays(1);
+        $user->save();
+
+        $transaction = new Transaction();
+        $transaction->user_id = $user->id;
+        $transaction->coins = 100;
+        $transaction->message = "Récompense quotidienne";
+        $transaction->save();
+
+        return redirect()->back();
+    }
 
 }

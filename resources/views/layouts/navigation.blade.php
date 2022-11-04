@@ -27,43 +27,50 @@
                         {{ __('Historique des parties') }}
                     </x-nav-link>
                 </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        @if((\Carbon\Carbon::parse(Auth::user()->daily_reward)->lessThanOrEqualTo(now())) )
-                            <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
-                                {{ __('Récompense quotidienne') }}
-                            </x-nav-link>
-                        @else
-                            <x-nav-link id="counter">
-                                <img src=".\img\loader.gif" width="75" height="75">
-                            </x-nav-link>
-                            @php
-                                $dateTime = strtotime(Auth::user()->daily_reward);
-                                $getDateTime = date("F d, Y H:i:s", $dateTime);
-                            @endphp
-                            <script type="text/javascript">
-                                var countDownDate = new Date("<?php echo "$getDateTime"; ?>").getTime();
-                                // Update the count down every 1 second
-                                var x = setInterval(function() {
-                                    var now = new Date().getTime();
-                                    // Find the distance between now an the count down date
-                                    var distance = countDownDate - now;
-                                    // Time calculations for days, hours, minutes and seconds
-                                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                                    // Output the result in an element with id="counter"11
-                                    document.getElementById("counter").innerHTML = /*days + "Day : " +*/ hours + "h " +
-                                        minutes + "m " + seconds + "s ";
-                                    // If the count down is over, write some text
-                                    if (distance < 0) {
-                                        clearInterval(x);
-                                        document.getElementById("counter").innerHTML = "";
-                                    }
-                                }, 1000);
-                            </script>
-                        @endif
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+
+                    <div hidden id="tempon">
+                        <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
+                            {{ __('Récompense quotidienne') }}
+                        </x-nav-link>
                     </div>
+                    @if(\Carbon\Carbon::parse(Auth::user()->daily_reward)->lessThanOrEqualTo(\Carbon\Carbon::now()->timezone('Europe/Paris')->format('Y-m-d H:i:m')))
+                        <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
+                            {{ __('Récompense quotidienne') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link id="counter">
+                            <img src=".\img\loader.gif" width="75" height="75">
+                        </x-nav-link>
+                        @php
+                            $dateTime = strtotime(Auth::user()->daily_reward);
+                            $getDateTime = date("F d, Y H:i:s", $dateTime);
+                        @endphp
+                        <script type="text/javascript">
+                            let content = document.getElementById('tempon').innerHTML
+                            var countDownDate = new Date("<?php echo "$getDateTime"; ?>").getTime();
+                            // Update the count down every 1 second
+                            var x = setInterval(function() {
+                                var now = new Date().getTime();
+                                // Find the distance between now an the count down date
+                                var distance = countDownDate - now;
+                                // Time calculations for days, hours, minutes and seconds
+                                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                // Output the result in an element with id="counter"11
+                                document.getElementById("counter").innerHTML = /*days + "Day : " +*/ hours + "h " +
+                                    minutes + "m " + seconds + "s ";
+                                // If the count down is over, write some text
+                                if (distance < 0) {
+                                    clearInterval(x);
+                                    document.getElementById("counter").innerHTML = content;
+                                }
+                            }, 1000);
+                        </script>
+                    @endif
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -95,16 +102,16 @@
                         </x-dropdown-link>
 
                         @if(\Illuminate\Support\Facades\Auth::user()->admin === 1)
-                         <x-dropdown-link :href="route('admin')">
+                            <x-dropdown-link :href="route('admin')">
                                 {{ __('Administration') }}
                             </x-dropdown-link>
-                        @endif
-                        <!-- Authentication -->
+                    @endif
+                    <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -142,14 +149,14 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
-                   <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
