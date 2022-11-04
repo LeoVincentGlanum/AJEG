@@ -40,7 +40,7 @@
                         </x-nav-link>
                     @else
                         <x-nav-link id="counter">
-                            <img src=".\img\loader.gif" width="75" height="75">
+                            <img src="/img/loader.gif" width="75" height="75">
                         </x-nav-link>
                         @php
                             $dateTime = strtotime(Auth::user()->daily_reward);
@@ -78,7 +78,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex mr-4">
                     <x-nav-link>
                         <span class="mr-2"> {{ __( Auth::user()->coins) }}</span>
-                        <img src=".\img\coins.png" width="32" height="32">
+                        <img src="/img/coins.png" width="32" height="32">
                     </x-nav-link>
                 </div>
 
