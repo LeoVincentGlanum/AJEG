@@ -18,7 +18,7 @@ class GameCreate extends Component
     public Collection $users;
     public string $type = "En attente";
     public ?Collection $gameTypes;
-    public ?string $resultat = "";
+    public ?string $resultat = "none";
     public ?array $players = [];
     public ?string $selectBlanc = "nul";
     public ?array $playersColors = [];
@@ -26,6 +26,8 @@ class GameCreate extends Component
 
     protected $messages = [
         'selectBlanc.not_in' => 'Attention ! Merci de selectionner un joueur blanc',
+        'resultat.required' => 'Merci de saisir le resultat de la partie',
+        'resultat.not_in' => 'Merci de saisir le resultat de la partie'
     ];
 
     public function mount()
@@ -54,6 +56,7 @@ class GameCreate extends Component
 
     public function rules()
     {
+        $arrayRules = [];
         if (count($this->players) > 2) {
             return [
                 'selectBlanc' => 'sometimes',
@@ -62,10 +65,14 @@ class GameCreate extends Component
             ];
         }
 
-        return [
-             'selectBlanc' => 'required|not_in:nul',
-        ];
+        if ($this->type === "Terminé"){
+            $arrayRules['resultat'] = "required|not_in:none";
+        }
+
+        $arrayRules['selectBlanc'] = 'required|not_in:nul';
+        return $arrayRules;
     }
+
 
     public function submit()
     {
