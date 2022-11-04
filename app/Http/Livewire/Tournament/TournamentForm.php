@@ -30,7 +30,7 @@ class TournamentForm extends ModalComponent
     public function mount() {
         $this->tournament = new Tournament();
         $user = Auth::user();
-        $this->tournament->name = "Tournois de " . $user->name;
+        $this->tournament->name = "Tournoi de " . $user->name;
     }
 
     public function save()

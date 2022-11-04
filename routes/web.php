@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('/tournament')->group(function () {
-        Route::get('/', [TournoisController::class, 'index'])->name('tournament.index');
+        Route::view('/','tournament.index')->name('tournament.index');
+        Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('tournament.edit');
         Route::get('/show/{id}', [TournoisController::class, 'show'])->name('tournament.show');
     });
 
