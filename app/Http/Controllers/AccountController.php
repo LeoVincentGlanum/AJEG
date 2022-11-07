@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\Transaction;
 use App\Models\User;
@@ -36,8 +37,18 @@ class AccountController extends Controller
         return  redirect()->back();
     }
 
-    public function login(){
-        return view('dashboard');
+    public function login()
+    {
+        $games = Game::with('users');
+        $games->whereHas('gamePlayers', function ($query) {
+            $query->where('user_id', auth()->user()->id)
+                  ->orWhere('created_by',  auth()->user()->id);
+        })->where('status', '!=', 'Terminé')
+          ->get();
+
+        return view('dashboard', [
+            'games' => $games
+        ]);
     }
 
     public function myaccount()

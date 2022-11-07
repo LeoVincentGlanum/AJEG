@@ -20,8 +20,6 @@
 
     </li>
 
-
-
       <li class="px-6 py-4">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               @foreach($gamePlayer as $player)

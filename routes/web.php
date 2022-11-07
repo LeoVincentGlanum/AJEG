@@ -25,15 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-//    $games = \App\Models\GamePlayer::query()->where('user_id','=', Auth::id())->with('game')->where('status','!=','end')->get();
-    $games = Game::with('users');
-    $games->whereHas('gamePlayers', function ($query) {
-        $query->where('user_id', Auth::id());
-    })->where('status', '!=', 'Terminé')->get();
-
-    return view('dashboard')->with(['games' => $games]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Dashboard
+Route::get('/dashboard', [\App\Http\Controllers\AccountController::class, 'login'])
+    ->name('dashboard');
 
 //Statistique joueur
 Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])
