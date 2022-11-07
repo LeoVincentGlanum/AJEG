@@ -61,7 +61,7 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         @foreach($game->users as $user)
-                                            <div class="font-medium text-gray-900">{{$user->name . " " . $user->pivot->color}} </div>
+                                            <button href="aaa" class="font-medium text-gray-900">{{$user->name . " " . $user->pivot->color}} </button>
                                         @endforeach
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

@@ -72,7 +72,7 @@ class AccountController extends Controller
 
     public function dailyReward()
     {
-        if(dump(Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
+        if((Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
             return redirect()->back();
         }
         $user = auth()->user()->first();
