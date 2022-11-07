@@ -35,7 +35,12 @@ Route::get('/dashboard', function () {
     return view('dashboard')->with(['games' => $games]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])->name('my-account');
+//Statistique joueur
+Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])
+    ->name('my-account');
+Route::get('/profile/{id}', [\App\Http\Controllers\AccountController::class, 'profileuser'])
+    ->name('profile-user');
+
 
 // Historique
 
