@@ -28,6 +28,16 @@
                             <h3 class="text-lg font-medium leading-6 text-gray-900">Selectionner vos joueurs : </h3>
                             <p class="mt-1 max-w-2xl text-sm text-gray-500">Cocher les joueurs présent dans la partie. (minimum 2 )</p>
                         </div>
+
+                         <label for="exampleInputEmail1" class="text-lg font-medium leading-6 text-gray-900">Rechercher vos joueurs</label>
+                            <input
+                                    type="text"
+                                    wire:model="partyName"
+                                    class="block w-500 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    id="exampleInputEmail1"
+                                    aria-describedby="emailHelp"
+                            >
+
                         <div class="mt-4 divide-y divide-gray-200 border-b border-gray-200">
                             @foreach($users as $user)
 
