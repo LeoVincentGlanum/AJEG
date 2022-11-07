@@ -13,7 +13,6 @@ use App\Http\Requests\StoreAccountRequest;
 
 class AccountController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      *
@@ -84,42 +83,14 @@ class AccountController extends Controller
     public function profileUser($id)
     {
         $user = User::query()->where('id',$id)->first();
-        $userGames = GamePlayer::query()->where('user_id', $user->id)->get();
-        $totalGames = 0;
-        $win = 0;
-        $lose = 0;
-        $path = 0;
-        $null = 0;
-        $isWaiting = 0;
 
-        foreach ($userGames as $userGame) {
-            if ($userGame->result === 'win') {
-                $win++;
-            } elseif ($userGame->result === 'lose') {
-                $lose++;
-            } elseif ($userGame->result === 'path') {
-                $path++;
-            } elseif ($userGame->result === 'null') {
-                $null++;
-            }
-            elseif ($userGame->result === null) {
-                $isWaiting++;
-            }
-            $totalGames++;
-        }
-
-        return view('profileUser', compact('win',
-            'lose',
-            'path',
-            'null',
-            'totalGames',
-            'isWaiting',
+        return view('profileUser', compact(
             'user'));
     }
 
     public function dailyReward()
     {
-        if(dump(Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
+        if((Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
             return redirect()->back();
         }
         $user = auth()->user()->first();
