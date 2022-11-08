@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class MyAccount extends Component
 {
-    public $page = 1;
+    public $page = 2;
     public $user;
 
     public function mount($id){

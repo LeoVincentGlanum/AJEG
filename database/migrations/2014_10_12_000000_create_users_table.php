@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('password');
-            $table->bigInteger('coins');
-            $table->dateTime('daily_reward');
+            $table->bigInteger('coins')->default('0');
+            $table->dateTime('daily_reward')->default('2022-10-30 13:23:54');
             $table->rememberToken();
             $table->timestamps();
         });
