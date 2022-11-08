@@ -61,7 +61,7 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         @foreach($game->users as $user)
-                                            <button href="aaa" class="font-medium text-gray-900">{{$user->name . " " . $user->pivot->color}} </button>
+                                            <a class="hover:text-violet-600" href="profile/{{$user->id}}" class="font-medium text-gray-900">{{$user->name . " " . $user->pivot->color}} </a><br>
                                         @endforeach
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

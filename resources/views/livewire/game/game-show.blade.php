@@ -20,8 +20,6 @@
 
     </li>
 
-
-
       <li class="px-6 py-4">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               @foreach($gamePlayer as $player)
@@ -32,7 +30,7 @@
                                alt="">
                       </div>
                       <div class="min-w-0 flex-1">
-                          <a href="#" class="focus:outline-none">
+                          <a href="../../profile/{{$player->user->id}}" class="focus:outline-none">
                               <span class="absolute inset-0" aria-hidden="true"></span>
                               <p class="text-sm font-medium text-gray-900">{{$player->user->name}}</p>
                               <p class="truncate text-sm text-gray-500">Joue les {{$player->color}}</p>
