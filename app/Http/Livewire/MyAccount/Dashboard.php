@@ -8,45 +8,43 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-//    public function mount($id){
-//        $this->id = $id;
-//    }
+    public int $win = 0;
+    public int $lose = 0;
+    public int $path = 0;
+    public int $null = 0;
+    public int $isWaiting = 0;
+    public int $totalGames = 0;
 
-    public function render($id)
+    public function mount($id){
+        $this->id = $id;
+        $this->getStat();
+    }
+
+    private function getStat()
     {
-        dd($id);
-//        $id = $this->id;
+        $id = $this->id;
         $user = User::query()->where('id',$id)->first();
         $userGames = GamePlayer::query()->where('user_id', $user->id)->get();
-        $totalGames = 0;
-        $win = 0;
-        $lose = 0;
-        $path = 0;
-        $null = 0;
-        $isWaiting = 0;
 
         foreach ($userGames as $userGame) {
             if ($userGame->result === 'win') {
-                $win++;
+                $this->win++;
             } elseif ($userGame->result === 'lose') {
-                $lose++;
+                $this->lose++;
             } elseif ($userGame->result === 'path') {
-                $path++;
+                $this->path++;
             } elseif ($userGame->result === 'null') {
-                $null++;
+                $this->null++;
             }
             elseif ($userGame->result === null) {
-                $isWaiting++;
+                $this->isWaiting++;
             }
-            $totalGames++;
+            $this->totalGames++;
         }
-        return view('livewire.my-account.dashboard',compact('win',
-                'lose',
-                'path',
-                'null',
-                'totalGames',
-                'isWaiting',
-                'user')
-        );
+    }
+
+    public function render()
+    {
+        return view('livewire.my-account.dashboard');
     }
 }

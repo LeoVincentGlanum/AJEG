@@ -7,18 +7,16 @@ use Livewire\Component;
 
 class MyAccount extends Component
 {
-    public $show = true;
+    public $page = 1;
+    public $user;
 
     public function mount($id){
         $this->id = $id;
+        $this->user = User::query()->where('id',$id)->first();
     }
 
     public function render()
     {
-        $id = $this->id;
-        $user = User::query()->where('id',$id)->first();
-
-        return view('livewire.my-account.my-account', compact(
-            'user'));
+        return view('livewire.my-account.my-account');
     }
 }

@@ -2,14 +2,15 @@
     <div class="container" >
         <div class="card">
             <canvas id="totalGames"></canvas>
-            @dump('aa')
         </div>
     </div>
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 <script type="text/javascript">
-    window.onload=function(){//from  w ww  .  j a v  a  2  s.com
+
+    window.onload=setTimeout(
+        ()=>{
         var data = {
             labels: [
                 'Victoires',
@@ -20,7 +21,7 @@
             ],
             datasets: [
                 {
-                    data: [{{$win}}, {{$lose}}, {{$path}}, {{$null}}],
+                    data: [{{$win}}, {{$lose}}, {{$path}}, {{$null}}, {{$isWaiting}}],
                     backgroundColor: [
                         'rgb(0, 255, 0)',
                         'rgb(255, 99, 132)',
@@ -64,5 +65,5 @@
                 ctx.save();
             }
         });
-    }
+    },100);
 </script>

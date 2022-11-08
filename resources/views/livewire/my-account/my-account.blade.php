@@ -132,8 +132,8 @@
                 </div>
                 <nav class="mt-5 flex-1 space-y-1 px-2">
                     <!-- Current: "bg-indigo-800 text-white", Default: "text-white hover:bg-indigo-600 hover:bg-opacity-75" -->
-                    <a wire:click="$set('show', true)" @class(['bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'=> $show === true,
-                                                        'text-white hover:bg-indigo-600 hover:bg-opacity-75 group flex items-center px-2 py-2 text-sm font-medium rounded-md'=>$show === false])
+                    <a wire:click="$set('page', 1)" @class(['bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'=> $page === 1,
+                                                        'text-white hover:bg-indigo-600 hover:bg-opacity-75 group flex items-center px-2 py-2 text-sm font-medium rounded-md'=> $page !== 1])
                         >
                         <!-- Heroicon name: outline/home -->
                         <svg class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -142,8 +142,8 @@
                         Dashboard
                     </a>
 
-                    <a wire:click="$set('show', false)" @class(['bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'=> $show === false,
-                                                        'text-white hover:bg-indigo-600 hover:bg-opacity-75 group flex items-center px-2 py-2 text-sm font-medium rounded-md'=>$show === true])
+                    <a wire:click="$set('page', 2)" @class(['bg-indigo-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'=>  $page === 2,
+                                                        'text-white hover:bg-indigo-600 hover:bg-opacity-75 group flex items-center px-2 py-2 text-sm font-medium rounded-md'=> $page !== 2])
                         >
                         <!-- Heroicon name: outline/users -->
                         <svg class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -217,14 +217,15 @@
                     <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
                 </div>
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+                    @php
+                      $currentUser = $user->id;
+                    @endphp
                     <!-- Replace with your content -->
-                    @if($show)
-{{--                        <livewire:my-account.dashboard : id="{{$user->id}}"/>--}}
-                                                <livewire:my-account.dashboard />
-                    @else
-{{--                        <livewire:my-account.test : id="{{$user->id}}" />--}}
-                        <livewire:my-account.test />
-                @endif
+                    @if($page === 1)
+                        <livewire:my-account.dashboard : id="{{$currentUser}}"/>
+                    @elseif($page === 2)
+                        <livewire:my-account.edit : id="{{$currentUser}}"/>
+                    @endif
                 <!-- /End replace -->
                 </div>
             </div>
