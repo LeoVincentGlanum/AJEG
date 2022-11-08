@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\GameType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -19,5 +20,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\Game::factory(50)->create();
         \App\Models\GamePlayer::factory(100)->create();
         \App\Models\Transaction::factory(20)->create();
+        DB::table('game_types')->insert([
+            'label' => 'standard',
+            'ratio' => 1.0,
+        ]);
+
     }
 }
