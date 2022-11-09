@@ -23,7 +23,7 @@ class Edit extends Component
     protected function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:users'.$this->id.,
+            'name' => 'required|string|max:255|unique:users'.$this->id,
             'email' => 'required|string|email|max:255|unique:users'
         ];
     }
