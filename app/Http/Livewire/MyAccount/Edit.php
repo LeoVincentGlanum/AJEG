@@ -5,11 +5,15 @@ namespace App\Http\Livewire\MyAccount;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    public string $name ;
-    public string $email;
+    use WithFileUploads;
+
+    public $name;
+    public $email;
+    public $photo;
     public Model $user;
 
     public function mount($id){
@@ -22,20 +26,59 @@ class Edit extends Component
 
     protected function rules()
     {
+        $user = $this->user;
+
         return [
-            'name' => 'required|string|max:255|unique:users'.$this->id,
-            'email' => 'required|string|email|max:255|unique:users'
+            'name' => 'required|string|max:20|unique:users,name,'.$user->id,
+            'email' => 'required|string|email|max:150|unique:users,email,'.$user->id,
         ];
     }
+    protected $messages = [
+        'name.required' => 'Le nom est requis.',
+        'name.max' => 'Le nom doit comprendre moins de 20 caractères.',
+        'name.unique' => 'Ce nom est déjà utilisé.',
+        'email.email' => 'Ceci n\'est pas un email.',
+        'email.required' => 'L\'e-mail est requis.',
+        'email.max' => 'L\'e-mail est trop long.',
+        'email.unique' => 'Cet e-mail est déjà utilisé.',
+    ];
 
-
-    public function abc()
+    public function updated($propertyName)
     {
-        $validatedData = $this->validate();
+        $this->validateOnly($propertyName);
+    }
 
-        $this->user->update($validatedData);
+    public function saveContact()
+    {
+        try {
+            $validatedData = $this->validate();
+            $this->user->update($validatedData);
 
-        session()->flash('message', 'User successfully updated.');
+            $this->dispatchBrowserEvent('toast', ['message' => 'Votre profil a bien été modifié', 'type' => 'success']);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+        }
+    }
+
+    public function savePicture()
+    {
+
+        $this->validate([
+            'photo' => 'image|max:1024', // 1MB Max
+        ]);
+
+        try {
+            $this->photo->store('public/photos');
+            $this->user->photo = $this->photo->store('');
+            $this->user->save();
+
+            $this->dispatchBrowserEvent('toast', ['message' => 'Votre avatar a bien été modifié', 'type' => 'success']);
+
+            $this->photo = null;
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+        }
+
     }
 
     public function render()

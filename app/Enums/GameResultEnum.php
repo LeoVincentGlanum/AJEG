@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum GameResult: string
+enum GameResultEnum:string
 {
     case Win = 'win';
     case Lose = 'lose';
-    case Path = 'path';
-    case Null = 'null';
+    case Pat = 'pat';
+    case Nul = 'nul';
 }

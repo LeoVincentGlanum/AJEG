@@ -21,7 +21,7 @@ class GamePlayerFactory extends Factory
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'game_id' => \App\Models\Game::inRandomOrder()->first()->id,
             'color' => $this->faker->randomElement(['blanc', 'noir']),
-            'result' => $this->faker->randomElement(['win', 'lose', 'path', 'null']),
+            'result' => $this->faker->randomElement(['win', 'lose', 'pat', 'nul']),
         ];
     }
 }

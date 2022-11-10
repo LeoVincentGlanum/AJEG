@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('coins')->default('0');
             $table->dateTime('daily_reward')->default('2022-10-30 13:23:54');
+            $table->string('photo')->default('Avatar_par_defaut.png');
             $table->rememberToken();
             $table->timestamps();
         });
