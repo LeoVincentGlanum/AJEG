@@ -6,35 +6,27 @@
                     Éditer le type
                 </h3>
             </div>
-
-            <div class="grid grid-cols-3 gap-6">
+            <div class="grid grid-cols-2 ">
                 @for($i = 0; $i < count($game->users) ;$i++ )
                     <div class="col-span-3 sm:col-span-2">
-                        <div class="grid grid-cols-4 gap-4 items-center">
+                        <div class="grid grid-cols-4  items-center">
                             <img class="h-10 w-10 rounded-full"
                                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                  alt="">
-                            <label for="gameType.label" class=" pt-2 font-medium text-gray-700">{{$game->users[$i]->name}}</label>
+                            <label for="gameType.label"
+                                   class=" pt-2 font-medium text-gray-700">{{$game->users[$i]->name}}</label>
 
                             <div class="mt-1 relative rounded-md shadow-sm">
 
-                                <select wire:change="setResult" w id="selectElement" class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    <option value="Win">Win</option>
-                                    <option value="Loose">Loose</option>
-                                    <option value="Path">Path</option>
-                                    <option value="Null">Null</option>
+                                <select wire:change="updatePlayerResult"
+                                        wire:model='playerSelect.{{$game->users[$i]->id}}' id="selectElement"
+                                        class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                    <option value="">Select Result</option>
+                                    <option value="win">Win</option>
+                                    <option value="lose">Lose</option>
+                                    <option value="path">Path</option>
+                                    <option value="null">Null</option>
                                 </select>
-
-{{--                                <input--}}
-{{--                                    id="gameType.label"--}}
-{{--                                    name="gameType.label"--}}
-{{--                                    type="text"--}}
-{{--                                    wire:model.debounce.500ms="gameType.label"--}}
-{{--                                    @class([--}}
-{{--                                        'focus:ring-custom-primary focus:border-custom-primary block w-full sm:text-sm border-gray-300 rounded-md' => !$errors->has('gameType.label'),--}}
-{{--                                        'block w-full border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md' => $errors->has('gameType.label')--}}
-{{--                                    ])--}}
-{{--                                >--}}
                             </div>
                         </div>
                         @error('gameType.label')
@@ -44,51 +36,6 @@
                         @enderror
                     </div>
                 @endfor
-                    <script>
-                        console.log()
-                    </script>
-                {{--                <div class="col-span-3 sm:col-span-2">--}}
-                {{--                    <label for="gameType.label" class="block text-sm font-medium text-gray-700">Label</label>--}}
-                {{--                    <div class="mt-1 relative rounded-md shadow-sm">--}}
-                {{--                        <input--}}
-                {{--                            id="gameType.label"--}}
-                {{--                            name="gameType.label"--}}
-                {{--                            type="text"--}}
-                {{--                            wire:model.debounce.500ms="gameType.label"--}}
-                {{--                            @class([--}}
-                {{--                                'focus:ring-custom-primary focus:border-custom-primary block w-full sm:text-sm border-gray-300 rounded-md' => !$errors->has('gameType.label'),--}}
-                {{--                                'block w-full border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md' => $errors->has('gameType.label')--}}
-                {{--                            ])--}}
-                {{--                        >--}}
-                {{--                    </div>--}}
-                {{--                    @error('gameType.label')--}}
-                {{--                    <p class="mt-2 text-sm text-red-600" id="label-error">--}}
-                {{--                        {{ $message }}--}}
-                {{--                    </p>--}}
-                {{--                    @enderror--}}
-                {{--                </div>--}}
-
-                <div class="col-span-3 sm:col-span-2">
-                    <label for="gameType.ratio" class="block text-sm font-medium text-gray-700">Ratio</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <input
-                            id="gameType.ratio"
-                            name="gameType.ratio"
-                            type="text"
-                            wire:model.debounce.500ms="gameType.ratio"
-                            @class([
-                                'focus:ring-custom-primary focus:border-custom-primary block w-full sm:text-sm border-gray-300 rounded-md' => !$errors->has('gameType.ratio'),
-                                'block w-full border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md' => $errors->has('gameType.ratio')
-                            ])
-                        >
-                    </div>
-                    @error('gameType.ratio')
-                    <p class="mt-2 text-sm text-red-600" id="ratio-error">
-                        {{ $message }}
-                    </p>
-                    @enderror
-                </div>
-
             </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
