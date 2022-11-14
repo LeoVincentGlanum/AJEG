@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Game;
 
+use App\Http\Livewire\Admin\ListGameType;
 use App\Models\Game;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -39,6 +40,8 @@ class GameResultForm extends ModalComponent
             $user->pivot->save();
         }
         $this->game->save();
+        $this->dispatchBrowserEvent('toast', ['message' => 'Le resultat a bien été mis en validation', 'type' => 'success']);
+        $this->closeModal();
     }
 
 
