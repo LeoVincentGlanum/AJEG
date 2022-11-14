@@ -54,13 +54,13 @@
             </button>
             </li>
 
+{{-- 
+
+    @if($game->status !== "Ended")
 
 
-    @if($game->status !== "Terminé")
 
-
-
-    @endif
+    @endif --}}
     <!-- More items... -->
   </ul>
 </div>
