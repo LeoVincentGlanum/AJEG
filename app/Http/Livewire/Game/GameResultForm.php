@@ -20,7 +20,7 @@ class GameResultForm extends ModalComponent
             $this->game = Game::query()->find($id);
 
             foreach ($this->game->users as $player) {
-                $this->playersResult = Arr::add($this->playersResult,  $player->id, '');
+                $this->playersResult = Arr::add($this->playersResult, $player->id, '');
             }
 
         } catch (\Exception $e) {
@@ -34,16 +34,20 @@ class GameResultForm extends ModalComponent
     {
         $this->game->status = 'Terminé';
 
-        foreach ($this->game->users as $user) {
+        try {
+            foreach ($this->game->users as $user) {
 
-            $user->pivot->result = Arr::get($this->playersResult,$user->id);
-            $user->pivot->save();
+                $user->pivot->result = Arr::get($this->playersResult, $user->id);
+                $user->pivot->save();
+            }
+            $this->game->save();
+            $this->dispatchBrowserEvent('toast', ['message' => 'Le resultat a bien été mis en validation', 'type' => 'success']);
+        } catch (\Exeption $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
         }
-        $this->game->save();
-        $this->dispatchBrowserEvent('toast', ['message' => 'Le resultat a bien été mis en validation', 'type' => 'success']);
         $this->closeModal();
-    }
 
+    }
 
 
     public function updatePlayerResult()
