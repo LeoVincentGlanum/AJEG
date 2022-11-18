@@ -8,7 +8,7 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 mt-10">Id</th>
+                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 mt-10"></th>
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Joueurs
                                     <div>
                                         <input wire:model="searchPlayer" class="block w-full  h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Nom du joueur">
@@ -18,9 +18,9 @@
                                     <div>
                                         <select wire:model="searchStatus" class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                             <option value="">--Choisir un status--</option>
-                                            <option value="En cours">En cours</option>
-                                            <option value="En attente">En attente</option>
-                                            <option value="Terminé">Terminé</option>
+                                            @foreach(\App\Enums\GameStatusEnum::cases() as $status)
+                                                <option value="{{ $status->value }}">{{ $status->value }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -29,10 +29,9 @@
                                     <div>
                                         <select wire:model="searchResult" class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                             <option value="">--Choisir un résultat--</option>
-                                            <option value="win">Victoire</option>
-                                            <option value="lose">Défaite</option>
-                                            <option value="path">Path</option>
-                                            <option value="null">Null</option>
+                                            @foreach(\App\Enums\GameResultEnum::cases() as $status)
+                                                <option value="{{ $status->value }}">{{ $status->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </th>
@@ -48,14 +47,13 @@
                             <tbody class="divide-y divide-gray-200 bg-white">
 
                             @foreach($pageGames as $game)
-                                <tr>
+                                    <tr>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                        <div class="flex items-center">
-{{--                                            <div class="h-10 w-10 flex-shrink-0">--}}
-{{--                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">--}}
-{{--                                            </div>--}}
-                                            <div class="ml-4">
-                                                <div class="text-gray-500">{{$game->id}}</div>
+                                        <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
+                                            <div class="flex -space-x-1 overflow-hidden">
+                                                @foreach($game->users as $user)
+                                                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="{{ asset('storage/photos/'.$user->photo) }}" alt="Dries Vincent">
+                                                @endforeach
                                             </div>
                                         </div>
                                     </td>
@@ -66,9 +64,9 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span @class(['inline-flex rounded-full',
-                                                        'bg-yellow-100'=>$game->status === 'En attente',
-                                                        'bg-blue-100'=>$game->status === 'En cours',
-                                                        'bg-green-100'=>$game->status === 'Terminé',
+                                                        'bg-yellow-100'=>$game->status == \App\Enums\GameStatusEnum::waiting,
+                                                        'bg-blue-100'=>$game->status == \App\Enums\GameStatusEnum::progress,
+                                                        'bg-green-100'=>$game->status == \App\Enums\GameStatusEnum::ended,
                                                          'px-2 text-xs font-semibold leading-5 text-green-800'])>{{$game->status}}</span>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{$this->gameResult($game)}}</td>
@@ -78,7 +76,6 @@
                                 </tr>
 
                             @endforeach
-                            <!-- More people... -->
                             </tbody>
                         </table>
                     </div>

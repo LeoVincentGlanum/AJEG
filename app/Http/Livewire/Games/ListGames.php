@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Games;
 
+use App\Enums\GameResultEnum;
 use App\Models\GamePlayer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -51,17 +52,17 @@ class ListGames extends Component
     public function gameResult($game)
     {
         foreach ($game->users as $player) {
-            if ($player->pivot->result === 'win')
+            if ($player->pivot->result == GameResultEnum::win->value)
             {
                 return $player->name." a gagné";
 
-            } elseif ($player->pivot->result === 'null')
+            } elseif ($player->pivot->result == GameResultEnum::nul->value)
             {
                 return "Match null";
 
-            } elseif ($player->pivot->result === 'path')
+            } elseif ($player->pivot->result == GameResultEnum::pat->value)
             {
-                return "Path";
+                return "Pat";
             }
         }
 

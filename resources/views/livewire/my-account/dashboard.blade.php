@@ -15,13 +15,13 @@
             labels: [
                 'Victoires',
                 'Défaites',
-                'Paths',
-                'Nulls',
+                'Pats',
+                'Nuls',
                 'En attente'
             ],
             datasets: [
                 {
-                    data: [{{$win}}, {{$lose}}, {{$path}}, {{$null}}, {{$isWaiting}}],
+                    data: [{{$win}}, {{$lose}}, {{$pat}}, {{$nul}}, {{$isWaiting}}],
                     backgroundColor: [
                         'rgb(0, 255, 0)',
                         'rgb(255, 99, 132)',

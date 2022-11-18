@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\MyAccount;
 
+use App\Enums\GameResultEnum;
 use App\Models\GamePlayer;
 use App\Models\User;
 use Livewire\Component;
@@ -10,8 +11,8 @@ class Dashboard extends Component
 {
     public int $win = 0;
     public int $lose = 0;
-    public int $path = 0;
-    public int $null = 0;
+    public int $pat = 0;
+    public int $nul = 0;
     public int $isWaiting = 0;
     public int $totalGames = 0;
 
@@ -27,14 +28,14 @@ class Dashboard extends Component
         $userGames = GamePlayer::query()->where('user_id', $user->id)->get();
 
         foreach ($userGames as $userGame) {
-            if ($userGame->result === 'win') {
+            if ($userGame->result === GameResultEnum::win) {
                 $this->win++;
-            } elseif ($userGame->result === 'lose') {
+            } elseif ($userGame->result === GameResultEnum::lose) {
                 $this->lose++;
-            } elseif ($userGame->result === 'path') {
-                $this->path++;
-            } elseif ($userGame->result === 'null') {
-                $this->null++;
+            } elseif ($userGame->result === GameResultEnum::pat) {
+                $this->pat++;
+            } elseif ($userGame->result === GameResultEnum::nul) {
+                $this->nul++;
             }
             elseif ($userGame->result === null) {
                 $this->isWaiting++;

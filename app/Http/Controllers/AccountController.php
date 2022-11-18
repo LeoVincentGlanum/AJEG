@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GameResultEnum;
 use App\Models\GamePlayer;
 use App\Models\Transaction;
 use App\Models\User;
@@ -59,26 +60,26 @@ class AccountController extends Controller
         $totalGames = 0;
         $win = 0;
         $lose = 0;
-        $path = 0;
-        $null = 0;
+        $pat = 0;
+        $nul = 0;
 
         foreach ($userGames as $userGame) {
-            if ($userGame->result === 'win') {
+            if ($userGame->result === GameResultEnum::win) {
                 $win++;
-            } elseif ($userGame->result === 'lose') {
+            } elseif ($userGame->result === GameResultEnum::lose) {
                 $lose++;
-            } elseif ($userGame->result === 'path') {
-                $path++;
-            } elseif ($userGame->result === 'null') {
-                $null++;
+            } elseif ($userGame->result === GameResultEnum::pat) {
+                $pat++;
+            } elseif ($userGame->result === GameResultEnum::nul) {
+                $nul++;
             }
             $totalGames++;
         }
 
         return view('myaccount', compact('win',
             'lose',
-            'path',
-            'null',
+            'pat',
+            'nul',
             'totalGames'));
     }
 
