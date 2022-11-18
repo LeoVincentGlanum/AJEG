@@ -69,7 +69,6 @@ class Edit extends Component
 
         try {
             $this->photo->store('public/photos');
-            $this->user->photo = $this->photo->store('');
             $this->user->save();
 
             $this->dispatchBrowserEvent('toast', ['message' => 'Votre avatar a bien été modifié', 'type' => 'success']);
