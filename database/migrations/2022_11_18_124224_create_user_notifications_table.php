@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->text('message');
+            $table->foreignId('notification_id')
+                ->constrained('notifications')
+                ->deleteOnCascade();
+            $table->foreignId('user_id')
+                ->constrained('users');
+            $table->boolean('is_done');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('user_notifications');
     }
 };
