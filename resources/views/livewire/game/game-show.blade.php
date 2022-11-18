@@ -20,9 +20,9 @@
                             </div>
                         </div>
 
-        Partie {{$game->status}}
+                        Partie {{$game->status}}
 
-    </li>
+                    </li>
 
       <li class="px-6 py-4">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -45,11 +45,12 @@
               <!-- More people... -->
           </div>
       </li>
-    <li class="px-6 py-4">
+
+                    <li class="px-6 py-4">
 
 
                         <a wire:click="$emit('openModal', 'game.game-result-form',{{$game}})"
-                           class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             Partie joué ?
                             <!-- Heroicon name: mini/envelope -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -59,7 +60,7 @@
                                 <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             </svg>
                         </a>
-    </li>
+                    </li>
 
 {{--
 
