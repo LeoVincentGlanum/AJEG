@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GameResultEnum;
 use App\Models\GamePlayer;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Game;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,8 +39,18 @@ class AccountController extends Controller
         return  redirect()->back();
     }
 
-    public function login(){
-        return view('dashboard');
+    public function login()
+    {
+        $games = Game::with('users');
+        $games->whereHas('gamePlayers', function ($query) {
+            $query->where('user_id', auth()->user()->id)
+                  ->orWhere('created_by',  auth()->user()->id);
+        })->where('status', '!=', 'Terminé')
+          ->get();
+
+        return view('dashboard', [
+            'games' => $games
+        ]);
     }
 
     public function myaccount()
@@ -47,35 +60,43 @@ class AccountController extends Controller
         $totalGames = 0;
         $win = 0;
         $lose = 0;
-        $path = 0;
-        $null = 0;
+        $pat = 0;
+        $nul = 0;
 
         foreach ($userGames as $userGame) {
-            if ($userGame->result === 'win') {
+            if ($userGame->result === GameResultEnum::win) {
                 $win++;
-            } elseif ($userGame->result === 'lose') {
+            } elseif ($userGame->result === GameResultEnum::lose) {
                 $lose++;
-            } elseif ($userGame->result === 'path') {
-                $path++;
-            } elseif ($userGame->result === 'null') {
-                $null++;
+            } elseif ($userGame->result === GameResultEnum::pat) {
+                $pat++;
+            } elseif ($userGame->result === GameResultEnum::nul) {
+                $nul++;
             }
             $totalGames++;
         }
 
         return view('myaccount', compact('win',
             'lose',
-            'path',
-            'null',
+            'pat',
+            'nul',
             'totalGames'));
+    }
+
+    public function profileUser($id)
+    {
+        $user = User::query()->where('id',$id)->first();
+
+        return view('profileUser', compact(
+            'user'));
     }
 
     public function dailyReward()
     {
-        if((Carbon::parse(auth()->user()->first()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m'))){
+        if(((Carbon::parse(auth()->user()->daily_reward))->greaterThan(now()->timezone('Europe/Paris')->format('Y-m-d H:i:m')))){
             return redirect()->back();
         }
-        $user = auth()->user()->first();
+        $user = auth()->user();
         $user->coins = $user->coins + 100;
         $user->daily_reward = now()->timezone('Europe/Paris')->addDays(1);
         $user->save();

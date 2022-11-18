@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\GameStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            'status' => $this->faker->randomElement(['En attente', 'En cours', 'Terminé']),
+            'status' => $this->faker->randomElement([GameStatusEnum::progress,
+                                                        GameStatusEnum::waiting,
+                                                        GameStatusEnum::ended]),
             'created_by' => \App\Models\User::inRandomOrder()->first()->id,
         ];
     }
