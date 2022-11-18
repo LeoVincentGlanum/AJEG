@@ -20,19 +20,17 @@
 
     </li>
 
-
-
       <li class="px-6 py-4">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               @foreach($gamePlayer as $player)
                   <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                       <div class="flex-shrink-0">
                           <img class="h-10 w-10 rounded-full"
-                               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                               src="{{ asset('storage/photos/'.$player->user->photo) }}"
                                alt="">
                       </div>
                       <div class="min-w-0 flex-1">
-                          <a href="#" class="focus:outline-none">
+                          <a href="../../profile/{{$player->user->id}}" class="focus:outline-none">
                               <span class="absolute inset-0" aria-hidden="true"></span>
                               <p class="text-sm font-medium text-gray-900">{{$player->user->name}}</p>
                               <p class="truncate text-sm text-gray-500">Joue les {{$player->color}}</p>
@@ -56,13 +54,13 @@
             </button>
             </li>
 
+{{--
+
+    @if($game->status !== "Ended")
 
 
-    @if($game->status !== "Terminé")
 
-
-
-    @endif
+    @endif --}}
     <!-- More items... -->
   </ul>
 </div>

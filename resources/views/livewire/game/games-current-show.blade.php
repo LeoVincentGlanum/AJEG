@@ -3,7 +3,6 @@
 <div class="overflow-hidden bg-white shadow sm:rounded-md">
   <ul role="list" class="divide-y divide-gray-200">
     @foreach($games as $game)
-
     <li>
       <a href="{{route('game.show',['id' =>$game->id])}}" class="block hover:bg-gray-50">
         <div class="flex items-center px-4 py-4 sm:px-6">
@@ -28,13 +27,9 @@
             </div>
             <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
               <div class="flex -space-x-1 overflow-hidden">
-                <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Dries Vincent">
-
-                <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Lindsay Walton">
-
-                <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Courtney Henry">
-
-                <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Tom Cook">
+                  @foreach($game->users as $user)
+                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="{{ asset('storage/photos/'.$user->photo) }}" alt="Dries Vincent">
+                  @endforeach
               </div>
             </div>
           </div>

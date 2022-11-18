@@ -1,53 +1,33 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Mon compte') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="container" >
-            <div class="card">
-                <h1 style="margin-left : 20px;
-                           margin-top: 15px;
-                           text-decoration : underline;
-                           font-style: normal;
-                           ">
-                    Bonjour {{ Auth::user()->name }} :
-                </h1>
-                <div style="margin: auto;
-                            width: 50%;
-                            margin-bottom: 20px">
-                    <h2 style="text-align: center;
-                        text-decoration : underline;
-                        font-style: normal;">
-                        Statistique sur toutes les parties
-                    </h2>
-                    <canvas id="totalGames"></canvas>
-                </div>
-            </div>
+<div class="py-12">
+    <div class="container" >
+        <div class="card">
+            <canvas id="totalGames"></canvas>
         </div>
     </div>
-</x-app-layout>
+</div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 <script type="text/javascript">
-    window.onload=function(){//from  w ww  .  j a v  a  2  s.com
+
+    window.onload=setTimeout(
+        ()=>{
         var data = {
             labels: [
                 'Victoires',
                 'Défaites',
-                'Paths',
-                'Nulls'
+                'Pats',
+                'Nuls',
+                'En attente'
             ],
             datasets: [
                 {
-                    data: [{{$win}}, {{$lose}}, {{$path}}, {{$null}}],
+                    data: [{{$win}}, {{$lose}}, {{$pat}}, {{$nul}}, {{$isWaiting}}],
                     backgroundColor: [
                         'rgb(0, 255, 0)',
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
+                        'rgb(255, 205, 86)',
+                        'rgb(255, 205, 255)'
                     ]
                 }]
         };
@@ -85,6 +65,5 @@
                 ctx.save();
             }
         });
-    }
+    },100);
 </script>
-

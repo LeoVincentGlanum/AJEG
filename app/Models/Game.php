@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GameStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +19,11 @@ class Game extends Model
     protected $fillable = [
         'status',
     ];
+
+    protected $casts = [
+        'status' => GameStatusEnum::class
+    ];
+
 
     public function gamePlayers() : HasMany
     {

@@ -86,3 +86,7 @@ Chaque mois , une nouvelle saison débute et le master de la saison qui vient de
 
 
 
+⚠ si cette erreur SQL intervient:<br>
+![](ImageReadme/ErrorSql.png)
+entrez cette commande : php artisan config:cache<br>
+après chaques modification du .env

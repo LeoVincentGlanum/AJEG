@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\GameResultEnum;
+use App\Enums\GameStatusEnum;
 use App\Models\User;
 use App\Models\Game;
 use Livewire\Component;
@@ -46,10 +48,10 @@ class GameCreate extends Component
     {
         if (count($this->players) > 0){
             foreach ($this->playersColors as $key => $color) {
-            if (!in_array($key,$this->players)){
-                unset($this->playersColors[$key]);
+                if (!in_array($key,$this->players)){
+                    unset($this->playersColors[$key]);
+                }
             }
-        }
         }
 
     }
@@ -95,14 +97,14 @@ class GameCreate extends Component
 
             $result = null;
 
-            if ($this->type == "Terminé") {
-                $result = "lose";
-                if ($this->resultat == "nul" || $this->resultat == "path") {
+            if ($this->type == GameStatusEnum::ended) {
+                $result = GameResultEnum::lose;
+                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $player) {
-                    $result = "win";
+                    $result = GameResultEnum::win;
                 }
             }
 
@@ -112,11 +114,9 @@ class GameCreate extends Component
             $gameplayer->color   = $color;
             $gameplayer->result  = $result;
             $gameplayer->save();
-
-
         }
 
-           if ($this->type === "En attente"){
+           if ($this->type == GameStatusEnum::waiting){
                 session()->flash('message_url', route('game.show',['id' => $newGame->id]));
                 session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
                 return redirect('dashboard');

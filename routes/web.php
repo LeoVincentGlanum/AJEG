@@ -21,21 +21,26 @@ use App\Http\Controllers\GameHistoryController;
 |
 */
 
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->name('password.reset');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-//    $games = \App\Models\GamePlayer::query()->where('user_id','=', Auth::id())->with('game')->where('status','!=','end')->get();
-    $games = Game::with('users');
-    $games->whereHas('gamePlayers', function ($query) {
-        $query->where('user_id', Auth::id());
-    })->where('status', '!=', 'Terminé')->get();
+//Dashboard
+Route::get('/dashboard', [\App\Http\Controllers\AccountController::class, 'login'])
+    ->name('dashboard');
 
-    return view('dashboard')->with(['games' => $games]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Statistique joueur
+Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])
+    ->name('my-account');
+Route::get('/profile/{id}', [\App\Http\Controllers\AccountController::class, 'profileuser'])
+    ->name('profile-user');
 
-Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])->name('my-account');
 
 // Historique
 

@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('password');
-            $table->bigInteger('coins')->default('0');
-            $table->dateTime('daily_reward')->default('2022-10-30 13:23:54');
-            $table->string('photo')->default('Avatar_par_defaut.png');
-            $table->rememberToken();
+            $table->foreignId('user_id')
+                ->constrained('users');
+            $table->string('type');
+            $table->text('message');
+            $table->tinyInteger('is_done');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('notifications');
     }
 };

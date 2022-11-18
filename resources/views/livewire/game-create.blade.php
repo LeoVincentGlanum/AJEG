@@ -170,8 +170,8 @@
                                         @foreach($players as $player)
                                             <option value="{{$player}}">{{$users->find($player)->name}} Gagnant</option>
                                         @endforeach
-                                        <option value="path">Path</option>
-                                        <option value="null">Nul</option>
+                                        <option value="{{\App\Enums\GameResultEnum::pat}}">Pat</option>
+                                        <option value="{{\App\Enums\GameResultEnum::nul}}">Nul</option>
                                     </select>
                                 </div>
                             @endif

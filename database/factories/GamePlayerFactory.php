@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\GameResultEnum;
+use App\Models\Game;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,12 +19,14 @@ class GamePlayerFactory extends Factory
      */
     public function definition()
     {
-
         return [
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
-            'game_id' => \App\Models\Game::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
+            'game_id' => Game::inRandomOrder()->first()->id,
             'color' => $this->faker->randomElement(['blanc', 'noir']),
-            'result' => $this->faker->randomElement(['win', 'lose', 'path', 'null']),
+            'result' => $this->faker->randomElement([GameResultEnum::win,
+                                                        GameResultEnum::lose,
+                                                        GameResultEnum::pat,
+                                                        GameResultEnum::nul]),
         ];
     }
 }
