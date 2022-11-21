@@ -4,8 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
+use App\Http\Livewire\MyAccount\Notifications;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
+use App\Models\UserNotification;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -18,6 +21,7 @@ class GameCreate extends Component
 {
 
     public Collection $users;
+    public Collection $notifications;
     public string $type = "En attente";
     public ?Collection $gameTypes;
     public ?string $resultat = "none";
@@ -35,6 +39,7 @@ class GameCreate extends Component
     public function mount()
     {
         $this->users     = User::all();
+        $this->notifications     = Notification::all();
         $this->gameTypes = GameType::all();
     }
 
@@ -75,7 +80,6 @@ class GameCreate extends Component
         return $arrayRules;
     }
 
-
     public function submit()
     {
         $this->validate();
@@ -115,10 +119,25 @@ class GameCreate extends Component
             $gameplayer->result  = $result;
             $gameplayer->save();
         }
-
-           if ($this->type == GameStatusEnum::waiting){
+           if ($this->type == GameStatusEnum::waiting->value){
                 session()->flash('message_url', route('game.show',['id' => $newGame->id]));
-                session()->flash('message', 'Votre partie a bien été créée. Un email à été envoyé au joueurs pour les avertirs.');
+                session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
+
+                $newNotification = new Notification();
+                $newNotification->creator = Auth::id();
+                $newNotification->type = 'Création de partie';
+                $newNotification->message = 'Vous avez été invité a rejoindre une partie';
+                $newNotification->save();
+
+                foreach ($this->players as $player){
+                    if((int)$player != Auth::id()) {
+                        $newUserNotification = new UserNotification();
+                        $newUserNotification->notification_id = $newNotification->id;
+                        $newUserNotification->user_id = $player;
+                        $newUserNotification->is_done = '0';
+                        $newUserNotification->save();
+                    }
+                }
                 return redirect('dashboard');
             }
 
