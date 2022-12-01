@@ -1,3 +1,5 @@
+
+
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -36,28 +38,16 @@
                         </label>
 
                         <div class="mt-4 divide-y divide-gray-200 border-b border-gray-200">
-                            @foreach($users as $user)
-
-                                <div class="relative flex items-start py-4">
-                                    <div class="min-w-0 flex-1 text-sm">
-                                        <label for="flexCheckChecked{{$user->id}}"
-                                               class="select-none font-medium text-gray-700"> {{$user->name}}</label>
-                                    </div>
-                                    <div class="ml-3 flex h-5 items-center">
-                                        <input
-                                            wire:model="players"
-                                            value="{{$user->id}}"
-                                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                            type="checkbox"
-                                            id="flexCheckChecked{{$user->id}}"
-                                        >
-
-                                    </div>
+                            <div class="form-group">
+                                <div wire:ignore>
+                                    <select id="players-dropdown" name="players" class="form-control" multiple wire:model="players">
+                                        @foreach($users as $user)
+                                            <option value="{{$user->id}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-
-                            @endforeach
+                            </div>
                         </div>
-
                         @if(count($players) > 1)
                             @if(count($players) == 2)
                                 <h3 class="text-lg font-medium leading-6 text-gray-900">Couleurs du joueur blanc </h3>
@@ -105,11 +95,7 @@
                                                type="text" id="colorPlayer{{$player}}">
                                     </div>
                                 @endforeach
-
-
-
                                 @error('playersColors')
-
                                 <div class="rounded-md bg-yellow-50 p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
@@ -150,8 +136,7 @@
                                            id="date">
                                 </div>
 
-
-                                @error('resultat')
+                            @error('resultat')
                                 <div class="rounded-md bg-yellow-50 p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
@@ -226,12 +211,17 @@
                         </div>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </div>
 </div>
 
-
-
+<script>
+    $(document).ready(function () {
+        $('#players-dropdown').select2();
+        $('#players-dropdown').on('change', function (e) {
+            let data = $(this).val();
+            @this.set('players', data)
+        });
+    });
+</script>
