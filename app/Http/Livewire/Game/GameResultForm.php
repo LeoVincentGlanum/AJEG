@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Game;
 
+use App\Enums\GameResultEnum;
 use App\Http\Livewire\Admin\ListGameType;
 use App\Models\Game;
 use Illuminate\Support\Arr;
@@ -49,15 +50,85 @@ class GameResultForm extends ModalComponent
 
     }
 
-
-    public function updatePlayerResult()
+    /**
+     * @param $id
+     *
+     * @return int|mixed|string
+     */
+    private function isWinSetResults($id) : mixed
     {
-        foreach ($this->playerSelect as $name => $result) {
-            Arr::set($this->playersResult, $name, $result);
+        Arr::set($this->playerSelect, $id, GameResultEnum::win->value);
+        Arr::set($this->playersResult, $id, GameResultEnum::win->value);
+        foreach ($this->playersResult as $idPlayerResult => $player) {
+            if ($idPlayerResult !== $id) {
+                Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::lose->value);
+                Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::lose->value);
+            }
+        }
+        return $idPlayerResult;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return int|mixed|string
+     */
+    private function isLoseSetResults($id) : mixed
+    {
+        Arr::set($this->playerSelect, $id, GameResultEnum::lose->value);
+        Arr::set($this->playersResult, $id, GameResultEnum::lose->value);
+        foreach ($this->playersResult as $idPlayerResult => $player) {
+            if ($idPlayerResult !== $id) {
+                Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::win->value);
+                Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::win->value);
+            }
+        }
+        return $idPlayerResult;
+    }
+
+    /**
+     * @return int|string
+     */
+    private function isPatSetResults() : string|int
+    {
+        foreach ($this->playersResult as $idPlayerResult => $player) {
+            Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::pat->value);
+            Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::pat->value);
+        }
+        return $idPlayerResult;
+    }
+
+    /**
+     * @return void
+     */
+    private function isNulSetResults() : void
+    {
+        foreach ($this->playersResult as $idPlayerResult => $player) {
+            Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::nul->value);
+            Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::nul->value);
         }
     }
 
+    public function updatePlayerResult($id)
+    {
+        $lastPlayerSelect = $this->playerSelect[$id];
 
+        if ($lastPlayerSelect === GameResultEnum::win->value) {
+            $this->isWinSetResults($id);
+        }
+
+        if ($lastPlayerSelect === GameResultEnum::lose->value) {
+            $this->isLoseSetResults($id);
+        }
+
+        if ($lastPlayerSelect === GameResultEnum::pat->value) {
+           $this->isPatSetResults();
+        }
+
+        if ($lastPlayerSelect === GameResultEnum::nul->value) {
+            $this->isNulSetResults();
+        }
+    }
     public function render()
     {
         return view('livewire.game.game-result-form');

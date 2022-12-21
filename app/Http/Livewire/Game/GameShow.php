@@ -18,8 +18,13 @@ class GameShow extends Component
         $this->gamePlayer = $game->gamePlayers;
     }
 
+
+
+
     public function render()
     {
         return view('livewire.game.game-show');
     }
+
+
 }

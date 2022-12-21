@@ -18,14 +18,14 @@
 
                             <div class="mt-1 relative rounded-md shadow-sm">
 
-                                <select wire:change="updatePlayerResult"
-                                        wire:model='playerSelect.{{$game->users[$i]->id}}' id="selectElement"
+                                <select wire:change="updatePlayerResult({{$game->users[$i]->id}})"
+                                        wire:model='playerSelect.{{$game->users[$i]->id}}' id="selectElement{{$game->users[$i]->id}}"
                                         class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                     <option value="">Select Result</option>
-                                    <option value="win">Win</option>
-                                    <option value="lose">Lose</option>
-                                    <option value="path">Path</option>
-                                    <option value="null">Null</option>
+                                    <option value="{{\App\Enums\GameResultEnum::win->value}}">{{\App\Enums\GameResultEnum::win->name}}</option>
+                                    <option value="{{\App\Enums\GameResultEnum::lose->value}}">{{\App\Enums\GameResultEnum::lose->name}}</option>
+                                    <option value="{{\App\Enums\GameResultEnum::pat->value}}">{{\App\Enums\GameResultEnum::pat->name}}</option>
+                                    <option value="{{\App\Enums\GameResultEnum::nul->value}}">{{\App\Enums\GameResultEnum::nul->name}}</option>
                                 </select>
                             </div>
                         </div>
