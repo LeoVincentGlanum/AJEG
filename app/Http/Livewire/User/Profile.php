@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\MyAccount;
+namespace App\Http\Livewire\User;
 
 use App\Models\Notification;
 use App\Models\User;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Arr;
 
-class MyAccount extends Component
+class Profile extends Component
 {
     public $tabs = [];
 
@@ -99,6 +99,6 @@ class MyAccount extends Component
 
     public function render()
     {
-        return view('livewire.my-account.my-account');
+        return view('livewire.user.profile');
     }
 }

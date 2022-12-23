@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\MyAccount;
+namespace App\Http\Livewire\User;
 
 use App\Enums\GameResultEnum;
 use App\Models\GamePlayer;
@@ -46,6 +46,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        return view('livewire.my-account.dashboard');
+        return view('livewire.user.dashboard');
     }
 }

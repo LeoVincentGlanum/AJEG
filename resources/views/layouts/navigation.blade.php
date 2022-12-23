@@ -101,7 +101,7 @@
 
                     <x-slot name="content">
 
-                        <x-dropdown-link :href="route('profile-user', ['id'=> Auth::user()->id])" :active="request()->routeIs('my-account')">
+                        <x-dropdown-link :href="route('my-account')" :active="request()->routeIs('my-account')">
                             {{ __('Mon compte') }}
                         </x-dropdown-link>
 

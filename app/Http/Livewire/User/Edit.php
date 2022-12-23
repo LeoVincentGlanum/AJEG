@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\MyAccount;
+namespace App\Http\Livewire\User;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -83,6 +83,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.my-account.edit');
+        return view('livewire.user.edit');
     }
 }

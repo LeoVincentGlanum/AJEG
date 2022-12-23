@@ -18,15 +18,17 @@ use App\Http\Controllers\GameHistoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [AccountController::class, 'login'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-    Route::get('/my-account', [AccountController::class, 'myaccount'])->name('my-account');
-    Route::get('/profile/{id}', [AccountController::class, 'profileuser'])->name('profile-user');
+
+    Route::get('/my-account', function () {
+        return view('user.account');
+    })->name('my-account');
+
+    Route::get('/profile/{id}', [AccountController::class, 'getProfile'])->name('profile-user');
 
     Route::get('/game-history', [GameHistoryController::class, 'gameHistory'])->name('gameHistory');
 
@@ -43,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 });
 

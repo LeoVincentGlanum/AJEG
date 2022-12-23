@@ -39,20 +39,6 @@ class AccountController extends Controller
         return  redirect()->back();
     }
 
-    public function login()
-    {
-        $games = Game::with('users');
-        $games->whereHas('gamePlayers', function ($query) {
-            $query->where('user_id', auth()->user()->id)
-                  ->orWhere('created_by',  auth()->user()->id);
-        })->where('status', '!=', 'Terminé')
-          ->get();
-
-        return view('dashboard', [
-            'games' => $games
-        ]);
-    }
-
     public function myaccount()
     {
         $user = auth()->user()->first();
@@ -83,12 +69,11 @@ class AccountController extends Controller
             'totalGames'));
     }
 
-    public function profileUser($id)
+    public function getProfile($id)
     {
         $user = User::query()->where('id',$id)->first();
 
-        return view('profileUser', compact(
-            'user'));
+        return view('user.profile')->with(['user' => $user]);
     }
 
     public function dailyReward()

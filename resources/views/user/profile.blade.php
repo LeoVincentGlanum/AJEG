@@ -1,11 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ $user->name }}
         </h2>
     </x-slot>
-
-    <livewire:dashboard.list-games />
-
-    <livewire:dashboard.list-tournaments />
+    <div>
+        <livewire:user.profile :id="{{ $user->id }}" />
+    </div>
 </x-app-layout>
