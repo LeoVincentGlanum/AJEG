@@ -4,7 +4,8 @@ namespace App\Enums;
 
 enum GameStatusEnum:string
 {
-    case progress = 'En cours';
-    case waiting = 'En attente';
-    case ended = 'Terminé';
+    case draft = "draft";
+    case waiting = 'waiting';
+    case progress = 'in progress';
+    case ended = 'ended';
 }

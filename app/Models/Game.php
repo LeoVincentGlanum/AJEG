@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use App\Enums\GameStatusEnum;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Game extends Model
 {
     use HasFactory;
+    use HasStates;
 
     protected $table = 'games';
 
@@ -20,7 +22,7 @@ class Game extends Model
     ];
 
     protected $casts = [
-        'status' => GameStatusEnum::class
+        'status' => GameStatus::class
     ];
 
 

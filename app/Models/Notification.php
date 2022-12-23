@@ -11,6 +11,9 @@ class Notification extends Model
 {
     use HasFactory;
 
+    /**
+     * @var int|mixed
+     */
     protected $table = 'notifications';
 
     protected $fillable = [

@@ -65,6 +65,7 @@
                         </button>
                     </x-slot>
 
+
                     <x-slot name="content">
                         <x-dropdown-link :href="route('user.my-account')" :active="request()->routeIs('user.my-account')">
                             {{ __('Mon compte') }}

@@ -8,6 +8,10 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
 use App\Models\UserNotification;
+use App\ModelStates\GameStates\Draft;
+use App\ModelStates\GameStates\PlayersValidation;
+use App\ModelStates\GameStates\ResultValidations;
+use http\Env\Request;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -56,6 +60,7 @@ class Form extends Component
         }
 
         $arrayRules['selectBlanc'] = 'required|not_in:nul';
+
         return $arrayRules;
     }
 
@@ -83,9 +88,15 @@ class Form extends Component
 
         $newGame = new Game();
         $newGame->label = $this->partyName;
-        $newGame->status = $this->type;
         $newGame->created_by = Auth::id();
         $newGame->save();
+
+        $match = match ($this->type) {
+            GameStatusEnum::waiting->name => $newGame->status->transitionTo(PlayersValidation::class),
+            GameStatusEnum::ended->name => $newGame->status->transitionTo(ResultValidations::class)
+         };
+
+
 
         foreach ($this->players as $player) {
             $color = "noir";
