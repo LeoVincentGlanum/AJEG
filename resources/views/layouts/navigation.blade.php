@@ -99,7 +99,11 @@
                         </button>
                     </x-slot>
 
+
                     <x-slot name="content">
+                        <div class="inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900">
+                            50
+                        </div>
 
                         <x-dropdown-link :href="route('profile-user', ['id'=> Auth::user()->id])" :active="request()->routeIs('my-account')">
                             {{ __('Mon compte') }}

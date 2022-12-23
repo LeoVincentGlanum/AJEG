@@ -16,6 +16,7 @@
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                             >
+                            @error('partyName') <span class="error">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mt-5">
@@ -122,10 +123,10 @@
                             <h3 class="my-3"> Status du match </h3>
 
                             <select wire:model="type" name="status"
-                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                <option value="En attente">Demande de game</option>
-                                <option value="En cours">En cours</option>
-                                <option value="Terminé">Terminé</option>
+                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 value}}-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                <option value="{{\App\Enums\GameStatusEnum::waiting->name}}">{{trans(\App\Enums\GameStatusEnum::waiting->value)}}</option>
+                                <option value="{{\App\Enums\GameStatusEnum::progress->name}}">{{trans(\App\Enums\GameStatusEnum::progress->value)}}</option>
+                                <option value="{{\App\Enums\GameStatusEnum::ended->name}}">{{trans(\App\Enums\GameStatusEnum::ended->value)}}</option>
                             </select>
 
                             @if($type === "Terminé")
@@ -201,6 +202,10 @@
                             <button type="button"
                                     class="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     wire:click="gotto">Retour
+                            </button>
+                            <button type="button"
+                                    class="inline-flex items-center rounded-md border border-transparent bg-orange-100 px-4 py-2 ml-3 text-sm font-medium text-indigo-700 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    wire:click="saveDraft">{{trans('Save draft')}}
                             </button>
                             @if(count($players) > 1)
                                 <button type="submit"
