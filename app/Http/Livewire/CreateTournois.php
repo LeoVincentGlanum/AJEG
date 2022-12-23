@@ -7,7 +7,7 @@ use Livewire\Component;
 class CreateTournois extends Component
 {
     public function go(){
-        return redirect('newTournois');
+        return redirect('/tournament/');
     }
 
     public function render()

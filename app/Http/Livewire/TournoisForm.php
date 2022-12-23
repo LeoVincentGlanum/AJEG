@@ -46,7 +46,7 @@ class TournoisForm extends Component
          $newTournois->save();
 
 
-             session()->flash('message', 'Votre tournois à bien été créer, retrouver le <b><a href="'.route('tournois.show',['id' => $newTournois->id]).'">ici</a></b>');
+             session()->flash('message', 'Votre tournois à bien été créer, retrouver le <b><a href="'.route('tournament.show',['id' => $newTournois->id]).'">ici</a></b>');
 
             return redirect('dashboard');
 

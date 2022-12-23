@@ -36,7 +36,7 @@ class TournoisController extends Controller
     public function show($id)
     {
         $tournois = Tournois::find($id);
-        return view("tournois.show")->with(["tournois" => $tournois]);
+        return view("tournament.show")->with(["tournois" => $tournois]);
     }
 
     /**

@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Game;
-use App\Models\GamePlayer;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\AdminController;
@@ -21,47 +18,37 @@ use App\Http\Controllers\GameHistoryController;
 |
 */
 
-
-Route::get('/reset-password/{token}', function ($token) {
-    return view('auth.reset-password', ['token' => $token]);
-})->name('password.reset');
-
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-//Dashboard
-Route::get('/dashboard', [\App\Http\Controllers\AccountController::class, 'login'])
-    ->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AccountController::class, 'login'])->name('dashboard');
 
-//Statistique joueur
-Route::get('/my-account', [\App\Http\Controllers\AccountController::class, 'myaccount'])
-    ->name('my-account');
-Route::get('/profile/{id}', [\App\Http\Controllers\AccountController::class, 'profileuser'])
-    ->name('profile-user');
+    Route::get('/my-account', [AccountController::class, 'myaccount'])->name('my-account');
+    Route::get('/profile/{id}', [AccountController::class, 'profileuser'])->name('profile-user');
 
+    Route::get('/game-history', [GameHistoryController::class, 'gameHistory'])->name('gameHistory');
 
-// Historique
+    Route::get('/daily-reward', [AccountController::class, 'dailyReward'])->name('dailyReward');
 
-Route::get('/game-history', [GameHistoryController::class, 'gameHistory'])
-     ->name('gameHistory');
+    Route::prefix('/tournament')->group(function () {
+        Route::get('/', [TournoisController::class, 'index'])->name('tournament.index');
+        Route::get('/show/{id}', [TournoisController::class, 'show'])->name('tournament.show');
+    });
 
-// Récompense quotidienne
+    Route::prefix('/game')->group(function () {
+        Route::get('/create', [GameController::class, 'create'])->name('game.create');
+        Route::get('/show/{id}', [GameController::class, 'show'])->name('game.show');
+    });
+});
 
-Route::get('/daily-reward', [AccountController::class, 'dailyReward'])
-     ->name('dailyReward');
+Route::middleware(['admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+});
 
-// Tournois
-Route::get('/newTournois', [TournoisController::class, 'index'])->name('newTournois');
-Route::get('/tournois/{id}', [TournoisController::class, 'show'])->name('tournois.show');
-
-
-// Game
-Route::get('/game/create', [GameController::class, 'create'])->name('game.create')->middleware('auth');
-Route::get('/game/show/{id}', [GameController::class, 'show'])->name('game.show')->middleware('auth');
-
-// admin
-Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('admin');
+Route::fallback(function () {
+    return redirect('login');
+});
 
 require __DIR__.'/auth.php';
