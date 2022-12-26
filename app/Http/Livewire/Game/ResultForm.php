@@ -3,16 +3,17 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
-use App\Http\Livewire\Admin\ListGameType;
 use App\Models\Game;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
-class GameResultForm extends ModalComponent
+class ResultForm extends ModalComponent
 {
     public Game $game;
+
     public ?array $playerSelect = [];
+
     public array $playersResult = [];
 
     public function mount(int $id)
@@ -131,6 +132,6 @@ class GameResultForm extends ModalComponent
     }
     public function render()
     {
-        return view('livewire.game.game-result-form');
+        return view('livewire.game.result-form');
     }
 }

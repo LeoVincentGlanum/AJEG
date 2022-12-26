@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Games;
+namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
-use App\Models\GamePlayer;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\Game;
 use Livewire\WithPagination;
 
-class ListGames extends Component
+class History extends Component
 {
     use WithPagination;
 
@@ -76,7 +74,7 @@ class ListGames extends Component
 
     public function render()
     {
-        return view('livewire.games.list-games', [
+        return view('livewire.game.history', [
             'pageGames' => $this->makeQueryFilter()
         ]);
     }

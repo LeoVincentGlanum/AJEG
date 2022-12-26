@@ -20,13 +20,13 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
                         <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>
-                        <span class="ml-2"> {{ __('Créer une partie') }}</span>
+                        <span class="ml-2"> {{ __('Create a game') }}</span>
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('game.history')" :active="request()->routeIs('game.history')">
-                        {{ __('Historique des parties') }}
+                        {{ __('Game History') }}
                     </x-nav-link>
                 </div>
 
