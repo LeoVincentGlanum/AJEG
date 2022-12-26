@@ -5,6 +5,9 @@
         </h2>
     </x-slot>
     <div>
-        <livewire:user.profile :id="{{ \Illuminate\Support\Facades\Auth::id() }}"/>
+        @php
+            $authUserId = \Illuminate\Support\Facades\Auth::id()
+        @endphp
+        <livewire:user.profile :id="$authUserId"/>
     </div>
 </x-app-layout>

@@ -41,7 +41,7 @@ class Profile extends Component
                 'name' => trans('stat'),
                 'access' => true,
                 'label' => trans('Statistiques'),
-                'component' => 'my-account.dashboard',
+                'component' => 'user.dashboard',
                 'svg' => '<svg class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
                                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -53,7 +53,7 @@ class Profile extends Component
                 'name' => trans('info'),
                 'access' => $access,
                 'label' => trans('Mes informations'),
-                'component' => 'my-account.edit',
+                'component' => 'user.edit',
                 'svg' => '<svg class="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300" xmlns="http://www.w3.org/2000/svg"
                                  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                  aria-hidden="true">
@@ -65,7 +65,7 @@ class Profile extends Component
                 'name' => trans('notif'),
                 'access' => $access,
                 'label' => trans('Notifications'),
-                'component' => 'my-account.notifications',
+                'component' => 'user.notifications',
                 'svg' =>    '<svg class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
                                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                  stroke-width="1.5" stroke="currentColor" aria-hidden="true">
