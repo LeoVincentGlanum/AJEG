@@ -11,18 +11,15 @@ use Illuminate\Support\Arr;
 
 class Profile extends Component
 {
-    public $tabs = [];
+    public User $user;
 
-    public $tab;
+    public array $tabs = [];
 
-    public $user;
+    public string $tab;
 
-    public $countNotif;
-
-//    protected $queryString = ['tab'];
+    public int $countNotif;
 
     protected $listeners = ['changeTab'];
-
 
     public function mount($id)
     {

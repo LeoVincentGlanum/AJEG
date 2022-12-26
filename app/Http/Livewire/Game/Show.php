@@ -12,7 +12,8 @@ class Show extends Component
 
     public Collection $gamePlayer;
 
-    public function mount($game){
+    public function mount($game)
+    {
         $this->game = $game;
         $this->gamePlayer = $game->gamePlayers;
     }
@@ -21,6 +22,4 @@ class Show extends Component
     {
         return view('livewire.game.show');
     }
-
-
 }

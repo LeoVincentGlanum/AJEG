@@ -32,5 +32,16 @@
     "Create a game": "Création d'une partie",
     "by": "créée par",
     "Game number ": "Partie numéro ",
-    "Game ": "Partie "
+    "Game ": "Partie ",
+    "The type has been deleted": "Le type à bien été supprimé",
+    "The type has been saved": "Le type à bien été sauvegardé",
+    "The result has been put into validation": "Le résultat a bien été mis en validation",
+    "An error occurred while retrieving the game types": "Une erreur est survenu pendant la récupération des types de partie",
+    "An error occurred while retrieving the game type": "Une erreur est survenu pendant la récupération du type de partie",
+    "An error occurred while retrieving your games": "Une erreur est survenu pendant la récupération de vos parties",
+    "An error occurred while retrieving your tournaments": "Une erreur est survenu pendant la récupération de vos tournois",
+    "An error occurred while retrieving data": "Une erreur est survenu pendant la récupération des données",
+    "An error occurred while saving the type": "Une erreur est survenu pendant la sauvegarde du type",
+    "An error occurred while deleting the type": "Une erreur est survenu pendant la suppression du type",
+    "An error occurred while entering the result": "Une erreur est survenu pendant la saisie du résultat"
 }

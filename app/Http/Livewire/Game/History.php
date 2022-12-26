@@ -22,7 +22,7 @@ class History extends Component
 
     public function makeQueryFilter()
     {
-        return  Game::query()
+        return Game::query()
             ->with(['users','gamePlayers'])
             ->where('status', 'like', '%'.$this->searchStatus.'%')
             ->when(($this->searchPlayer !== '' && $this->searchResult !== ''), function ($query) {

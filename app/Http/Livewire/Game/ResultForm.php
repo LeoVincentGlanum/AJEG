@@ -3,13 +3,17 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
+use App\Http\Livewire\Game\Traits\HasGameResultMapper;
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
-class ResultForm extends ModalComponent
+final class ResultForm extends ModalComponent
 {
+    use HasGameResultMapper, HasToast;
+
     public Game $game;
 
     public ?array $playerSelect = [];
@@ -19,94 +23,32 @@ class ResultForm extends ModalComponent
     public function mount(int $id)
     {
         try {
-            $this->game = Game::query()->find($id);
+            $this->game = Game::query()->find($id)->get();
 
             foreach ($this->game->users as $player) {
                 $this->playersResult = Arr::add($this->playersResult, $player->id, '');
             }
-
-        } catch (\Exception $e) {
-            Log::info();
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+            $this->errorToast(__('An error occurred while retrieving data'));
         }
-
     }
-
 
     public function save()
     {
-        $this->game->status = 'Terminé';
-
         try {
+            $this->game->status = 'Terminé';
             foreach ($this->game->users as $user) {
-
                 $user->pivot->result = Arr::get($this->playersResult, $user->id);
                 $user->pivot->save();
             }
             $this->game->save();
-            $this->dispatchBrowserEvent('toast', ['message' => 'Le resultat a bien été mis en validation', 'type' => 'success']);
-        } catch (\Exeption $e) {
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
-        }
-        $this->closeModal();
 
-    }
-
-    /**
-     * @param $id
-     *
-     * @return int|mixed|string
-     */
-    private function isWinSetResults($id) : mixed
-    {
-        Arr::set($this->playerSelect, $id, GameResultEnum::win->value);
-        Arr::set($this->playersResult, $id, GameResultEnum::win->value);
-        foreach ($this->playersResult as $idPlayerResult => $player) {
-            if ($idPlayerResult !== $id) {
-                Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::lose->value);
-                Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::lose->value);
-            }
-        }
-        return $idPlayerResult;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return int|mixed|string
-     */
-    private function isLoseSetResults($id) : mixed
-    {
-        Arr::set($this->playerSelect, $id, GameResultEnum::lose->value);
-        Arr::set($this->playersResult, $id, GameResultEnum::lose->value);
-        foreach ($this->playersResult as $idPlayerResult => $player) {
-            if ($idPlayerResult !== $id) {
-                Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::win->value);
-                Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::win->value);
-            }
-        }
-        return $idPlayerResult;
-    }
-
-    /**
-     * @return int|string
-     */
-    private function isPatSetResults() : string|int
-    {
-        foreach ($this->playersResult as $idPlayerResult => $player) {
-            Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::pat->value);
-            Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::pat->value);
-        }
-        return $idPlayerResult;
-    }
-
-    /**
-     * @return void
-     */
-    private function isNulSetResults() : void
-    {
-        foreach ($this->playersResult as $idPlayerResult => $player) {
-            Arr::set($this->playerSelect, $idPlayerResult, GameResultEnum::nul->value);
-            Arr::set($this->playersResult, $idPlayerResult, GameResultEnum::nul->value);
+            $this->successToast(__('The result has been put into validation'));
+            $this->closeModal();
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage() . $e->getTraceAsString());
+            $this->errorToast(__('An error occurred while entering the result'));
         }
     }
 
@@ -114,22 +56,14 @@ class ResultForm extends ModalComponent
     {
         $lastPlayerSelect = $this->playerSelect[$id];
 
-        if ($lastPlayerSelect === GameResultEnum::win->value) {
-            $this->isWinSetResults($id);
-        }
-
-        if ($lastPlayerSelect === GameResultEnum::lose->value) {
-            $this->isLoseSetResults($id);
-        }
-
-        if ($lastPlayerSelect === GameResultEnum::pat->value) {
-           $this->isPatSetResults();
-        }
-
-        if ($lastPlayerSelect === GameResultEnum::nul->value) {
-            $this->isNulSetResults();
-        }
+        match ($lastPlayerSelect) {
+            GameResultEnum::win->value => $this->isWinSetResults($id),
+            GameResultEnum::lose->value => $this->isLoseSetResults($id),
+            GameResultEnum::pat->value => $this->isPatSetResults(),
+            GameResultEnum::nul->value => $this->isNulSetResults()
+        };
     }
+
     public function render()
     {
         return view('livewire.game.result-form');

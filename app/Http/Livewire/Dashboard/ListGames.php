@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ListGames extends Component
 {
+    use HasToast;
+
     public array|Collection $games;
 
     public function mount()
@@ -20,12 +24,10 @@ class ListGames extends Component
                 })
                 ->where('status', '!=', 'Terminé')
                 ->get();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             $this->games = [];
-            $this->dispatchBrowserEvent('toast', [
-                'message' => 'Une erreur est survenu pendant la récupération de vos partie',
-                'type' => 'error'
-            ]);
+            $this->errorToast(__('An error occurred while retrieving your games'));
         }
     }
 
