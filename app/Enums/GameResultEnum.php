@@ -9,5 +9,3 @@ enum GameResultEnum:string
     case pat = 'path';
     case nul = 'null';
 }
-
-//Dans blade {{\App\Enums\GameResultEnum::pat}}

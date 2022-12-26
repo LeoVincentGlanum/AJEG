@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournoisController;
-use App\Http\Controllers\GameHistoryController;
 
 /*
 |--------------------------------------------------------------------------

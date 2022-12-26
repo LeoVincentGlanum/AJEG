@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\GameResultEnum;
-use App\Models\GamePlayer;
-use App\Models\Transaction;
 use App\Models\User;
-use App\Models\Game;
-
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\StoreAccountRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class UserController extends Controller
 {
-    public function getProfile($id)
+    public function getProfile($id): Factory|View|Application
     {
         $user = User::query()->where('id',$id)->first();
 
