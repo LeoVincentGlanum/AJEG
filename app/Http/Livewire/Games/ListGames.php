@@ -58,7 +58,7 @@ class ListGames extends Component
 
             } elseif ($player->pivot->result == GameResultEnum::nul->value)
             {
-                return "Match null";
+                return "Match nul";
 
             } elseif ($player->pivot->result == GameResultEnum::pat->value)
             {
