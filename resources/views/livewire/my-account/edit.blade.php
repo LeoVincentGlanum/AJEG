@@ -47,7 +47,7 @@
                     </div>
 
                 </div>
-                <div class="py-4 sm:gap-4 sm:py-1 sm:px-10">
+                <div class="py-4 sm:gap-4 sm:py-5 sm:px-10">
                     <div class="text-right">
                         <button type="submit"
                                 class="rounded-full border border-transparent bg-indigo-600 px-3.5 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -57,11 +57,61 @@
                 </div>
             </form>
 
+{{--            modify password--}}
+            <form wire:submit.prevent="updatePassword">
             <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                <dt class="text-sm font-medium text-gray-500">Mot de passe</dt>
-                <a href="../reset-password/{{\Request::session()->token()}}}}"
-                   class="font-medium text-indigo-600 hover:text-indigo-500">Modifier mon mot de passe</a>
+
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Old password</dt>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <!-- Heroicon name: mini/envelope -->
+                        </div>
+                        <input wire:model="oldPassword" value="" type="password"
+                               class="block w-full rounded-md border-gray-300 pl-1 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Enter your Current Password">
+                    </div>
+                    @error('old-password') <span class="error">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">New password</dt>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <!-- Heroicon name: mini/envelope -->
+                        </div>
+                        <input wire:model="password" value="" type="password"
+                               class="block w-full rounded-md border-gray-300 pl-1 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Enter your new Password"
+                               >
+                    </div>
+                    @error('new-password') <span class="error">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Confirm new password</dt>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <!-- Heroicon name: mini/envelope -->
+                        </div>
+                        <input wire:model="confirmPassword" value="" type="password"
+                               class="block w-full rounded-md border-gray-300 pl-1 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Enter your same as new Password"
+                               >
+                    </div>
+                    @error('confirm-password') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
             </div>
+                <div class="py-4 sm:gap-4 sm:py-5 sm:px-10">
+                    <div class="text-right">
+                        <button type="submit"
+                                class="rounded-full border border-transparent bg-indigo-600 px-3.5 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Modifier password
+                        </button>
+                    </div>
+                </div>
+            </form>
+{{--            end modify password--}}
+
             <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Avatar</dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
