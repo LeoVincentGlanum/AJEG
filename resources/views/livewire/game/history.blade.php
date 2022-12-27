@@ -72,7 +72,9 @@
                                         'bg-yellow-100'=>$game->status == \App\Enums\GameStatusEnum::waiting,
                                         'bg-blue-100'=>$game->status == \App\Enums\GameStatusEnum::progress,
                                         'bg-green-100'=>$game->status == \App\Enums\GameStatusEnum::ended,
-                                        'px-2 text-xs font-semibold leading-5 text-green-800'])>{{ $game->status }}</span>
+                                        'px-2 text-xs font-semibold leading-5 text-green-800'])>
+                                            {{ $game->status }}
+                                        </span>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $this->gameResult($game) }}</td>
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
