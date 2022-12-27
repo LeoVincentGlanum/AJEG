@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('game_players', function (Blueprint $table) {
-            $table->integer('points')->default(0);
+            $table->integer('points')->default(0)->after('result');
         });
     }
 

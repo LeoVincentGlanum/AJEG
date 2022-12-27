@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('tournament_id')->constrained('tournaments');
             $table->foreignId('user_id')->constrained('users');
             $table->integer('wins')->default(0);
-            $table->integer('paths')->default(0);
+            $table->integer('pats')->default(0);
             $table->integer('draws')->default(0);
             $table->integer('losses')->default(0);
             $table->timestamps();

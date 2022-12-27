@@ -2,15 +2,12 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-                <div class="flex justify-center">
-                    <h3>{{ $tournament->name }}</h3>
-                </div>
                 <div class="mt-10 sm:mt-0">
                     <div class="md:grid md:grid-cols-3 md:gap-6">
                         <div class="md:col-span-1">
                             <div class="px-4 sm:px-0">
-                                <h3 class="text-lg font-medium leading-6 text-gray-900">Information du tournoi</h3>
-                                <p class="mt-1 text-sm text-gray-600">Vous pouvez modifier les données du tournoi.</p>
+                                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('Tournament Information') }}</h3>
+                                <p class="mt-1 text-sm text-gray-600">{{ __('You can edit the tournament data') }}</p>
                             </div>
                         </div>
                         <div class="mt-5 md:col-span-2 md:mt-0">
@@ -19,12 +16,12 @@
                                     <div class="py-2 align-middle inline-block min-w-full">
                                         <div class="relative">
                                             <div class=" max-h-screen shadow overflow-auto border-b border-gray-200 sm:rounded-lg">
-                                                <form wire:submit.prevent="save">
+                                                <form wire:submit.prevent="saveInformations">
                                                     <div class="overflow-hidden shadow sm:rounded-md">
                                                         <div class="bg-white px-4 py-5 sm:p-6">
                                                             <div class="grid grid-cols-6 gap-6">
                                                                 <div class="col-span-6 sm:col-span-3">
-                                                                    <label for="tournament.name" class="block text-sm font-medium text-gray-700">Nom</label>
+                                                                    <label for="tournament.name" class="block text-sm font-medium text-gray-700">{{ __('Name') }}</label>
                                                                     <input
                                                                         type="text"
                                                                         name="tournament.name"
@@ -32,10 +29,15 @@
                                                                         wire:model.debounce.500ms="tournament.name"
                                                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                                     >
+                                                                    @error('tournament.name')
+                                                                        <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                            {{ $message }}
+                                                                        </p>
+                                                                    @enderror
                                                                 </div>
 
                                                                 <div class="col-span-6 sm:col-span-3">
-                                                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Organisateur</label>
+                                                                    <label for="last-name" class="block text-sm font-medium text-gray-700">{{ __('Organizer') }}</label>
                                                                     <input
                                                                         type="text"
                                                                         name="last-name"
@@ -47,7 +49,7 @@
                                                                 </div>
 
                                                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                                                    <label for="tournament.number_of_players" class="block text-sm font-medium text-gray-700">Nombre de joueur</label>
+                                                                    <label for="tournament.number_of_players" class="block text-sm font-medium text-gray-700">{{ __('Number of players') }}</label>
                                                                     <input
                                                                         type="text"
                                                                         name="tournament.number_of_players"
@@ -55,10 +57,15 @@
                                                                         wire:model.debounce.500ms="tournament.number_of_players"
                                                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                                     >
+                                                                    @error('tournament.number_of_players')
+                                                                        <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                            {{ $message }}
+                                                                        </p>
+                                                                    @enderror
                                                                 </div>
 
                                                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                                                    <label for="tournament.entrance_fee" class="block text-sm font-medium text-gray-700">Prix d'entrée</label>
+                                                                    <label for="tournament.entrance_fee" class="block text-sm font-medium text-gray-700">{{ __('Entrance fee') }}</label>
                                                                     <input
                                                                         type="text"
                                                                         name="tournament.entrance_fee"
@@ -66,45 +73,55 @@
                                                                         wire:model.debounce.500ms="tournament.entrance_fee"
                                                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                                     >
+                                                                    @error('tournament.entrance_fee')
+                                                                        <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                            {{ $message }}
+                                                                        </p>
+                                                                    @enderror
                                                                 </div>
 
                                                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                                                    <label for="tournament.game_type_id" class="block text-sm font-medium text-gray-700">Type de partie</label>
+                                                                    <label for="tournament.game_type_id" class="block text-sm font-medium text-gray-700">{{ __('Game type') }}</label>
                                                                     <select
                                                                         id="tournament.game_type_id"
                                                                         name="tournament.game_type_id"
                                                                         wire:model.debounce.500ms="tournament.game_type_id"
                                                                         class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                                     >
-                                                                        <option value="">Choisir un type</option>
+                                                                        <option value="">{{ __('Choose a type') }}</option>
                                                                         @foreach($this->gameTypes as $gameType)
                                                                             <option
                                                                                 value="{{ $gameType->id }}"> {{ $gameType->label }} </option>
                                                                         @endforeach
                                                                     </select>
+                                                                    @error('tournament.game_type_id')
+                                                                        <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                            {{ $message }}
+                                                                        </p>
+                                                                    @enderror
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                                                            @if($tournament->status_id !== 5)
+                                                            @if($tournament->status !== \App\Enums\TournamentStatusEnum::canceled->value)
                                                                 <button
                                                                     type="button"
                                                                     wire:click="cancel"
                                                                     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                    Annuler
+                                                                    {{ __('Cancel') }}
                                                                 </button>
-                                                                @if($tournament->status_id < 3)
+                                                                @if($tournament->status_id === \App\Enums\TournamentStatusEnum::waiting->value)
                                                                     <button
                                                                         type="button"
                                                                         wire:click="start"
                                                                         class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                        Commencer
+                                                                        {{ __('Start') }}
                                                                     </button>
                                                                 @endif
                                                                 <button
                                                                     type="submit"
                                                                     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                    Sauvegarder
+                                                                    {{ __('Submit') }}
                                                                 </button>
                                                             @endif
                                                         </div>
@@ -128,8 +145,8 @@
                         <div class="md:grid md:grid-cols-3 md:gap-6">
                             <div class="md:col-span-1">
                                 <div class="px-4 sm:px-0">
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900">Liste des participants</h3>
-                                    <p class="mt-1 text-sm text-gray-600">La liste des participants et leurs résultats.</p>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('Participants list') }}</h3>
+                                    <p class="mt-1 text-sm text-gray-600">{{ __('List of participants and their results') }}</p>
                                 </div>
                             </div>
                             <div class="mt-5 md:col-span-2 md:mt-0">
@@ -138,23 +155,23 @@
                                         <tr>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                                {{ __('Nom') }}
+                                                {{ __('Name') }}
                                             </th>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                                {{ __('Victoires') }}
+                                                {{ __('Victories') }}
                                             </th>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                                {{ __('Paths') }}
+                                                {{ __('Pats') }}
                                             </th>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                                {{ __('Égalités') }}
+                                                {{ __('Draws') }}
                                             </th>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                                {{ __('Défaites') }}
+                                                {{ __('Losses') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -191,7 +208,7 @@
                                             <td class="px-4 py-8" colspan="12">
                                                 <div class="text-center">
                                                     <x-heroicon-o-face-frown class="mx-auto h-12 w-12 text-gray-400"/>
-                                                    <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de participants') }}</h3>
+                                                    <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('No participants') }}</h3>
                                                 </div>
                                             </td>
                                         </tr>
@@ -212,8 +229,8 @@
                         <div class="md:grid md:grid-cols-3 md:gap-6">
                             <div class="md:col-span-1">
                                 <div class="px-4 sm:px-0">
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900">Enregistrer un résultat</h3>
-                                    <p class="mt-1 text-sm text-gray-600">Vous pouvez renseigner les résultats des parties.</p>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('Register a result') }}</h3>
+                                    <p class="mt-1 text-sm text-gray-600">{{ __('You can fill in the results of the games') }}</p>
                                 </div>
                             </div>
                             <div class="mt-5 md:col-span-2 md:mt-0">
@@ -222,69 +239,87 @@
                                         <div class="py-2 align-middle inline-block min-w-full">
                                             <div class="relative">
                                                 <div class=" max-h-screen shadow overflow-auto border-b border-gray-200 sm:rounded-lg">
-                                                    <form wire:submit.prevent="register">
+                                                    <form wire:submit.prevent="saveResults">
                                                         <div class="overflow-hidden shadow sm:rounded-md">
                                                             <div class="bg-white px-4 py-5 sm:p-6">
                                                                 <div class="grid grid-cols-6 gap-6">
                                                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                                                        <label for="results.player1" class="block text-sm font-medium text-gray-700">Joueur 1</label>
+                                                                        <label for="game.player1.id" class="block text-sm font-medium text-gray-700"> {{ __('Player') }} 1</label>
                                                                         <select
-                                                                            id="results.player1"
-                                                                            name="results.player1"
-                                                                            wire:model.debounce.500ms="results.player1"
+                                                                            id="game.player1.id"
+                                                                            name="game.player1.id"
+                                                                            wire:model.debounce.500ms="game.player1.id"
                                                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                                         >
-                                                                            <option value="">Choisir un joueur</option>
+                                                                            <option value="">{{ __('Choose a player') }}</option>
                                                                             @foreach($this->players as $player)
                                                                                 <option
                                                                                     value="{{ $player->id }}"> {{ $player->name }} </option>
                                                                             @endforeach
                                                                         </select>
+                                                                        @error('game.player1.id')
+                                                                            <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
                                                                     </div>
                                                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                                                        <label for="results.result1" class="block text-sm font-medium text-gray-700">Résultat</label>
+                                                                        <label for="game.player1.result" class="block text-sm font-medium text-gray-700">{{ __('Result') }}</label>
                                                                         <select
-                                                                            id="results.result1"
-                                                                            name="results.result1"
-                                                                            wire:model.debounce.500ms="results.result1"
+                                                                            id="game.player1.result"
+                                                                            name="game.player1.result"
+                                                                            wire:model.debounce.500ms="game.player1.result"
                                                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                                         >
-                                                                            <option value="">Choisir un résultat</option>
-                                                                            @foreach($this->gameTypes as $gameType)
+                                                                            <option value="">{{ __('Choose a result') }}</option>
+                                                                            @foreach(\App\Enums\GameResultEnum::cases() as $result)
                                                                                 <option
-                                                                                    value="{{ $gameType->id }}"> {{ $gameType->label }} </option>
+                                                                                    value="{{ $result->value }}"> {{ $result->name }} </option>
                                                                             @endforeach
                                                                         </select>
+                                                                        @error('game.player1.result')
+                                                                            <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
                                                                     </div>
                                                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                                                        <label for="results.player2" class="block text-sm font-medium text-gray-700">Joueur 2</label>
+                                                                        <label for="game.player2.id" class="block text-sm font-medium text-gray-700">{{ __('Player') }} 2</label>
                                                                         <select
-                                                                            id="results.player2"
-                                                                            name="results.player2"
-                                                                            wire:model.debounce.500ms="results.player2"
+                                                                            id="game.player2.id"
+                                                                            name="game.player2.id"
+                                                                            wire:model.debounce.500ms="game.player2.id"
                                                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                                         >
-                                                                            <option value="">Choisir un joueur</option>
+                                                                            <option value="">{{ __('Choose a player') }}</option>
                                                                             @foreach($this->players as $player)
-                                                                                <option
-                                                                                    value="{{ $player->id }}"> {{ $player->name }} </option>
+                                                                                <option value="{{ $player->id }}"> {{ $player->name }} </option>
                                                                             @endforeach
                                                                         </select>
+                                                                        @error('game.player2.id')
+                                                                            <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
                                                                     </div>
                                                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                                                        <label for="results.result2" class="block text-sm font-medium text-gray-700">Résultat</label>
+                                                                        <label for="game.player2.result" class="block text-sm font-medium text-gray-700">{{ __('Result') }}</label>
                                                                         <select
-                                                                            id="results.result2"
-                                                                            name="results.result2"
-                                                                            wire:model.debounce.500ms="results.result2"
+                                                                            id="game.player2.result"
+                                                                            name="game.player2.result"
+                                                                            wire:model.debounce.500ms="game.player2.result"
                                                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                                         >
-                                                                            <option value="">Choisir un résultat</option>
-                                                                            @foreach($this->gameTypes as $gameType)
-                                                                                <option
-                                                                                    value="{{ $gameType->id }}"> {{ $gameType->label }} </option>
+                                                                            <option value="">{{ __('Choose a result') }}</option>
+                                                                            @foreach(\App\Enums\GameResultEnum::cases() as $result)
+                                                                                <option value="{{ $result->value }}"> {{ $result->name }} </option>
                                                                             @endforeach
                                                                         </select>
+                                                                        @error('game.player2.result')
+                                                                            <p class="mt-2 text-sm text-red-600" id="label-error">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -292,7 +327,7 @@
                                                                 <button
                                                                     type="submit"
                                                                     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                    Sauvegarder
+                                                                    {{ __('Submit') }}
                                                                 </button>
                                                             </div>
                                                         </div>

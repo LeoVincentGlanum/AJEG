@@ -117,7 +117,7 @@ class Form extends Component
             $gameplayer->save();
         }
         if ($this->type == GameStatusEnum::waiting->value) {
-            session()->flash('message_url', route('game.show', ['id' => $newGame->id]));
+            session()->flash('message_url', route('game.show', ['game' => $newGame->id]));
             session()->flash('message',
                 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 

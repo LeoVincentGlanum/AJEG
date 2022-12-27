@@ -9,12 +9,8 @@ use Illuminate\Contracts\View\View;
 
 class UserController extends Controller
 {
-    public function getProfile($id): Factory|View|Application
+    public function getProfile(User $user): Factory|View|Application
     {
-        $user = User::query()->where('id',$id)->first();
-
-        return view('user.profile')->with([
-            'user' => $user
-        ]);
+        return view('user.profile', ['user' => $user]);
     }
 }

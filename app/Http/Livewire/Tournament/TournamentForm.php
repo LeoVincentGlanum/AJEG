@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Tournament;
 
+use App\Enums\TournamentStatusEnum;
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\GameType;
 use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +13,8 @@ use LivewireUI\Modal\ModalComponent;
 
 class TournamentForm extends ModalComponent
 {
+    use HasToast;
+
     public Tournament $tournament;
 
     public string|null $selectedGameType = null;
@@ -39,12 +43,14 @@ class TournamentForm extends ModalComponent
 
         try {
             $this->tournament->organizer_id = Auth::id();
-            $this->tournament->status_id = 1;
+            $this->tournament->status = TournamentStatusEnum::waiting->value;
             $this->tournament->save();
-            $this->dispatchBrowserEvent('toast', ['message' => 'Le tournoi a bien été créé', 'type' => 'success']);
-        } catch (\Exception $e) {
+
+            $this->successToast('The tournament has been created');
+        } catch (\Throwable $e) {
             Log::info($e->getMessage());
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+
+            $this->errorToast('An error occurred while creating the tournament');
         }
 
         $this->closeModalWithEvents([ListTournament::getName() => ['refreshListTournament', []]]);

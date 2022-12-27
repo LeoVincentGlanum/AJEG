@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Http\Livewire\Traits\HasToast;
+use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -16,11 +18,17 @@ class ListTournaments extends Component
     public function mount()
     {
         try {
-            $this->tournaments = [];
+            $this->tournaments = Tournament::query()
+                ->with('participants')
+                ->whereHas('participants', function ($query) {
+                    $query->where('user_id', Auth::user()->id);
+                })
+                ->where('status', '!=', 'Terminé')
+                ->get();
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $this->tournaments = [];
-            $this->errorToast(__('An error occurred while retrieving your tournaments'));
+            $this->errorToast('An error occurred while retrieving your tournaments');
         }
     }
 

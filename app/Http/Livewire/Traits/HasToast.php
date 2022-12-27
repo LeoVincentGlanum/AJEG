@@ -7,7 +7,7 @@ trait HasToast
     protected function successToast(string $message)
     {
         $this->dispatchBrowserEvent('toast', [
-            'message' => $message,
+            'message' => __($message),
             'type' => 'success'
         ]);
     }
@@ -15,7 +15,7 @@ trait HasToast
     protected function errorToast(string $message)
     {
         $this->dispatchBrowserEvent('toast', [
-            'message' => $message,
+            'message' => __($message),
             'type' => 'error'
         ]);
     }

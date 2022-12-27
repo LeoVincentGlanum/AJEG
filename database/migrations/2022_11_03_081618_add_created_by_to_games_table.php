@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('games', function (Blueprint $table) {
-              $table->foreignId('created_by')->constrained('users');
+              $table->foreignId('created_by')->after('status')->constrained('users');
         });
     }
 

@@ -40,11 +40,11 @@ class NavigationDailyReward extends Component
             $transaction->save();
 
             DB::commit();
-            $this->successToast(__('Your daily reward has been collected'));
+            $this->successToast('Your daily reward has been collected');
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-            $this->errorToast(__('An error occurred while collecting your daily reward'));
+            $this->errorToast('An error occurred while collecting your daily reward');
         }
     }
 

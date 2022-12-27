@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('entrance_fee');
             $table->foreignId('game_type_id')->constrained('game_types');
             $table->boolean('notification')->default(false);
-            $table->foreignId('status_id')->constrained('tournament_status');
+            $table->string('status');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->foreignId('winner_id')->nullable()->constrained('users');
