@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ \Illuminate\Support\Facades\Auth::user()->name }}
+            {{ __('My account') }}
         </h2>
     </x-slot>
     <div>
         @php
-            $authUserId = \Illuminate\Support\Facades\Auth::id()
+            $authUser = \Illuminate\Support\Facades\Auth::user()
         @endphp
-        <livewire:user.profile :id="$authUserId"/>
+        <livewire:user.profile :user="$authUser"/>
     </div>
 </x-app-layout>

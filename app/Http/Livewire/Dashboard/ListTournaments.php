@@ -17,7 +17,7 @@ class ListTournaments extends Component
     {
         try {
             $this->tournaments = [];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $this->tournaments = [];
             $this->errorToast(__('An error occurred while retrieving your tournaments'));

@@ -2,29 +2,25 @@
 
 namespace App\Http\Livewire\User;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Edit extends Component
+class Detail extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, HasToast;
 
-    public $name;
-    public $email;
+    public User $user;
+
+    public string $name;
+
+    public string $email;
+
     public $photo;
-    public Model $user;
 
-    public function mount($id){
-        $this->id = $id;
-        $this->user = User::query()->where('id',$id)->first();
-
-        $this->name =  $this->user->name;
-        $this->email = $this->user->email;
-    }
-
-    protected function rules()
+    protected function rules(): array
     {
         $user = $this->user;
 
@@ -33,7 +29,8 @@ class Edit extends Component
             'email' => 'required|string|email|max:150|unique:users,email,'.$user->id,
         ];
     }
-    protected $messages = [
+
+    protected array $messages = [
         'name.required' => 'Le nom est requis.',
         'name.max' => 'Le nom doit comprendre moins de 20 caractères.',
         'name.unique' => 'Ce nom est déjà utilisé.',
@@ -42,6 +39,12 @@ class Edit extends Component
         'email.max' => 'L\'e-mail est trop long.',
         'email.unique' => 'Cet e-mail est déjà utilisé.',
     ];
+
+    public function mount(User $user){
+        $this->user = $user;
+        $this->name =  $this->user->name;
+        $this->email = $this->user->email;
+    }
 
     public function updated($propertyName)
     {
@@ -54,9 +57,10 @@ class Edit extends Component
             $validatedData = $this->validate();
             $this->user->update($validatedData);
 
-            $this->dispatchBrowserEvent('toast', ['message' => 'Votre profil a bien été modifié', 'type' => 'success']);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+            $this->successToast(__('Your profile has been modified'));
+        } catch (\Throwable $e) {
+            Log::info($e->getMessage());
+            $this->errorToast(__('An error occurred while updating your profile'));
         }
     }
 
@@ -72,17 +76,17 @@ class Edit extends Component
             $this->user->photo = str_replace("public/photos/","", $namePhoto);
             $this->user->save();
 
-            $this->dispatchBrowserEvent('toast', ['message' => 'Votre avatar a bien été modifié', 'type' => 'success']);
-
             $this->photo = null;
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+            $this->successToast(__('Your avatar has been modified'));
+        } catch (\Throwable $e) {
+            Log::info($e->getMessage());
+            $this->errorToast(__('An error occurred while updating your avatar'));
         }
 
     }
 
     public function render()
     {
-        return view('livewire.user.edit');
+        return view('livewire.user.detail');
     }
 }

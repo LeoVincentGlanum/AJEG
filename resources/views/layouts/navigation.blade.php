@@ -114,6 +114,12 @@
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
+                    {{ __('Create a game') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('game.history')" :active="request()->routeIs('game.history')">
+                    {{ __('Game History') }}
+                </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 

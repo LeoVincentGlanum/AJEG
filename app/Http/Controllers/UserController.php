@@ -14,8 +14,7 @@ class UserController extends Controller
         $user = User::query()->where('id',$id)->first();
 
         return view('user.profile')->with([
-            'userId' => $user->id,
-            'userName' => $user->name
+            'user' => $user
         ]);
     }
 }

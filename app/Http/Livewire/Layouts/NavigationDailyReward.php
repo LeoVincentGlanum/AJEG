@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Layouts;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -11,6 +11,8 @@ use Livewire\Component;
 
 class NavigationDailyReward extends Component
 {
+    use HasToast;
+
     public bool $isDailyRewardAvailable;
 
     public function mount()
@@ -38,20 +40,11 @@ class NavigationDailyReward extends Component
             $transaction->save();
 
             DB::commit();
-
-            $this->dispatchBrowserEvent('toast', [
-                'message' => 'Votre récompense quotidienne a bien été récupéré',
-                'type' => 'success',
-            ]);
-        } catch (\Exception $e) {
+            $this->successToast(__('Your daily reward has been collected'));
+        } catch (\Throwable $e) {
             DB::rollBack();
-
             Log::info($e->getMessage());
-
-            $this->dispatchBrowserEvent('toast', [
-                'message' => 'Une erreur est survenu, réessaye plus tard',
-                'type' => 'error',
-            ]);
+            $this->errorToast(__('An error occurred while collecting your daily reward'));
         }
     }
 

@@ -36,6 +36,9 @@
     "The type has been deleted": "Le type à bien été supprimé",
     "The type has been saved": "Le type à bien été sauvegardé",
     "The result has been put into validation": "Le résultat a bien été mis en validation",
+    "Your daily reward has been collected": "Votre récompense quotidienne a bien été récupéré",
+    "Your profile has been modified": "Votre profil a bien été modifié",
+    "Your avatar has been modified": "Votre avatar a bien été modifié",
     "An error occurred while retrieving the game types": "Une erreur est survenu pendant la récupération des types de partie",
     "An error occurred while retrieving the game type": "Une erreur est survenu pendant la récupération du type de partie",
     "An error occurred while retrieving your games": "Une erreur est survenu pendant la récupération de vos parties",
@@ -43,5 +46,14 @@
     "An error occurred while retrieving data": "Une erreur est survenu pendant la récupération des données",
     "An error occurred while saving the type": "Une erreur est survenu pendant la sauvegarde du type",
     "An error occurred while deleting the type": "Une erreur est survenu pendant la suppression du type",
-    "An error occurred while entering the result": "Une erreur est survenu pendant la saisie du résultat"
+    "An error occurred while entering the result": "Une erreur est survenu pendant la saisie du résultat",
+    "An error occurred while collecting your daily reward": "Une erreur est survenu pendant la récupération de votre récompense quotidienne",
+    "An error occurred while updating your profile": "Une erreur est survenu pendant la mise à jour de votre profil",
+    "An error occurred while updating your avatar": "Une erreur est survenu pendant la mise à jour de votre avatar",
+    "An error occurred while retrieving statistics": "Une erreur est survenu pendant la récupération des statistiques",
+    "My details": "Mes informations",
+    "Statistics": "Statistiques",
+    "Update": "Modifier",
+    "Password": "Mot de passe",
+    "Update password": "Modifier mon mot de passe"
 }
