@@ -2,19 +2,25 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\GameType;
+use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
 class GameTypeDelete extends ModalComponent
 {
+    use HasToast;
+
     public ?GameType $gameType;
 
     public function mount($id)
     {
         try {
             $this->gameType = GameType::query()->findOrFail($id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             $this->gameType = null;
+            $this->errorToast(__('An error occurred while retrieving the game'));
         }
     }
 
@@ -22,9 +28,10 @@ class GameTypeDelete extends ModalComponent
     {
         try {
             $this->gameType->delete();
-            $this->dispatchBrowserEvent('toast', ['message' => 'Le type à bien été supprimé', 'type' => 'success']);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+            $this->successToast(__('The type has been deleted'));
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+            $this->errorToast(__('An error occurred while deleting the type'));
         }
 
         $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->gameType]]]);

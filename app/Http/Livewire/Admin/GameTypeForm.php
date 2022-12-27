@@ -2,11 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\GameType;
+use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
 class GameTypeForm extends ModalComponent
 {
+    use HasToast;
+
     public GameType $gameType;
 
     public bool $creation = false;
@@ -26,10 +30,16 @@ class GameTypeForm extends ModalComponent
 
     public function mount($id)
     {
-        $this->gameType = GameType::query()->find($id) ?? new GameType();
+        try {
+            $this->gameType = GameType::query()->find($id) ?? new GameType();
 
-        if ($this->gameType->id === null) {
-            $this->creation = true;
+            if ($this->gameType->id === null) {
+                $this->creation = true;
+            }
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+            $this->errorToast(__('An error occurred while retrieving the game type'));
+            $this->closeModal();
         }
     }
 
@@ -39,12 +49,12 @@ class GameTypeForm extends ModalComponent
 
         try {
             $this->gameType->save();
-            $this->dispatchBrowserEvent('toast', ['message' => 'Le type à bien été sauvegardé', 'type' => 'success']);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+            $this->successToast(__('The type has been saved'));
+            $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', []]]);
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+            $this->errorToast(__('An error occurred while saving the type'));
         }
-
-        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', []]]);
     }
 
     public function render()

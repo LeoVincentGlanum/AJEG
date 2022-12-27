@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournoisController;
-use App\Http\Controllers\GameHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,33 +16,28 @@ use App\Http\Controllers\GameHistoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [AccountController::class, 'login'])->name('dashboard');
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-    Route::get('/my-account', [AccountController::class, 'myaccount'])->name('my-account');
-    Route::get('/profile/{id}', [AccountController::class, 'profileuser'])->name('profile-user');
+    Route::prefix('/user')->group(function () {
+        Route::view('/my-account', 'user.account')->name('user.my-account');
+        Route::get('/profile/{id}', [UserController::class, 'getProfile'])->name('user.profile');
+    });
 
-    Route::get('/game-history', [GameHistoryController::class, 'gameHistory'])->name('gameHistory');
-
-    Route::get('/daily-reward', [AccountController::class, 'dailyReward'])->name('dailyReward');
+    Route::prefix('/game')->group(function () {
+        Route::view('/create', 'game.create')->name('game.create');
+        Route::get('/show/{id}', [GameController::class, 'show'])->name('game.show');
+        Route::view('/history', 'game.history')->name('game.history');
+    });
 
     Route::prefix('/tournament')->group(function () {
         Route::get('/', [TournoisController::class, 'index'])->name('tournament.index');
         Route::get('/show/{id}', [TournoisController::class, 'show'])->name('tournament.show');
     });
-
-    Route::prefix('/game')->group(function () {
-        Route::get('/create', [GameController::class, 'create'])->name('game.create');
-        Route::get('/show/{id}', [GameController::class, 'show'])->name('game.show');
-    });
 });
 
-Route::middleware(['admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::view('/admin', 'admin.index')->name('admin.index');
 });
 
 Route::fallback(function () {

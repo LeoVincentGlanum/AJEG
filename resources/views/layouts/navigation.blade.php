@@ -16,61 +16,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
                         <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>
-                        <span class="ml-2"> {{ __('Créer une partie') }}</span>
+                        <span class="ml-2"> {{ __('Create a game') }}</span>
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('gameHistory')" :active="request()->routeIs('gameHistory')">
-                        {{ __('Historique des parties') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
-                    <div hidden id="tempon">
-                        <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
-                            {{ __('Récompense quotidienne') }}
-                        </x-nav-link>
-                    </div>
-                    @if(\Carbon\Carbon::parse(Auth::user()->daily_reward)->lessThanOrEqualTo(\Carbon\Carbon::now()->timezone('Europe/Paris')->format('Y-m-d H:i:m')))
-                        <x-nav-link :href="route('dailyReward')" :active="request()->routeIs('dailyReward')">
-                            {{ __('Récompense quotidienne') }}
-                        </x-nav-link>
-                    @else
-                        <x-nav-link id="counter">
-                            <img src="/img/loader.gif" width="75" height="75">
-                        </x-nav-link>
-                        @php
-                            $dateTime = strtotime(Auth::user()->daily_reward);
-                            $getDateTime = date("F d, Y H:i:s", $dateTime);
-                        @endphp
-                        <script type="text/javascript">
-                            let content = document.getElementById('tempon').innerHTML
-                            var countDownDate = new Date("<?php echo "$getDateTime"; ?>").getTime();
-                            // Update the count down every 1 second
-                            var x = setInterval(function() {
-                                var now = new Date().getTime();
-                                // Find the distance between now an the count down date
-                                var distance = countDownDate - now;
-                                // Time calculations for days, hours, minutes and seconds
-                                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                                // Output the result in an element with id="counter"11
-                                document.getElementById("counter").innerHTML = /*days + "Day : " +*/ hours + "h " +
-                                    minutes + "m " + seconds + "s ";
-                                // If the count down is over, write some text
-                                if (distance < 0) {
-                                    clearInterval(x);
-                                    document.getElementById("counter").innerHTML = content;
-                                }
-                            }, 1000);
-                        </script>
-                    @endif
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('game.history')" :active="request()->routeIs('game.history')">
+                        {{ __('Game History') }}
+                    </x-nav-link>
                 </div>
+
+                <livewire:layouts.navigation-daily-reward />
             </div>
 
             <!-- Settings Dropdown -->
@@ -100,20 +60,18 @@
                     </x-slot>
 
                     <x-slot name="content">
-
-                        <x-dropdown-link :href="route('profile-user', ['id'=> Auth::user()->id])" :active="request()->routeIs('my-account')">
+                        <x-dropdown-link :href="route('user.my-account')" :active="request()->routeIs('user.my-account')">
                             {{ __('Mon compte') }}
                         </x-dropdown-link>
 
                         @if(\Illuminate\Support\Facades\Auth::user()->admin === 1)
-                            <x-dropdown-link :href="route('admin')">
+                            <x-dropdown-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
                                 {{ __('Administration') }}
                             </x-dropdown-link>
-                    @endif
-                    <!-- Authentication -->
+                        @endif
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                              onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -155,6 +113,12 @@
                 <!-- Authentication -->
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
+                    {{ __('Create a game') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('game.history')" :active="request()->routeIs('game.history')">
+                    {{ __('Game History') }}
                 </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
