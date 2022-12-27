@@ -93,7 +93,7 @@
                                                     {{ $tournament->gameType->label ?? "-" }}
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                                    {{ $tournament->status->label ?? "-" }}
+                                                    {{ $tournament->status ?? "-" }}
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     {{ $tournament->start_date ?? "-" }}
@@ -105,7 +105,6 @@
                                                     {{ $tournament->winner->name ?? "-"}}
                                                 </td>
                                                 @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id())
-{{--                                                @if(12 === \Illuminate\Support\Facades\Auth::id())--}}
                                                     <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                         <a href="{{ route('tournament.edit', ['tournament' => $tournament->id]) }}" target="_blank">
                                                             <x-heroicon-s-pencil class="w-5 h-5 cursor-pointer text-indigo-500 hover:text-indigo-700"/>

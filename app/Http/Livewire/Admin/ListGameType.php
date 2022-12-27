@@ -23,7 +23,7 @@ class ListGameType extends Component
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $this->gameTypes = [];
-            $this->errorToast(__('An error occurred while retrieving the game types'));
+            $this->errorToast('An error occurred while retrieving the game types');
         }
     }
 
@@ -34,7 +34,7 @@ class ListGameType extends Component
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $this->gameTypes = [];
-            $this->errorToast(__('An error occurred while retrieving the game types'));
+            $this->errorToast('An error occurred while retrieving the game types');
         }
     }
 

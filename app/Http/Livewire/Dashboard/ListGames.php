@@ -27,7 +27,7 @@ class ListGames extends Component
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
             $this->games = [];
-            $this->errorToast(__('An error occurred while retrieving your games'));
+            $this->errorToast('An error occurred while retrieving your games');
         }
     }
 

@@ -20,7 +20,7 @@ class Tournament extends Model
         'entrance_fee',
         'game_type_id',
         'notification',
-        'status_id',
+        'status',
         'start_date',
         'end_date',
         'winner_id',
@@ -34,11 +34,6 @@ class Tournament extends Model
     public function gameType(): BelongsTo
     {
         return $this->belongsTo(GameType::class, 'game_type_id', 'id');
-    }
-
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(TournamentStatus::class, 'status_id', 'id');
     }
 
     public function participants(): BelongsToMany

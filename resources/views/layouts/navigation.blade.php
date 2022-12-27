@@ -19,14 +19,10 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('tournament.index')" :active="request()->routeIs('tournament.index')">
-                        <span class="ml-2"> {{ __('Tournois') }}</span>
+                        <span class="ml-2"> {{ __('Tournaments') }}</span>
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('tournament.index')" :active="request()->routeIs('tournament.index')">
-                        <span class="ml-2"> {{ __('Tournois') }}</span>
-                    </x-nav-link>
-                </div>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('game.create')" :active="request()->routeIs('game.create')">
                         <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>

@@ -8,7 +8,7 @@
                 <ul role="list" class="divide-y divide-gray-200">
                     @forelse($tournaments as $tournament)
                         <li>
-                            <a href="{{ route('game.show',['id' => $tournament->id]) }}" class="block hover:bg-gray-50">
+                            <a href="{{ route('tournament.show',['tournament' => $tournament->id]) }}" class="block hover:bg-gray-50">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
@@ -29,7 +29,7 @@
                                         </div>
                                         <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
                                             <div class="flex -space-x-1 overflow-hidden">
-                                                @foreach($tournament->users as $user)
+                                                @foreach($tournament->participants as $user)
                                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
                                                          src="{{ asset('storage/photos/'.$user->photo) }}"
                                                          alt="Dries Vincent">
@@ -38,21 +38,16 @@
                                         </div>
                                     </div>
                                     <div class="ml-5 flex-shrink-0">
-                                        <!-- Heroicon name: mini/chevron-right -->
-                                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd"
-                                                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                                                  clip-rule="evenodd"/>
-                                        </svg>
+                                        <x-heroicon-m-chevron-right class="w-5 h-5 text-gray-400"/>
                                     </div>
                                 </div>
                             </a>
                         </li>
                     @empty
-                        <li>
-                            <div>Vous n'avez pas de tournois en cours</div>
-                        </li>
+                        <div class="text-center p-4">
+                            <x-heroicon-o-trophy class="mx-auto h-12 w-12 text-gray-400"/>
+                            <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de tournois') }}</h3>
+                        </div>
                     @endforelse
                 </ul>
             </div>
