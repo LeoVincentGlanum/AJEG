@@ -5,5 +5,5 @@
         </h2>
     </x-slot>
 
-    <livewire:tournament.show />
+    <livewire:tournament.show :tournament="$tournament"/>
 </x-app-layout>

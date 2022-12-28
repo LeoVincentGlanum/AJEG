@@ -8,4 +8,18 @@ enum GameResultEnum:string
     case lose = 'lose';
     case pat = 'path';
     case nul = 'null';
+
+    public function tournamentPoint(): int
+    {
+        return GameResultEnum::getTournamentPoint($this);
+    }
+
+    public static function getTournamentPoint(self $value): int
+    {
+        return match ($value) {
+            GameResultEnum::win, GameResultEnum::lose => 3,
+            GameResultEnum::pat => 1,
+            GameResultEnum::nul => 0,
+        };
+    }
 }
