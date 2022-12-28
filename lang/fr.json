@@ -119,5 +119,10 @@
     "Activate bet": "Activer les paris ?",
     "pagination.next" : "Page suivante",
     "pagination.previous" : "Page précédente",
-    "You don't have enough coins": "Vous n'avez pas assez de pièces"
+    "You don't have enough coins": "Vous n'avez pas assez de pièces",
+    "The entrance fee is :entrance_fee coins": "Le prix d'entrée est de :entrance_fee pièces",
+    "Are you sure you want to sign up for this tournament?": "Êtes-vous sûr de vouloir vous inscrire à ce tournoi ?",
+    "Sign up for the tournament": "S'inscrire au tournoi",
+    "Sign up": "S'inscrire",
+    "Oops, something went wrong": "Oups, quelque chose ne s'est pas bien passé"
 }

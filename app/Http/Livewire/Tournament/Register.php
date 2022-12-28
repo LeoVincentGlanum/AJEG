@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Tournament;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Tournament;
 use App\Models\TournamentParticipant;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 
 class Register extends ModalComponent
@@ -15,10 +16,13 @@ class Register extends ModalComponent
 
     public ?Tournament $tournament;
 
+    public ?User $user;
+
     public function mount($id)
     {
         try {
             $this->tournament = Tournament::query()->with(['participants'])->findOrFail($id);
+            $this->user = User::query()->findOrFail(Auth::id());
         } catch (\Throwable $e) {
             report($e);
             $this->tournament = null;
@@ -34,24 +38,30 @@ class Register extends ModalComponent
             return;
         }
 
-        if ($this->tournament->participants->where('id', '=', Auth::id())->isNotEmpty()) {
+        if ($this->tournament->participants->where('id', '=', $this->user->id)->isNotEmpty()) {
             $this->errorToast('You are already registered');
             return;
         }
 
-        if ($this->tournament->entrance_fee > Auth::user()->coins) {
+        if ($this->tournament->entrance_fee > $this->user->coins) {
             $this->errorToast('You don\'t have enough coins');
             return;
         }
 
+        DB::beginTransaction();
         try {
             $newParticipation = new TournamentParticipant();
             $newParticipation->tournament_id = $this->tournament->id;
-            $newParticipation->user_id = Auth::id();
+            $newParticipation->user_id = $this->user->id;
             $newParticipation->save();
 
+            $this->user->coins = $this->user->coins - $this->tournament->entrance_fee;
+            $this->user->save();
+
             $this->successToast('Your registration has been successful');
+            DB::commit();
         } catch (\Throwable $e) {
+            DB::rollBack();
             report($e);
             $this->errorToast('An error occurred during your registration');
         }

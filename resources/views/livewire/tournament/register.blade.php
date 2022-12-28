@@ -7,11 +7,14 @@
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                        S'incrire au tournoi "{{ $tournament->name }}"
+                        {{ __('Sign up for the tournament') }} "{{ $tournament->name }}"
                     </h3>
                     <div class="mt-2">
                         <p class="text-sm text-gray-500">
-                            Êtes-vous sûr de vouloir vous inscrire à ce tournoi ?
+                            {{ __('Are you sure you want to sign up for this tournament?') }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            {{ __('The entrance fee is :entrance_fee coins', ['entrance_fee' => $tournament->entrance_fee]) }}
                         </p>
                     </div>
                 </div>
@@ -24,7 +27,7 @@
                     class="px-4 py-2 text-sm inline-flex items-center border border-transparent font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-indigo-500 hover:bg-indigo-700"
                     wire:click="$emit('closeModal')"
                 >
-                    S'inscrire
+                    {{ __('Sign up') }}
                 </button>
             </form>
             <button
@@ -32,7 +35,7 @@
                 class="mr-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 wire:click="$emit('closeModal')"
             >
-                Annuler
+                {{ __('Cancel') }}
             </button>
         </div>
     @else
@@ -43,7 +46,7 @@
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                        Oups, quelque chose ne s'est pas bien passé.
+                        {{ __('Oops, something went wrong') }}
                     </h3>
                 </div>
             </div>
@@ -54,7 +57,7 @@
                 class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 wire:click="$emit('closeModal')"
             >
-                Annuler
+                {{ __('Cancel') }}
             </button>
         </div>
     @endif
