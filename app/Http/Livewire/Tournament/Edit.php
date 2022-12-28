@@ -78,7 +78,7 @@ class Edit extends Component
 
             $this->successToast('The tournament has been cancelled');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while cancelling the tournament');
         }
     }
@@ -93,7 +93,7 @@ class Edit extends Component
 
             $this->successToast('The tournament has been started');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while launching the tournament');
         }
     }
@@ -107,7 +107,7 @@ class Edit extends Component
 
             $this->successToast('The tournament has been modified');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while updating the tournament');
         }
     }
@@ -139,7 +139,7 @@ class Edit extends Component
             $this->successToast('The result has been registered');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while entering the result');
         }
     }

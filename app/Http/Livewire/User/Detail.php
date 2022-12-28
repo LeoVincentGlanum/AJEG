@@ -59,7 +59,7 @@ class Detail extends Component
 
             $this->successToast(__('Your profile has been modified'));
         } catch (\Throwable $e) {
-            Log::info($e->getMessage());
+            report($e);
             $this->errorToast(__('An error occurred while updating your profile'));
         }
     }
@@ -79,7 +79,7 @@ class Detail extends Component
             $this->photo = null;
             $this->successToast(__('Your avatar has been modified'));
         } catch (\Throwable $e) {
-            Log::info($e->getMessage());
+            report($e);
             $this->errorToast(__('An error occurred while updating your avatar'));
         }
 

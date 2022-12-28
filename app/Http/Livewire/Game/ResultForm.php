@@ -30,10 +30,15 @@ final class ResultForm extends ModalComponent
 
     public function mount(int $id)
     {
-        $this->game = Game::query()->find($id);
+        try {
+            $this->game = Game::query()->find($id);
 
-        foreach ($this->game->users as $player) {
-            $this->playersResult = Arr::add($this->playersResult, $player->id, '');
+            foreach ($this->game->users as $player) {
+                $this->playersResult = Arr::add($this->playersResult, $player->id, '');
+            }
+        } catch (\Throwable $e) {
+            report($e);
+            $this->errorToast('An error occurred while retrieving data');
         }
     }
 
@@ -56,10 +61,10 @@ final class ResultForm extends ModalComponent
             }
             $this->game->save();
 
-            $this->dispatchBrowserEvent('toast', ['message' => __("The result has been put into validation"), 'type' => 'success']);
-            redirect()->route('dashboard');
-
+            $this->successToast('The result has been put into validation');
+            $this->closeModal();
         } catch (\Throwable $e) {
+            report($e);
             $this->errorToast('An error occurred while entering the result');
         }
     }

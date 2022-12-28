@@ -43,7 +43,7 @@ class NavigationDailyReward extends Component
             $this->successToast('Your daily reward has been collected');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::info($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while collecting your daily reward');
         }
     }

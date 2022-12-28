@@ -18,7 +18,7 @@ class GameTypeDelete extends ModalComponent
         try {
             $this->gameType = GameType::query()->findOrFail($id);
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->gameType = null;
             $this->errorToast('An error occurred while retrieving the game');
         }
@@ -30,7 +30,7 @@ class GameTypeDelete extends ModalComponent
             $this->gameType->delete();
             $this->successToast('The type has been deleted');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while deleting the type');
         }
 

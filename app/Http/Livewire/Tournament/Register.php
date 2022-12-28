@@ -20,6 +20,7 @@ class Register extends ModalComponent
         try {
             $this->tournament = Tournament::query()->with(['participants'])->findOrFail($id);
         } catch (\Throwable $e) {
+            report($e);
             $this->tournament = null;
         }
     }
@@ -38,6 +39,11 @@ class Register extends ModalComponent
             return;
         }
 
+        if ($this->tournament->entrance_fee > Auth::user()->coins) {
+            $this->errorToast('You don\'t have enough coins');
+            return;
+        }
+
         try {
             $newParticipation = new TournamentParticipant();
             $newParticipation->tournament_id = $this->tournament->id;
@@ -46,7 +52,7 @@ class Register extends ModalComponent
 
             $this->successToast('Your registration has been successful');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred during your registration');
         }
 

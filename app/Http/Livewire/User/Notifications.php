@@ -33,7 +33,7 @@ class Notifications extends Component
                 $this->creatorNotifications[$notification->id] = User::query()->where('id', $notification->creator)->first();
             }
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->notifications = [];
             $this->errorToast(__('An error occurred while retrieving your games'));
         }

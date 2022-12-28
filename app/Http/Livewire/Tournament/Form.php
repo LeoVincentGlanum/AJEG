@@ -48,7 +48,7 @@ class Form extends ModalComponent
 
             $this->successToast('The tournament has been created');
         } catch (\Throwable $e) {
-            Log::info($e->getMessage());
+            report($e);
 
             $this->errorToast('An error occurred while creating the tournament');
         }

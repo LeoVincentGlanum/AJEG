@@ -37,7 +37,7 @@ class GameTypeForm extends ModalComponent
                 $this->creation = true;
             }
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while retrieving the game type');
             $this->closeModal();
         }
@@ -52,7 +52,7 @@ class GameTypeForm extends ModalComponent
             $this->successToast('The type has been saved');
             $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', []]]);
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast('An error occurred while saving the type');
         }
     }

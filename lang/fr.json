@@ -118,5 +118,6 @@
     "Game Informations": "Informations de la partie",
     "Activate bet": "Activer les paris ?",
     "pagination.next" : "Page suivante",
-    "pagination.previous" : "Page précédente"
+    "pagination.previous" : "Page précédente",
+    "You don't have enough coins": "Vous n'avez pas assez de pièces"
 }

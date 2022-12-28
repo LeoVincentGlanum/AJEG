@@ -30,6 +30,7 @@ class ListGames extends Component
             report($e);
 
             $this->games = [];
+            $this->errorToast('An error occurred while retrieving your games');
         }
     }
 

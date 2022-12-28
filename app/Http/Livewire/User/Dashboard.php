@@ -32,7 +32,7 @@ class Dashboard extends Component
             $this->user = $user;
             $this->getStat();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->errorToast(__('An error occurred while retrieving statistics'));
         }
     }
