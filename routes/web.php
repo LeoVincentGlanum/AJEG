@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
@@ -21,18 +22,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/user')->group(function () {
         Route::view('/my-account', 'user.account')->name('user.my-account');
-        Route::get('/profile/{id}', [UserController::class, 'getProfile'])->name('user.profile');
+        Route::get('/profile/{user}', [UserController::class, 'getProfile'])->name('user.profile');
     });
 
     Route::prefix('/game')->group(function () {
         Route::view('/create', 'game.create')->name('game.create');
-        Route::get('/show/{id}', [GameController::class, 'show'])->name('game.show');
+        Route::get('/show/{game}', [GameController::class, 'show'])->name('game.show');
         Route::view('/history', 'game.history')->name('game.history');
     });
 
     Route::prefix('/tournament')->group(function () {
-        Route::get('/', [TournoisController::class, 'index'])->name('tournament.index');
-        Route::get('/show/{id}', [TournoisController::class, 'show'])->name('tournament.show');
+        Route::view('/','tournament.index')->name('tournament.index');
+        Route::get('/show/{tournament}', [TournamentController::class, 'show'])->name('tournament.show');
+        Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('tournament.edit');
     });
 });
 

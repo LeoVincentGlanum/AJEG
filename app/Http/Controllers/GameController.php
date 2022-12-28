@@ -9,10 +9,8 @@ use Illuminate\Contracts\Foundation\Application;
 
 class GameController extends Controller
 {
-    public function show($id) : Factory|View|Application
+    public function show(Game $game) : Factory|View|Application
     {
-        $game = Game::query()->find($id);
-
-        return view('game.show')->with(['game' => $game]);
+        return view('game.show', ['game' => $game]);
     }
 }

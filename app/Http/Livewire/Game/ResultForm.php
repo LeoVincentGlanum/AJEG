@@ -30,7 +30,7 @@ final class ResultForm extends ModalComponent
             }
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
-            $this->errorToast(__('An error occurred while retrieving data'));
+            $this->errorToast('An error occurred while retrieving data');
         }
     }
 
@@ -44,11 +44,11 @@ final class ResultForm extends ModalComponent
             }
             $this->game->save();
 
-            $this->successToast(__('The result has been put into validation'));
+            $this->successToast('The result has been put into validation');
             $this->closeModal();
         } catch (\Throwable $e) {
             Log::error($e->getMessage() . $e->getTraceAsString());
-            $this->errorToast(__('An error occurred while entering the result'));
+            $this->errorToast('An error occurred while entering the result');
         }
     }
 

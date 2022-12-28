@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GameResultEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -46,6 +47,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function participating(): BelongsToMany
+    {
+        return $this->belongsToMany(Tournament::class, 'tournament_participants')
+            ->using(TournamentParticipant::class)
+            ->withPivot(['wins', 'paths', 'draws', 'losses']);
+    }
+
+    public function getParticipationScore(): float|int
+    {
+        $winsScore = $this->pivot->wins * GameResultEnum::win->tournamentPoint();
+        $patsScore = $this->pivot->pats * GameResultEnum::pat->tournamentPoint();
+        $lossesScore = $this->pivot->losses * GameResultEnum::lose->tournamentPoint();
+
+        return $winsScore + $patsScore - $lossesScore;
+    }
+
     public function isDailyRewardAvailable(): bool
     {
         if (Auth::id() !== $this->id) {
@@ -56,5 +73,10 @@ class User extends Authenticatable
         $now = Carbon::now()->timezone('Europe/Paris')->format('Y-m-d H:i:m');
 
         return Carbon::parse($userDailyReward)->lessThanOrEqualTo($now);
+    }
+
+    public function isParticipationScorePositif(): bool
+    {
+        return $this->getParticipationScore() >= 0;
     }
 }
