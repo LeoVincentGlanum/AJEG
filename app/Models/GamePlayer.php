@@ -23,7 +23,7 @@ class GamePlayer extends Model
 
     protected $casts = [
         'result' => GameResultEnum::class,
-        'player_validation' =>  PlayersValidation::class,
+        'player_result_validation' =>  PlayersValidation::class,
         'player_participation_validation' => PlayerParticipationState::class
 
     ];

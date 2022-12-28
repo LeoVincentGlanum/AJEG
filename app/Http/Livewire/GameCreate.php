@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Game;
+namespace App\Http\Livewire;
 
 use App\Actions\CreateNotificationAction;
 use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
+use App\Http\Livewire\MyAccount\Notifications;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
@@ -17,24 +18,22 @@ use http\Env\Request;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class Form extends Component
+class GameCreate extends Component
 {
 
     public Collection $users;
-    public Collection $notifications;
-    public ?Collection $gameTypes;
-    public ?string $type = "waiting";
+    public Collection     $notifications;
+    public GameStatusEnum $type = GameStatusEnum::waiting;
+    public ?Collection    $gameTypes;
     public ?string $resultat = "none";
-
     public ?array $players = [];
-
     public ?string $selectBlanc = "nul";
-
     public ?array $playersColors = [];
-
     public ?string $partyName = "";
 
     protected $messages = [
@@ -68,6 +67,8 @@ class Form extends Component
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
         $newGame->save();
+
+
         foreach ($this->players as $player) {
             $color = "noir";
             if (count($this->playersColors) > 0 ){
@@ -97,6 +98,8 @@ class Form extends Component
             $gameplayer->result  = $result;
             $gameplayer->save();
         }
+
+         $this->dispatchBrowserEvent('toast', ['message' => 'Le brouillon à été enregisté.', 'type' => 'success']);
     }
 
     public function updatedPlayers($value)
@@ -117,12 +120,12 @@ class Form extends Component
         if (count($this->players) > 2) {
             return [
                 'selectBlanc' => 'sometimes',
-                'playersColors' => 'required|array|size:'.count($this->players),
-                'playersColors.*' => 'required|string',
+                'playersColors' => 'required|array|size:'. count($this->players),
+                'playersColors.*' => 'required|string'
             ];
         }
 
-        if ($this->type === "Terminé"){
+        if ($this->type === GameStatusEnum::ended){
             $arrayRules['resultat'] = "required|not_in:none";
         }
 
@@ -203,5 +206,6 @@ class Form extends Component
     {
         return view('livewire.game-create');
     }
+
 
 }

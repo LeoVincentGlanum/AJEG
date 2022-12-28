@@ -7,6 +7,7 @@
                 </h3>
             </div>
             <div class="grid grid-cols-2 ">
+
                 @for($i = 0; $i < count($game->users) ;$i++ )
                     <div class="col-span-3 sm:col-span-2">
                         <div class="grid grid-cols-4  items-center">

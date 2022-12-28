@@ -23,7 +23,7 @@ final class ResultForm extends ModalComponent
     public function mount(int $id)
     {
         try {
-            $this->game = Game::query()->find($id)->get();
+            $this->game = Game::query()->find($id);
 
             foreach ($this->game->users as $player) {
                 $this->playersResult = Arr::add($this->playersResult, $player->id, '');

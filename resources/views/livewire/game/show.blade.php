@@ -41,7 +41,10 @@
                     </li>
 
                     <li class="px-6 py-4">
-                        <a wire:click="$emit('openModal', 'game.result-form',{{ $game }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        @php
+                            $data = json_encode(["id" => $game->id]);
+                        @endphp
+                        <a wire:click="$emit('openModal', 'game.result-form', {{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             {{ __('Give result') }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-3 bi bi-person-check-fill" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
