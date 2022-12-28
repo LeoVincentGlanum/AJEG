@@ -4,6 +4,7 @@ namespace App\ModelStates\GameStates;
 
 class Validate extends \App\ModelStates\GameStatus
 {
+    public static string $name = 'validate';
 
     public function color(): string
     {

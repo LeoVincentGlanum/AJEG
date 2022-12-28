@@ -2,6 +2,7 @@
 
  namespace App\ModelStates;
 
+use App\ModelStates\PlayerParticipationStates\Draft;
 use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\PlayerParticipationStates\Declined;
 use App\ModelStates\PlayerResultStates\Pending;
@@ -17,9 +18,17 @@ abstract class PlayerParticipationState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Pending::class)
+            ->default(Draft::class)
+
+            ->allowTransition(Draft::class, Pending::class)
             ->allowTransition(Pending::class, Accepted::class)
-            ->allowTransition(Pending::class, Declined::class);
+            ->allowTransition(Pending::class, Declined::class)
+
+
+            ->registerState(Draft::class)
+            ->registerState(Pending::class)
+            ->registerState(Accepted::class)
+            ->registerState(Declined::class);
     }
 
 
