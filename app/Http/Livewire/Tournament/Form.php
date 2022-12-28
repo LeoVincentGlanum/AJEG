@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
-class TournamentForm extends ModalComponent
+class Form extends ModalComponent
 {
     use HasToast;
 
@@ -58,6 +58,6 @@ class TournamentForm extends ModalComponent
 
     public function render()
     {
-        return view('livewire.tournament.tournament-form');
+        return view('livewire.tournament.form');
     }
 }

@@ -7,7 +7,7 @@
 
                     <a
                         class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
-                        wire:click="$emit('openModal', 'tournament.tournament-form')"
+                        wire:click="$emit('openModal', 'tournament.form')"
                     >
                         {{ __('Créer un tournoi') }}
                     </a>
@@ -115,7 +115,7 @@
                                                     @php
                                                         $data = json_encode(["id" => $tournament->id]);
                                                     @endphp
-                                                    <a wire:click="$emit('openModal', 'tournament.tournament-register', {{ $data }})">
+                                                    <a wire:click="$emit('openModal', 'tournament.register', {{ $data }})">
                                                         <x-heroicon-s-ticket class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
                                                     </a>
                                                 </td>
@@ -128,7 +128,7 @@
                                                         <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de tournois') }}</h3>
                                                         <div class="mt-6">
                                                             <a
-                                                                wire:click="$emit('openModal', 'tournament.tournament-form')"
+                                                                wire:click="$emit('openModal', 'tournament.form')"
                                                                 class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
                                                             >
                                                                 {{ __('Créer un tournoi') }}
