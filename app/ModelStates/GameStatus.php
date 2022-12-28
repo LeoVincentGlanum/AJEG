@@ -39,7 +39,16 @@ abstract class GameStatus extends State
             ->allowTransition(ResultValidations::class, Validate::class)
 
             ->allowTransition(AskAdmin::class, Cancel::class)
-            ->allowTransition(AskAdmin::class, Validate::class);
+            ->allowTransition(AskAdmin::class, Validate::class)
+
+
+            ->registerState(Draft::class)
+            ->registerState(PlayersValidation::class)
+            ->registerState(InProgress::class)
+            ->registerState(ResultValidations::class)
+            ->registerState(AskAdmin::class)
+            ->registerState(Validate::class)
+            ->registerState(Cancel::class);
 
 
     }

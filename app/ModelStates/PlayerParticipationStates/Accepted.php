@@ -5,8 +5,14 @@ namespace App\ModelStates\PlayerParticipationStates;
 class Accepted extends \App\ModelStates\PlayerParticipationState
 {
 
+    public static string $name = 'accepted';
     public function color(): string
     {
-        // TODO: Implement color() method.
+        return "green";
+    }
+
+    public function name() : string
+    {
+        return trans('accepted');
     }
 }

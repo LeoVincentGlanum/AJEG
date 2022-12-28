@@ -18,7 +18,11 @@ abstract class PlayerResultState extends State
         return parent::config()
             ->default(Pending::class)
             ->allowTransition(Pending::class, Accepted::class)
-            ->allowTransition(Pending::class, Refused::class);
+            ->allowTransition(Pending::class, Refused::class)
+
+            ->registerState(Pending::class)
+            ->registerState(Accepted::class)
+            ->registerState(Refused::class);
     }
 
 
