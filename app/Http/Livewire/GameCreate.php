@@ -1,26 +1,35 @@
 <?php
 
-namespace App\Http\Livewire\Game;
+namespace App\Http\Livewire;
 
+use App\Actions\CreateNotificationAction;
+use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
+use App\Http\Livewire\MyAccount\Notifications;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
 use App\Models\UserNotification;
+use App\ModelStates\GameStates\Draft;
+use App\ModelStates\GameStates\PlayersValidation;
+use App\ModelStates\GameStates\ResultValidations;
+use http\Env\Request;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class Form extends Component
+class GameCreate extends Component
 {
 
     public Collection $users;
-    public Collection $notifications;
-    public ?Collection $gameTypes;
-    public ?string $type = "waiting";
+    public Collection     $notifications;
+    public GameStatusEnum $type = GameStatusEnum::waiting;
+    public ?Collection    $gameTypes;
     public ?string $resultat = "none";
     public ?array $players = [];
     public ?string $selectBlanc = "nul";
@@ -116,7 +125,7 @@ class Form extends Component
             ];
         }
 
-        if ($this->type === "Terminé"){
+        if ($this->type === GameStatusEnum::ended){
             $arrayRules['resultat'] = "required|not_in:none";
         }
 
@@ -197,5 +206,6 @@ class Form extends Component
     {
         return view('livewire.game-create');
     }
+
 
 }

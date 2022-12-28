@@ -22,7 +22,7 @@ class ListGames extends Component
                 ->whereHas('gamePlayers', function ($query) {
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
-                ->where('status', '!=', 'Terminé')
+                ->where('status', '!=', 'ended')
                 ->get();
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
