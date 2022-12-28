@@ -2,12 +2,18 @@
 
 namespace App\Http\Livewire\Game;
 
+use App\Actions\CreateNotificationAction;
+use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
 use App\Models\UserNotification;
+use App\ModelStates\GameStates\Draft;
+use App\ModelStates\GameStates\PlayersValidation;
+use App\ModelStates\GameStates\ResultValidations;
+use http\Env\Request;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -40,6 +46,74 @@ class Form extends Component
         'resultat.not_in' => 'Merci de saisir le resultat de la partie',
     ];
 
+    public function mount()
+    {
+        $this->users     = User::all();
+        $this->notifications     = Notification::all();
+        $this->gameTypes = GameType::all();
+    }
+
+
+    public function gotto()
+    {
+        return redirect("dashboard");
+    }
+
+    public function saveDraft(){
+
+        $validated = $this->validate([
+            'partyName' => 'required',
+        ],[
+            'partyName.required' => 'Ce champ est requis'
+        ]);
+
+        $newGame = new Game();
+        $newGame->label = $this->partyName;
+        $newGame->created_by = Auth::id();
+        $newGame->save();
+        foreach ($this->players as $player) {
+            $color = "noir";
+            if (count($this->playersColors) > 0 ){
+                $color = $this->playersColors[$player];
+            }
+            if($this->selectBlanc == $player) {
+                $color = "blanc";
+            }
+
+            $result = null;
+
+            if ($this->type == GameStatusEnum::ended) {
+                $result = GameResultEnum::lose;
+                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
+                    $result = $this->resultat;
+                }
+
+                if ($this->resultat == $player) {
+                    $result = GameResultEnum::win;
+                }
+            }
+
+            $gameplayer          = new GamePlayer();
+            $gameplayer->game_id = $newGame->id;
+            $gameplayer->user_id = $player;
+            $gameplayer->color   = $color;
+            $gameplayer->result  = $result;
+            $gameplayer->save();
+        }
+    }
+
+    public function updatedPlayers($value)
+    {
+        if (count($this->players) > 0){
+            foreach ($this->playersColors as $key => $color) {
+                if (!in_array($key,$this->players)){
+                    unset($this->playersColors[$key]);
+                }
+            }
+        }
+
+    }
+
     public function rules()
     {
         $arrayRules = [];
@@ -56,36 +130,25 @@ class Form extends Component
         }
 
         $arrayRules['selectBlanc'] = 'required|not_in:nul';
+
         return $arrayRules;
     }
 
-    public function mount()
-    {
-        $this->users = User::all();
-        $this->notifications = Notification::all();
-        $this->gameTypes = GameType::all();
-    }
-
-    public function updatedPlayers($value)
-    {
-        if (count($this->players) > 0) {
-            foreach ($this->playersColors as $key => $color) {
-                if (!in_array($key, $this->players)) {
-                    unset($this->playersColors[$key]);
-                }
-            }
-        }
-    }
-
-    public function submit()
+    public function submit(CreateNotificationAction $createNotificationAction, SendNotificationAction $sendNotificationAction)
     {
         $this->validate();
 
         $newGame = new Game();
         $newGame->label = $this->partyName;
-        $newGame->status = $this->type;
         $newGame->created_by = Auth::id();
         $newGame->save();
+
+        $match = match ($this->type) {
+            GameStatusEnum::waiting->name => $newGame->status->transitionTo(PlayersValidation::class),
+            GameStatusEnum::ended->name => $newGame->status->transitionTo(ResultValidations::class)
+         };
+
+
 
         foreach ($this->players as $player) {
             $color = "noir";
@@ -121,23 +184,20 @@ class Form extends Component
             session()->flash('message',
                 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
-            $newNotification = new Notification();
-            $newNotification->creator = Auth::id();
-            $newNotification->type = 'Création de partie';
-            $newNotification->message = 'Vous avez été invité a rejoindre une partie';
-            $newNotification->save();
+                $creator = Auth::id();
+                $type = 'Création de partie';
+                $message = 'Vous avez été invité a rejoindre une partie';
 
-            foreach ($this->players as $player) {
-                if ((int) $player != Auth::id()) {
-                    $newUserNotification = new UserNotification();
-                    $newUserNotification->notification_id = $newNotification->id;
-                    $newUserNotification->user_id = $player;
-                    $newUserNotification->is_done = '0';
-                    $newUserNotification->save();
+
+               $notification = $createNotificationAction->execute($creator,$type,$message);
+
+                foreach ($this->players as $player){
+                    if((int)$player != Auth::id()) {
+                        $sendNotificationAction->execute($notification->id, $player->id);
+                    }
                 }
-            }
-            return redirect('dashboard');
-        }
+                return redirect('dashboard');
+           }
 
         session()->flash('message', 'Votre partie a bien été créée.');
         return redirect('dashboard');
@@ -147,4 +207,6 @@ class Form extends Component
     {
         return view('livewire.game.form');
     }
+
+
 }

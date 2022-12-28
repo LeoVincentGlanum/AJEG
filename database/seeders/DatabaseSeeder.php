@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory()->testUser()->create();
         \App\Models\User::factory(100)->create();
-        \App\Models\Game::factory(50)->create();
-        \App\Models\GamePlayer::factory(100)->create();
+//        \App\Models\Game::factory(50)->create();
+//        \App\Models\GamePlayer::factory(100)->create();
         \App\Models\Transaction::factory(20)->create();
         DB::table('game_types')->insert([
             'label' => 'standard',

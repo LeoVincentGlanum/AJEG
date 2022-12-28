@@ -87,5 +87,16 @@
     "Player": "Joueur",
     "Your registration has been successful": "Votre inscription a été acceptée",
     "You are already registered": "Vous êtes déjà inscrit",
-    "The tournament is full": "Le tournoi est complet"
+    "The tournament is full": "Le tournoi est complet",
+    "archived" : "Archivé",
+    "ask admin" : "Demande de modération",
+    "cancel" : "Annulé",
+    "draft" : "Brouillon",
+    "in progress" : "En cours",
+    "player validation" : "En validation des joueurs",
+    "result validation" : "Validation des résultats",
+    "ended" : "Terminé",
+    "waiting" : "Demande de partie",
+    "validate" : "Validé",
+    "Save draft" : "Enregistrer en brouillon"
 }
