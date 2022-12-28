@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-class TournamentEdit extends Component
+class Edit extends Component
 {
     use HasToast;
 
@@ -146,6 +146,6 @@ class TournamentEdit extends Component
 
     public function render()
     {
-        return view('livewire.tournament.tournament-edit');
+        return view('livewire.tournament.edit');
     }
 }

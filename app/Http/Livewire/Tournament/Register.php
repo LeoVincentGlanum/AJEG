@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 
-class TournamentRegister extends ModalComponent
+class Register extends ModalComponent
 {
     use HasToast;
 
@@ -55,6 +55,6 @@ class TournamentRegister extends ModalComponent
 
     public function render()
     {
-        return view('livewire.tournament.tournament-register');
+        return view('livewire.tournament.register');
     }
 }
