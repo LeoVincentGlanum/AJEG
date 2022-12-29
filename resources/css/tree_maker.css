@@ -24,6 +24,16 @@
 
 }
 
+.tree__container__step__card a {
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    width: 150px;
+    display: inline-block;
+    margin: 0 !important;
+    z-index : 10;
+    color: transparent;
+}
 #tree__svg-container {
     z-index: -1;
     position: absolute;

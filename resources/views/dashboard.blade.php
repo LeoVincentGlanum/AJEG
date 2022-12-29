@@ -4,7 +4,6 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div id="my_tree"></div>
 
     @if(count($games->get()) > 0)
         <div class="py-12">
@@ -28,7 +27,8 @@
                     <livewire:create-tournois />
                 </div>
             </div>
-
         </div>
     </div>
+    <livewire:tournement.tournament-bracket  />
+
 </x-app-layout>

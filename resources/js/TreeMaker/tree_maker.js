@@ -1,3 +1,5 @@
+import {getElement} from 'bootstrap/js/src/util';
+
 let pathNumber = 1;
 let allLinks = [];
 let treeParams;
@@ -72,21 +74,32 @@ export default class TreeMaker{
 
         for (const key in tree) {
             const textCard = treeParams[key] !== undefined && treeParams[key].trad !== undefined ? treeParams[key].trad : key;
-
+            const linkColor = treeParams[key] !== undefined && treeParams[key].color !== undefined ? treeParams[key].color : strokeColor;
+            const hiddenCard = treeParams[key] !== undefined && treeParams[key].hidden !== undefined ? treeParams[key].hidden : '';
             if (!document.getElementById(`card_${key}`)){
-                treeContainer.innerHTML += `<div class="tree__container__step"><div class="tree__container__step__card" id="${key}"><p id="card_${key}" class="tree__container__step__card__p">${textCard}</p></div></div>`;
+                const addInner = hiddenCard === '' ?`<p id="card_${key}" className="tree__container__step__card__p">${textCard}</p>`:`<a id="card_${key}" className="tree__container__step__card__p">${textCard}</a>`;
+
+
+                treeContainer.innerHTML += `<div  class="tree__container__step"><div class="tree__container__step__card" id="${key}">${addInner}</div></div>`;
                 this.addStyleToCard(treeParams[key], key);
             }
 
             if ((from && !start) || start){
                 const newPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 newPath.id = "path" + pathNumber;
-                newPath.setAttribute('stroke', strokeColor);
+                newPath.setAttribute('stroke', linkColor);
+                if( hiddenCard !== '')
+                {
+                    console.log(newPath);
+
+                    newPath.setAttribute('addV', 0);
+                }
                 newPath.setAttribute('fill', 'none');
                 newPath.setAttribute('stroke-width', strokeWidth);
                 svgContainer.appendChild(newPath);
-                allLinks.push(['path' + pathNumber, from ? from : 'tree__container__step__card__first', key]);
+                allLinks.push(['path' + pathNumber, from ? from : 'tree__container__step__card__first', key]);//key = to
                 pathNumber++;
+
             }
 
             if (Object.keys(tree[key]).length > 0) {
@@ -124,13 +137,18 @@ export default class TreeMaker{
         if (svg.getAttribute("width") < (startX + stroke)) svg.setAttribute("width", (startX + stroke));
         if (svg.getAttribute("width") < (endX + stroke)) svg.setAttribute("width", (endX + stroke));
 
-        let deltaX = (endX - startX) * 0.15;
-        let deltaY = (endY - startY) * 0.15;
+
+        let deltaX = (endX - startX) * 0.30;
+
+        let deltaY = (endY - startY) * 0.30;
+
         // for further calculations which ever is the shortest distance
         let delta = deltaY < this.absolute(deltaX)
             ? deltaY
             : this.absolute(deltaX);
 
+        console.log(document.getElementById('tree__container__step__card__first').offsetHeight)
+         path.getAttribute("addV")?(endY += document.getElementById('tree__container__step__card__first').offsetHeight):1;
         // set sweep-flag (counter/clock-wise)
         // if start element is closer to the left edge,
         // draw the first arc counter-clockwise, and the second one clock-wise
@@ -155,9 +173,11 @@ export default class TreeMaker{
             endElem = temp;
         }
 
+
         // get (top, left) corner coordinates of the svg container
         const svgTop = svgContainer.offsetTop;
         const svgLeft = svgContainer.offsetLeft;
+        // console.log(svgTop );
 
         // calculate path's start (x,y)  coords
         // we want the x coordinate to visually result in the element's mid point
