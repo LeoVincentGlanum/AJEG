@@ -96,6 +96,12 @@ class Form extends Component
             $gameplayer->color   = $color;
             $gameplayer->result  = $result;
             $gameplayer->save();
+
+            $this->dispatchBrowserEvent('toast', ['message' => 'Le brouillon à été enregisté.', 'type' => 'success']);
+
+            redirect()->route('dashboard');
+
+
         }
     }
 

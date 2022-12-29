@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
+use App\ModelStates\GameStatus;
+use App\ModelStates\GameStates\ResultValidations;
+use App\ModelStates\GameStates\PlayersValidation;
 use App\Http\Livewire\Game\Traits\HasGameResultMapper;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
@@ -37,7 +40,7 @@ final class ResultForm extends ModalComponent
     public function save()
     {
         try {
-            $this->game->status = 'Terminé';
+            $this->game->status->transitionTo(PlayersValidation::class);
             foreach ($this->game->users as $user) {
                 $user->pivot->result = Arr::get($this->playersResult, $user->id);
                 $user->pivot->save();
