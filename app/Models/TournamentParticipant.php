@@ -17,7 +17,7 @@ class TournamentParticipant extends Pivot
         'tournament_id',
         'user_id',
         'wins',
-        'paths',
+        'pats',
         'draws',
         'losses',
     ];

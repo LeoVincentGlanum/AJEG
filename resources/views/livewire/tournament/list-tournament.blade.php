@@ -38,6 +38,14 @@
                                             </th>
                                             <th scope="col"
                                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
+                                                {{ __('Elo') }}
+                                            </th>
+                                            <th scope="col"
+                                                class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
+                                                {{ __('Tournament type') }}
+                                            </th>
+                                            <th scope="col"
+                                                class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
                                                 {{ __('Type de Partie') }}
                                             </th>
                                             <th scope="col"
@@ -70,11 +78,13 @@
                                         @forelse($tournaments as $tournament)
                                             @php
                                                 $nbParticipants = $tournament->participants->count();
-                                                $userIsParticipant = $tournament->participants->where('id', '=', Auth::id())->isNotEmpty()
+                                                $userIsParticipant = $tournament->participants->where('id', '=', Auth::id())->isNotEmpty();
+                                                $isCanceled = $tournament->isCanceled() && $userIsParticipant;
                                             @endphp
                                             <tr
                                                 @class([
                                                     'bg-green-300' => $userIsParticipant,
+                                                    'bg-red-300' => $isCanceled
                                                 ])
                                             >
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
@@ -88,6 +98,12 @@
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     {{ $tournament->entrance_fee ?? "-" }}
+                                                </td>
+                                                <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
+                                                    {{ $tournament->getEloRequired() }}
+                                                </td>
+                                                <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
+                                                    {{ $tournament->type ?? "-" }}
                                                 </td>
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     {{ $tournament->gameType->label ?? "-" }}

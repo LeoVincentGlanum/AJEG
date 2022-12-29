@@ -21,9 +21,12 @@ class Form extends ModalComponent
 
     protected array $rules = [
         'tournament.name' => 'required|string|max:255',
-        'tournament.number_of_players' => 'required',
-        'tournament.entrance_fee' => 'required',
+        'tournament.number_of_players' => 'required|numeric|min:2',
+        'tournament.entrance_fee' => 'required|numeric|min:0',
         'tournament.game_type_id' => 'required',
+        'tournament.type' => 'required',
+        'tournament.elo_min' => 'nullable|numeric|min:0|lt:tournament.elo_max',
+        'tournament.elo_max' => 'nullable|numeric|min:0',
     ];
 
     public function getGameTypesProperty(): Collection
@@ -35,6 +38,7 @@ class Form extends ModalComponent
         $this->tournament = new Tournament();
         $user = Auth::user();
         $this->tournament->name = "Tournoi de " . $user->name;
+        $this->tournament->entrance_fee = 0;
     }
 
     public function save()
@@ -43,7 +47,7 @@ class Form extends ModalComponent
 
         try {
             $this->tournament->organizer_id = Auth::id();
-            $this->tournament->status = TournamentStatusEnum::waiting->value;
+            $this->tournament->status = TournamentStatusEnum::open->value;
             $this->tournament->save();
 
             $this->successToast('The tournament has been created');

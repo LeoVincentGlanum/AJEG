@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TournamentStatusEnum;
+use App\Enums\TournamentTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,10 +22,18 @@ class Tournament extends Model
         'entrance_fee',
         'game_type_id',
         'notification',
+        'type',
+        'elo_min',
+        'elo_max',
         'status',
         'start_date',
         'end_date',
         'winner_id',
+    ];
+
+    protected $casts = [
+        'type' => TournamentTypeEnum::class,
+        'status' => TournamentStatusEnum::class
     ];
 
     public function organizer(): BelongsTo
@@ -40,11 +50,62 @@ class Tournament extends Model
     {
         return $this->belongsToMany(User::class, 'tournament_participants')
             ->using(TournamentParticipant::class)
-            ->withPivot(['wins', 'paths', 'draws', 'losses']);
+            ->withPivot(['wins', 'pats', 'draws', 'losses']);
     }
 
     public function winner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'winner_id', 'id');
+    }
+
+    public function getEloRequired(): string
+    {
+        if ($this->elo_min === null && $this->elo_max === null) {
+            return 'Everyone';
+        }
+
+        if ($this->elo_max === null) {
+            return '+' . $this->elo_min;
+        }
+
+        if ($this->elo_min === null) {
+            return '-' . $this->elo_max;
+        }
+
+        return $this->elo_min . ' - ' . $this->elo_max;
+    }
+
+    public function isOpen(): bool
+    {
+        return $this->status === TournamentStatusEnum::open;
+    }
+
+    public function isStarted(): bool
+    {
+        return $this->status === TournamentStatusEnum::started;
+    }
+
+    public function isCanceled(): bool
+    {
+        return $this->status === TournamentStatusEnum::canceled;
+    }
+
+    public function isEditable(): bool
+    {
+        if ($this->status->position() > TournamentStatusEnum::started->position())
+        {
+            return false;
+        }
+
+        if ($this->participants->count() > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isCancelable(): bool
+    {
+        return $this->status->position() < TournamentStatusEnum::finished->position();
     }
 }

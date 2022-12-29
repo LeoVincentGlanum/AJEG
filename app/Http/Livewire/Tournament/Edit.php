@@ -22,21 +22,26 @@ class Edit extends Component
 
     public array $game = [];
 
+    public bool $isEditable;
+
+    public bool $isCancelable;
+
+    public bool $isStarted;
+
     protected array $rules = [
         'tournament.name' => 'required|string|max:255',
         'tournament.number_of_players' => 'required',
         'tournament.entrance_fee' => 'required',
         'tournament.game_type_id' => 'required',
-        'game.player1.id' => 'required',
-        'game.player1.result' => 'required',
-        'game.player2.id' => 'required',
-        'game.player2.result' => 'required'
+        'game.*.id' => 'required|distinct',
+        'game.*.result' => 'required',
     ];
 
     protected array $messages = [
         'tournament.name.required' => 'The tournament name is required',
         'tournament.number_of_players.required' => 'The number of players is required',
         'tournament.entrance_fee.required' => 'The entrance fee is required',
+        'game.*.id' => 'You can\'t select the same player twice'
     ];
 
     protected array $rulesInformations = [
@@ -47,10 +52,8 @@ class Edit extends Component
     ];
 
     protected array $rulesResults = [
-        'game.player1.id' => 'required',
-        'game.player1.result' => 'required',
-        'game.player2.id' => 'required',
-        'game.player2.result' => 'required'
+        'game.*.id' => 'required|distinct',
+        'game.*.result' => 'required',
     ];
 
 
@@ -67,6 +70,9 @@ class Edit extends Component
     public function mount(Tournament $tournament)
     {
         $this->tournament = $tournament;
+        $this->isEditable = $this->tournament->isEditable();
+        $this->isCancelable = $this->tournament->isCancelable();
+        $this->isStarted = $this->tournament->isStarted();
     }
 
     public function cancel()
@@ -87,7 +93,7 @@ class Edit extends Component
     {
         try {
             $this->tournament->update([
-                'status' => TournamentStatusEnum::progress->value,
+                'status' => TournamentStatusEnum::started->value,
                 'start_date' => now(),
             ]);
 
@@ -126,10 +132,10 @@ class Edit extends Component
 
                 $result = Arr::get($playerResult, 'result');
                 match ($result) {
-                    GameResultEnum::win->value => $participant->pivot->wins += 1,
-                    GameResultEnum::lose->value => $participant->pivot->losses += 1,
-                    GameResultEnum::pat->value => $participant->pivot->pats += 1,
-                    GameResultEnum::nul->value => $participant->pivot->draws += 1
+                    GameResultEnum::win->value => $participant->pivot->increment('wins', 1),
+                    GameResultEnum::lose->value => $participant->pivot->increment('losses', 1),
+                    GameResultEnum::pat->value => $participant->pivot->increment('pats', 1),
+                    GameResultEnum::nul->value => $participant->pivot->increment('draws', 1)
                 };
 
                 $participant->pivot->save();

@@ -76,8 +76,13 @@ class User extends Authenticatable
         return Carbon::parse($userDailyReward)->lessThanOrEqualTo($now);
     }
 
-    public function isParticipationScorePositif(): bool
+    public function isParticipantScorePositif(): bool
     {
-        return $this->getParticipationScore() >= 0;
+        return $this->getParticipationScore() > 0;
+    }
+
+    public function isParticipantScoreNegative(): bool
+    {
+        return $this->getParticipationScore() < 0;
     }
 }

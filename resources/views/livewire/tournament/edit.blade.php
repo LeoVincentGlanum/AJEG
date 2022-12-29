@@ -26,8 +26,12 @@
                                                                         type="text"
                                                                         name="tournament.name"
                                                                         id="tournament.name"
+                                                                        {{ $isEditable ? '' : 'disabled' }}
                                                                         wire:model.debounce.500ms="tournament.name"
-                                                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                                        @class([
+                                                                            'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                                                            'disabled:opacity-75' => $isEditable === false,
+                                                                        ])
                                                                     >
                                                                     @error('tournament.name')
                                                                         <p class="mt-2 text-sm text-red-600" id="label-error">
@@ -54,8 +58,12 @@
                                                                         type="text"
                                                                         name="tournament.number_of_players"
                                                                         id="tournament.number_of_players"
+                                                                        {{ $isEditable ? '' : 'disabled' }}
                                                                         wire:model.debounce.500ms="tournament.number_of_players"
-                                                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                                        @class([
+                                                                            'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                                                            'disabled:opacity-75' => $isEditable === false,
+                                                                        ])
                                                                     >
                                                                     @error('tournament.number_of_players')
                                                                         <p class="mt-2 text-sm text-red-600" id="label-error">
@@ -70,8 +78,12 @@
                                                                         type="text"
                                                                         name="tournament.entrance_fee"
                                                                         id="tournament.entrance_fee"
+                                                                        {{ $isEditable ? '' : 'disabled' }}
                                                                         wire:model.debounce.500ms="tournament.entrance_fee"
-                                                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                                        @class([
+                                                                            'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                                                            'disabled:opacity-75' => $isEditable === false,
+                                                                        ])
                                                                     >
                                                                     @error('tournament.entrance_fee')
                                                                         <p class="mt-2 text-sm text-red-600" id="label-error">
@@ -85,8 +97,12 @@
                                                                     <select
                                                                         id="tournament.game_type_id"
                                                                         name="tournament.game_type_id"
+                                                                        {{ $isEditable ? '' : 'disabled' }}
                                                                         wire:model.debounce.500ms="tournament.game_type_id"
-                                                                        class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                                                        @class([
+                                                                            'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                                                            'disabled:opacity-75' => $isEditable === false,
+                                                                        ])
                                                                     >
                                                                         <option value="">{{ __('Choose a type') }}</option>
                                                                         @foreach($this->gameTypes as $gameType)
@@ -103,26 +119,26 @@
                                                             </div>
                                                         </div>
                                                         <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                                                            @if($tournament->status !== \App\Enums\TournamentStatusEnum::canceled->value)
+                                                            @if($isCancelable)
                                                                 <button
                                                                     type="button"
                                                                     wire:click="cancel"
                                                                     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                                     {{ __('Cancel') }}
                                                                 </button>
-                                                                @if($tournament->status === \App\Enums\TournamentStatusEnum::waiting->value)
+                                                                @if($isEditable)
                                                                     <button
                                                                         type="button"
                                                                         wire:click="start"
                                                                         class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                                         {{ __('Start') }}
                                                                     </button>
+                                                                    <button
+                                                                        type="submit"
+                                                                        class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                                        {{ __('Submit') }}
+                                                                    </button>
                                                                 @endif
-                                                                <button
-                                                                    type="submit"
-                                                                    class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                    {{ __('Submit') }}
-                                                                </button>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -178,8 +194,8 @@
                                     <tbody class="bg-white divide-y divide-gray-200">
                                     @forelse($tournament->participants as $participant)
                                         @php
-                                            $positif = $participant->isParticipationScorePositif();
-                                            $negatif = !$positif;
+                                            $positif = $participant->isParticipantScorePositif();
+                                            $negatif = $participant->isParticipantScoreNegative();
                                         @endphp
                                         <tr
                                             @class([
@@ -194,7 +210,7 @@
                                                 {{ $participant->pivot->wins ?? "" }}
                                             </td>
                                             <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                                {{ $participant->pivot->paths ?? "-" }}
+                                                {{ $participant->pivot->pats ?? "-" }}
                                             </td>
                                             <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                 {{ $participant->pivot->draws ?? "-" }}
@@ -219,7 +235,7 @@
                         </div>
                     </div>
 
-                    @if($tournament->status === \App\Enums\TournamentStatusEnum::progress->value)
+                    @if($isStarted)
                         <div class="hidden sm:block" aria-hidden="true">
                             <div class="py-5">
                                 <div class="border-t border-gray-200"></div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Tournament;
 
+use App\Enums\TournamentStatusEnum;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Tournament;
 use App\Models\TournamentParticipant;
@@ -48,6 +49,16 @@ class Register extends ModalComponent
             return;
         }
 
+        if ($this->tournament->elo_max < $this->user->elo) {
+            $this->errorToast('Your elo is too high');
+            return;
+        }
+
+        if ($this->tournament->min > $this->user->elo) {
+            $this->errorToast('Your elo isn\'t high enough');
+            return;
+        }
+
         DB::beginTransaction();
         try {
             $newParticipation = new TournamentParticipant();
@@ -57,6 +68,11 @@ class Register extends ModalComponent
 
             $this->user->coins = $this->user->coins - $this->tournament->entrance_fee;
             $this->user->save();
+
+            if ($this->tournament->participants->count() + 1 === $this->tournament->number_of_players) {
+                $this->tournament->status = TournamentStatusEnum::full->value;
+                $this->tournament->save();
+            }
 
             $this->successToast('Your registration has been successful');
             DB::commit();

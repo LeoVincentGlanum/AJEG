@@ -31,8 +31,8 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($tournament->participants as $participant)
                             @php
-                                $positif = $participant->isParticipationScorePositif();
-                                $negatif = !$positif;
+                                $positif = $participant->isParticipantScorePositif();
+                                $negatif = $participant->isParticipantScoreNegative();
                             @endphp
                             <tr
                                 @class([
