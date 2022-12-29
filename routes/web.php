@@ -7,6 +7,7 @@ use App\Http\Controllers\GameChessController;
 use App\Http\Controllers\GameDartsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournoisController;
+use App\Http\Controllers\LiveGameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
         Route::view('/my-account', 'user.account')->name('user.my-account');
         Route::get('/profile/{user}', [UserController::class, 'getProfile'])->name('user.profile');
     });
+
+    Route::get('/chess', [LiveGameController::class, 'liveGame'])->name('liveGame.chess');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
