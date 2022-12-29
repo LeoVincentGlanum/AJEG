@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournoisController;
+use App\Http\Controllers\LiveGameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [TournoisController::class, 'index'])->name('tournament.index');
         Route::get('/show/{id}', [TournoisController::class, 'show'])->name('tournament.show');
     });
+
+    Route::get('/chess', [LiveGameController::class, 'liveGame'])->name('liveGame.chess');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
