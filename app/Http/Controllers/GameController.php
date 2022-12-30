@@ -13,4 +13,9 @@ class GameController extends Controller
     {
         return view('game.show', ['game' => $game]);
     }
+
+    public function create(Game $game)
+    {
+        return view('game.create',['game' => $game]);
+    }
 }

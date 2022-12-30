@@ -26,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('/game')->group(function () {
-        Route::view('/create', 'game.create')->name('game.create');
+        Route::get('/create/{game?}', [GameController::class, 'create'])->name('game.create');
         Route::get('/show/{game}', [GameController::class, 'show'])->name('game.show');
         Route::view('/history', 'game.history')->name('game.history');
     });

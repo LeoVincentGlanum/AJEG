@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <livewire:dashboard.list-drafts/>
+
     <livewire:dashboard.list-games />
 
     <livewire:dashboard.list-tournaments />

@@ -17,11 +17,12 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                     {{ __('Status') }}
                                     <div>
+                                         @foreach(\App\Models\Game::getStatesFor('status') as $status)
+                                                <option value="{{ $status }}">{{ $status }}</option>
+                                            @endforeach
                                         <select wire:model="searchStatus" class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                             <option value="">--{{ __('Choose a status') }}--</option>
-                                            @foreach(\App\Enums\GameStatusEnum::cases() as $status)
-                                                <option value="{{ $status->value }}">{{ $status->value }}</option>
-                                            @endforeach
+
                                         </select>
                                     </div>
                                 </th>
@@ -69,9 +70,9 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span @class(['inline-flex rounded-full',
-                                        'bg-yellow-100'=>$game->status == \App\Enums\GameStatusEnum::waiting,
-                                        'bg-blue-100'=>$game->status == \App\Enums\GameStatusEnum::progress,
-                                        'bg-green-100'=>$game->status == \App\Enums\GameStatusEnum::ended,
+                                        'bg-yellow-100'=>$game->status == \App\ModelStates\GameStates\PlayersValidation::class,
+                                        'bg-blue-100'=>$game->status == \App\ModelStates\GameStates\InProgress::class,
+                                        'bg-green-100'=>$game->status == \App\ModelStates\GameStates\Validate::class,
                                         'px-2 text-xs font-semibold leading-5 text-green-800'])>
                                             {{ $game->status }}
                                         </span>

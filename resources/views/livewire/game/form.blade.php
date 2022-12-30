@@ -41,7 +41,7 @@
                         <div class="mt-4 divide-y divide-gray-200 border-b border-gray-200">
                             <div class="form-group">
                                 <div wire:ignore>
-                                    <select id="players-dropdown" name="players" class="form-control" multiple wire:model="players">
+                                    <select id="players-dropdown" name="playersId" class="form-control" multiple wire:model="playersId">
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}">{{$user->name}}</option>
                                         @endforeach
@@ -49,8 +49,8 @@
                                 </div>
                             </div>
                         </div>
-                        @if(count($players) > 1)
-                            @if(count($players) == 2)
+                        @if(count($playersId) > 1)
+                            @if(count($playersId) == 2)
                                 <h3 class="text-lg font-medium leading-6 text-gray-900">Couleurs du joueur blanc </h3>
                                 @if($selectBlanc === "nul")
                                     @if($errors->has('selectBlanc'))
@@ -80,14 +80,14 @@
                                 <select wire:model="selectBlanc"
                                         class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                     <option value="nul">Selectionner le joueur blanc ...</option>
-                                    @foreach($players as $player)
+                                    @foreach($playersId as $player)
                                         <option value="{{$users->find($player)->id}}">{{$users->find($player)->name}}
                                             Blanc
                                         </option>
                                     @endforeach
                                 </select>
                             @else
-                                @foreach($players as $player)
+                                @foreach($playersId as $player)
                                     <div class="mt-5">
                                         <label for="colorPlayer{{$player}}" class="form-label">Couleur
                                             de {{$users->find($player)->name}}</label>
@@ -166,7 +166,7 @@
                                         class="mt-1 block w-full  rounded-md border-gray-300 py-2 pl-3 pr-2 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         wire:model="resultat">
                                         <option value="none"></option>
-                                        @foreach($players as $player)
+                                        @foreach($playersId as $player)
                                             <option value="{{$player}}">{{$users->find($player)->name}} Gagnant</option>
                                         @endforeach
                                         <option value="{{\App\Enums\GameResultEnum::pat}}">Pat</option>
@@ -207,7 +207,7 @@
                                     class="inline-flex items-center rounded-md border border-transparent bg-orange-100 px-4 py-2 ml-3 text-sm font-medium text-indigo-700 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     wire:click="saveDraft">{{trans('Save draft')}}
                             </button>
-                            @if(count($players) > 1)
+                            @if(count($playersId) > 1)
                                 <button type="submit"
                                         class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ml-3">
                                     Creer la partie
@@ -226,7 +226,7 @@
         $('#players-dropdown').select2();
         $('#players-dropdown').on('change', function (e) {
             let data = $(this).val();
-            @this.set('players', data)
+            @this.set('playersId', data)
         });
     });
 </script>

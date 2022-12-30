@@ -29,11 +29,13 @@ class Form extends Component
     public ?string $type = "waiting";
     public ?string $resultat = "none";
 
-    public ?array $players = [];
+
+
+    public ?array $playersId = [];
 
     public ?string $selectBlanc = "nul";
 
-    public ?array $playersColors = [];
+    public ?array $playersIdColors = [];
 
     public ?string $partyName = "";
 
@@ -43,8 +45,19 @@ class Form extends Component
         'resultat.not_in' => 'Merci de saisir le resultat de la partie'
     ];
 
-    public function mount()
+    public function mount(?Game $game = null)
     {
+        if ($game !== null){
+            $this->partyName = $game->label;
+            $this->playersId = $game->users->pluck('id')->toArray();
+            if(count($game->gamePlayers) === 2){
+               foreach ($game->gamePlayers as $player) {
+                    if ($player->color === "blanc"){
+                        $this->selectBlanc = $player->user_id;
+                    }
+                }
+            }
+        }
         $this->users     = User::all();
         $this->notifications     = Notification::all();
         $this->gameTypes = GameType::all();
@@ -68,12 +81,12 @@ class Form extends Component
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
         $newGame->save();
-        foreach ($this->players as $player) {
+        foreach ($this->playersId as $id) {
             $color = "noir";
-            if (count($this->playersColors) > 0 ){
-                $color = $this->playersColors[$player];
+            if (count($this->playersIdColors) > 0 ){
+                $color = $this->playersIdColors[$id];
             }
-            if($this->selectBlanc == $player) {
+            if($this->selectBlanc == $id) {
                 $color = "blanc";
             }
 
@@ -85,14 +98,14 @@ class Form extends Component
                     $result = $this->resultat;
                 }
 
-                if ($this->resultat == $player) {
+                if ($this->resultat == $id) {
                     $result = GameResultEnum::win;
                 }
             }
 
             $gameplayer          = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
-            $gameplayer->user_id = $player;
+            $gameplayer->user_id = $id;
             $gameplayer->color   = $color;
             $gameplayer->result  = $result;
             $gameplayer->save();
@@ -107,10 +120,10 @@ class Form extends Component
 
     public function updatedPlayers($value)
     {
-        if (count($this->players) > 0){
-            foreach ($this->playersColors as $key => $color) {
-                if (!in_array($key,$this->players)){
-                    unset($this->playersColors[$key]);
+        if (count($this->playersId) > 0){
+            foreach ($this->playersIdColors as $key => $color) {
+                if (!in_array($key,$this->playersId)){
+                    unset($this->playersIdColors[$key]);
                 }
             }
         }
@@ -120,10 +133,10 @@ class Form extends Component
     public function rules()
     {
         $arrayRules = [];
-        if (count($this->players) > 2) {
+        if (count($this->playersId) > 2) {
             return [
                 'selectBlanc' => 'sometimes',
-                'playersColors' => 'required|array|size:'.count($this->players),
+                'playersColors' => 'required|array|size:'.count($this->playersId),
                 'playersColors.*' => 'required|string',
             ];
         }
@@ -153,12 +166,12 @@ class Form extends Component
 
 
 
-        foreach ($this->players as $player) {
+        foreach ($this->playersId as $id) {
             $color = "noir";
-            if (count($this->playersColors) > 0 ){
-                $color = $this->playersColors[$player];
+            if (count($this->playersIdColors) > 0 ){
+                $color = $this->playersIdColors[$id];
             }
-            if($this->selectBlanc == $player) {
+            if($this->selectBlanc == $id) {
                 $color = "blanc";
             }
 
@@ -170,20 +183,20 @@ class Form extends Component
                     $result = $this->resultat;
                 }
 
-                if ($this->resultat == $player) {
+                if ($this->resultat == $id) {
                     $result = GameResultEnum::win;
                 }
             }
 
             $gameplayer          = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
-            $gameplayer->user_id = $player;
+            $gameplayer->user_id = $id;
             $gameplayer->color   = $color;
             $gameplayer->result  = $result;
             $gameplayer->save();
         }
            if ($this->type == GameStatusEnum::waiting->value){
-                session()->flash('message_url', route('game.show',['id' => $newGame->id]));
+                session()->flash('message_url', route('game.show',['game' => $newGame->id]));
                 session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
                 $creator = Auth::id();
@@ -192,10 +205,10 @@ class Form extends Component
 
 
                $notification = $createNotificationAction->execute($creator,$type,$message);
-
-                foreach ($this->players as $player){
-                    if((int)$player != Auth::id()) {
-                        $sendNotificationAction->execute($notification->id, $player->id);
+                //dd($notification,$this->>$this->playersId);
+                foreach ($this->playersId as $id){
+                    if((int)$id != Auth::id()) {
+                        $sendNotificationAction->execute($notification->id, $id);
                     }
                 }
                 return redirect('dashboard');
@@ -207,7 +220,7 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.game-create');
+        return view('livewire.game.form');
     }
 
 }

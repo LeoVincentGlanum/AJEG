@@ -5,5 +5,5 @@
         </h2>
     </x-slot>
 
-    <livewire:game.form />
+    <livewire:game.form :game="$game"/>
 </x-app-layout>

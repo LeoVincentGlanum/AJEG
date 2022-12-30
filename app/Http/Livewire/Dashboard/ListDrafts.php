@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
-class ListGames extends Component
+class ListDrafts extends Component
 {
-    use HasToast;
+
 
     public array|Collection $games;
 
@@ -22,7 +21,7 @@ class ListGames extends Component
                 ->whereHas('gamePlayers', function ($query) {
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
-                ->where('status', '=', 'waiting')->orWhere('status', '=', 'inprogress')
+                ->where('status', '=', 'draft')
                 ->get();
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
@@ -33,6 +32,6 @@ class ListGames extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.list-games');
+        return view('livewire.dashboard.list-drafts');
     }
 }
