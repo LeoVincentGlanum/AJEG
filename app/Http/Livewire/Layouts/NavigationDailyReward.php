@@ -15,9 +15,16 @@ class NavigationDailyReward extends Component
 
     public bool $isDailyRewardAvailable;
 
+    protected $listeners = ['disableButton'];
+
     public function mount()
     {
         $this->isDailyRewardAvailable = Auth::user()->isDailyRewardAvailable();
+    }
+
+    public function disableButton()
+    {
+        $this->isDailyRewardAvailable = false;
     }
 
     public function getDailyReward()
@@ -40,6 +47,7 @@ class NavigationDailyReward extends Component
             $transaction->save();
 
             DB::commit();
+            $this->emitSelf('disableButton');
             $this->successToast('Your daily reward has been collected');
         } catch (\Throwable $e) {
             DB::rollBack();
