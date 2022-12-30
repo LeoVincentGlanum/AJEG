@@ -12,6 +12,83 @@
                         {{ __('Créer un tournoi') }}
                     </a>
                 </div>
+                <form
+                    class="mt-1 w-full grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
+                >
+                    <div class="sm:col-span-1">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ __('Type') }}
+                        </label>
+                        <select
+                            id="type"
+                            name="type"
+                            wire:model.debounce.500ms="type"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        >
+                            <option value="">{{ __('Choose a type') }}</option>
+                            @foreach($this->types as $type)
+                                <option value="{{ $type }}">{{ $type }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-1">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ __('Game type') }}
+                        </label>
+                        <select
+                            id="gameType"
+                            name="gameType"
+                            wire:model.debounce.500ms="gameType"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        >
+                            <option value="">{{ __('Choose a type') }}</option>
+                            @foreach($this->gameTypes as $gameType)
+                                <option value="{{ $gameType->id }}">{{ $gameType->label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-1">
+                        <label class="block text-sm font-medium text-gray-700">
+                            {{ __('Status') }}
+                        </label>
+                        <select
+                            id="tournamentStatus"
+                            name="tournamentStatus"
+                            wire:model.debounce.500ms="tournamentStatus"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        >
+                            <option value="">{{ __('Choose a status') }}</option>
+                            @foreach($this->status as $status)
+                                <option value="{{ $status }}">{{ $status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-1">
+                        <x-form.range
+                            nameMin="minElo"
+                            nameMax="maxElo"
+                        />
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <span>&nbsp;</span>
+                        <div class="flex justify-end">
+                            <button
+                                type="button"
+                                class="mt-3 mx-4 w-full inline-flex rounded-md bg-white text-custom-primary font-medium sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                wire:click="resetFilter"
+                            >
+                                <x-heroicon-m-arrow-path class="w-5 h-5 text-indigo-500"/>
+                                <span class="ml-1">
+                                    {{ __('Reset filter') }}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                 <div class="flex flex-col mt-6">
                     <div class="overflow-x-auto">
                         <div class="py-2 align-middle inline-block min-w-full">
@@ -156,6 +233,9 @@
                                         @endforelse
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="mt-1">
+                                    {{ $tournaments->links() }}
                                 </div>
                             </div>
                         </div>
