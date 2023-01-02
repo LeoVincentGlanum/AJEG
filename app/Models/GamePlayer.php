@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Enums\GameResultEnum;
-use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\PlayerParticipationState;
+use App\ModelStates\PlayerResultState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\ModelStates\HasStates;
 
 class GamePlayer extends Model
 {
     use HasFactory;
-
+    use HasStates;
     protected $table = 'game_players';
 
     protected $fillable = [
@@ -22,8 +23,7 @@ class GamePlayer extends Model
     ];
 
     protected $casts = [
-        'result' => GameResultEnum::class,
-        'player_result_validation' =>  PlayersValidation::class,
+        'player_result_validation' =>  playerResultState::class,
         'player_participation_validation' => PlayerParticipationState::class
 
     ];

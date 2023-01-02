@@ -2,7 +2,6 @@
 
  namespace App\ModelStates;
 
-use App\ModelStates\PlayerParticipationStates\Draft;
 use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\PlayerParticipationStates\Declined;
 use App\ModelStates\PlayerParticipationStates\Pending;
