@@ -18,14 +18,12 @@ abstract class PlayerParticipationState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Draft::class)
+            ->default(Pending::class)
 
-            ->allowTransition(Draft::class, Pending::class)
             ->allowTransition(Pending::class, Accepted::class)
             ->allowTransition(Pending::class, Declined::class)
 
 
-            ->registerState(Draft::class)
             ->registerState(Pending::class)
             ->registerState(Accepted::class)
             ->registerState(Declined::class);

@@ -2,29 +2,35 @@
 
 namespace App\Http\Livewire\Notifications;
 
-use Illuminate\Support\Facades\Log;
-use Livewire\Component;
-use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\Game;
 use LivewireUI\Modal\ModalComponent;
-use App\Mail\DeleteGameNotification;
-use Illuminate\Support\Facades\Mail;
+
 class DeleteGameRequest extends ModalComponent
 {
+    public Game $currentGame;
+    public function  mount(int $game)
+    {
+        $this->currentGame = Game::find($game);
 
+    }
     public function RequestDeleteNotification()
     {
-        Log::info('avant Envoie');
+//        Log::info('avant Envoie');
+//
+//        Mail::to('florian@glanum.com')->send(new DeleteGameNotification());
 
-        Mail::to('florian@glanum.com')->send(new DeleteGameNotification());
-//        try {
-//            $this->gameType->delete();
-//            $this->dispatchBrowserEvent('toast', ['message' => 'Le type à bien été supprimé', 'type' => 'success']);
+
+        try {
+            $this->currentGame->delete();
+            $this->dispatchBrowserEvent('toast', ['message' => 'La partie à bien été supprimé', 'type' => 'success']);
+
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
+
+            report($e);
+        }
 //
-//        } catch (\Exception $e) {
-//            $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
-//        }
-//
-//        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->gameType]]]);
+//        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->currentGame]]]);
 
     }
     public function render()
