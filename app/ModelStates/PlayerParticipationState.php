@@ -5,7 +5,7 @@
 use App\ModelStates\PlayerParticipationStates\Draft;
 use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\PlayerParticipationStates\Declined;
-use App\ModelStates\PlayerResultStates\Pending;
+use App\ModelStates\PlayerParticipationStates\Pending;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 

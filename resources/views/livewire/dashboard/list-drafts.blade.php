@@ -31,8 +31,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
+                                         @php
+                                            $data = json_encode(["id" => $game->id]);
+                                        @endphp
+                                        <div class="mt-4 flex sm:mt-0 sm:ml-5">
+                                             <button onclick="return false;" wire:click="$emit('openModal', 'game.delete-draft' , {{$data}})" type="button"  class="mr-[50px] inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                Supprimer <x-heroicon-s-trash  class="h-5 w-5"/>
+                                            </button>
                                             <div class="flex -space-x-1 overflow-hidden">
+
                                                 @foreach($game->users as $user)
                                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
                                                          src="{{ asset('storage/photos/'.$user->photo) }}"

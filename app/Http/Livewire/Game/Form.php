@@ -31,6 +31,7 @@ class Form extends Component
 
 
 
+
     public ?array $playersId = [];
 
     public ?string $selectBlanc = "nul";
@@ -55,6 +56,10 @@ class Form extends Component
                     if ($player->color === "blanc"){
                         $this->selectBlanc = $player->user_id;
                     }
+                }
+            } elseif(count($game->gamePlayers) > 2) {
+                foreach ($game->gamePlayers as $player) {
+                    $this->playersIdColors[$player->user_id] = $player->color;
                 }
             }
         }

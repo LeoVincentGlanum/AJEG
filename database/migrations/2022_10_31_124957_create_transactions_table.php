@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')
                 ->constrained('users')
-                ->deleteOnCascade();
+                ->onDelete('cascade');
             $table->integer('coins');
             $table->text('message');
             $table->timestamps();
