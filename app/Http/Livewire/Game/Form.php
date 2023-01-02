@@ -98,13 +98,13 @@ class Form extends Component
             $result = null;
 
             if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose;
+                $result = GameResultEnum::lose->value;
                 if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win;
+                    $result = GameResultEnum::win->value;
                 }
             }
 
@@ -182,14 +182,14 @@ class Form extends Component
 
             $result = null;
 
-            if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose;
+            if ($this->type == GameStatusEnum::ended->value) {
+                $result = GameResultEnum::lose->value;
                 if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win;
+                    $result = GameResultEnum::win->value;
                 }
             }
 
@@ -197,6 +197,7 @@ class Form extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color   = $color;
+
             $gameplayer->result  = $result;
             $gameplayer->save();
         }

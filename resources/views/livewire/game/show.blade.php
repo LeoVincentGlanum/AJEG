@@ -16,13 +16,20 @@
                                 </a>
                             </div>
                         </div>
-                        {{ __('Game') }} {{ $game->status }}
+                        {{ __('Game') }} {{ trans($game->status->name()) }}
                     </li>
 
                     <li class="px-6 py-4">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
                             @foreach($gamePlayer as $player)
-                                <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+                                @php
+                                 $bgColor = "bg-white";
+                                     if ($player->player_result_validation == "pending" && $game->status == "resultvalidations"){
+                                        $bgColor = "bg-yellow-50";
+                                    }
+                                @endphp
+                                <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 {{$bgColor}} px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                                     <div class="flex-shrink-0">
                                         <img class="h-10 w-10 rounded-full"
                                              src="{{ asset('storage/photos/'.$player->user->photo) }}"
@@ -39,20 +46,60 @@
                             @endforeach
                         </div>
                     </li>
+                    @if($game->status == "resultvalidations")
+                        <li class="px-6 py-4">
+                            Le resultat du match à été renseigné : <br>
+                            @if($winner !== null)
 
-                    <li class="px-6 py-4">
-                        @php
-                            $data = json_encode(["id" => $game->id]);
-                        @endphp
-                        <a wire:click="$emit('openModal', 'game.result-form', {{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            {{ __('Give result') }}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-3 bi bi-person-check-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                      d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                            </svg>
-                        </a>
-                    </li>
+                            <div class="pointer-events-auto mt-5 mb-5 m-auto w-full max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                                <div class="p-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 pt-0.5">
+                                            <img class="h-10 w-10 rounded-full"
+                                                 src="{{ asset('storage/photos/'.$winner->user->photo) }}"
+                                                 alt="">
+                                        </div>
+                                        <div class="ml-3 w-0 flex-1">
+                                            <p class="text-sm font-medium text-gray-900">{{$winner->user->name}} <span
+                                                        class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">Win</span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-500">Jouant les {{$winner->color}}s</p>
+                                            <div class="mt-4 flex">
+                                                <button type="button" wire:click.prevent="accept"
+                                                        class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    Accept
+                                                </button>
+                                                <button type="button" wire:click.prevent="decline"
+                                                        class="ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    Decline
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4 flex flex-shrink-0">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        @endif
+
+                    @else
+                        <li class="px-6 py-4">
+                            @php
+                                $data = json_encode(["id" => $game->id]);
+                            @endphp
+                            <a wire:click="$emit('openModal', 'game.result-form', {{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                {{ __('Give result') }}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-3 bi bi-person-check-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
