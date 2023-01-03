@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('game_id')
                 ->constrained('games')
-                ->deleteOnCascade();
-            $table->foreignId('user_id')
-                ->constrained('users');
+                ->onDelete('cascade');
+            $table->foreignId('user_id');
+
             $table->string('color', 30)
                 ->nullable();
             $table->string('result', 30)

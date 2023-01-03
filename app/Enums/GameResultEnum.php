@@ -6,8 +6,8 @@ enum GameResultEnum:string
 {
     case win = 'win';
     case lose = 'lose';
-    case pat = 'path';
-    case nul = 'null';
+    case pat = 'pat';
+    case nul = 'nul';
 
     public function tournamentPoint(): int
     {
