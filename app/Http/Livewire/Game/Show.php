@@ -6,12 +6,17 @@ use App\Models\Game;
 use Livewire\Component;
 use App\Models\GamePlayer;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Traits\HasToast;
 use App\ModelStates\GameStates\Validate;
+use App\ModelStates\GameStates\InProgress;
 use Illuminate\Database\Eloquent\Collection;
 use App\ModelStates\PlayerResultStates\Accepted;
+use App\Http\Livewire\Game\Traits\HasGameResultMapper;
 
 class Show extends Component
 {
+
+     use HasGameResultMapper, HasToast;
     public Game $game;
     public ?GamePlayer $winner;
     public Collection $gamePlayer;
@@ -44,6 +49,9 @@ class Show extends Component
             $this->game->status->transitionTo(Validate::class);
             $this->game->save();
         }
+
+        $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
+        redirect()->route('dashboard');
     }
 
     public function decline(){
@@ -57,13 +65,27 @@ class Show extends Component
     }
     public function acceptInvitation()
     {
-        $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class) ;
+        $allCompleted = true;
+        foreach ($this->gamePlayer as $player){
+             if ($player->user_id === Auth::id()){
+                $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
+                $player->save();
+            }
+            if ($player->player_participation_validation == "pending"){
+                $allCompleted = false;
+            }
+        }
+        if($allCompleted){
+            $this->game->status->transitionTo(InProgress::class);
+            $this->game->save();
+        }
+        $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
     }
 
     public function refuseInvitation()
     {
-        $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class) ;
+        $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
         $this->emitSelf('refreshListPlayer');
     }
     public function render()

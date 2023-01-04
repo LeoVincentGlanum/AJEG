@@ -91,7 +91,7 @@
     "archived" : "Archivé",
     "ask admin" : "Demande de modération",
     "cancel" : "Annulé",
-    "Accept" : "Accépter",
+    "Accept" : "Accepter",
     "Refuse" : "Refuser",
     "this is an invitation to play do you want accept ?" : "ceci et une invitation a jouer voulez-vous accepter ?",
     "draft" : "Brouillon",
@@ -101,5 +101,6 @@
     "ended" : "Terminé",
     "waiting" : "Demande de partie",
     "validate" : "Validé",
-    "Save draft" : "Enregistrer en brouillon"
+    "Save draft" : "Enregistrer en brouillon",
+    "You accepted the game" : "Vous avez accepté la partie"
 }

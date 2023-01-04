@@ -19,6 +19,7 @@ use App\Models\GameType;
 use App\Models\GamePlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\ModelStates\PlayerParticipationStates\Accepted;
 
 class Form extends Component
 {
@@ -197,7 +198,9 @@ class Form extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color   = $color;
-
+            if($id == Auth::id()){
+                $gameplayer->player_participation_validation->transitionTo(Accepted::class);
+            }
             $gameplayer->result  = $result;
             $gameplayer->save();
         }
@@ -219,9 +222,8 @@ class Form extends Component
                 }
                 return redirect('dashboard');
            }
-
         session()->flash('message', 'Votre partie a bien été créée.');
-             return redirect('dashboard');
+        return redirect('dashboard');
     }
 
     public function render()

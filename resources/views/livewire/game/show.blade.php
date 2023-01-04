@@ -23,19 +23,36 @@
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             @foreach($gamePlayer as $player)
                                 <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300
-                                @switch($player->player_participation_validation)
-                                    @case('pending')
-                                        bg-yellow-100
-                                        @break
-                                    @case('accepted')
-                                        bg-green-100
-                                        @break
-                                    @case('declined')
-                                        bg-red-100
-                                        @break
-                                    @default
-                                        bg-blue-100
-                                @endswitch
+                                @if($game->status == "resultvalidations" || $game->status == "inprogress")
+                                    @switch($player->player_result_validation)
+                                        @case('pending')
+                                            bg-yellow-100
+                                            @break
+                                        @case('accepted')
+                                            bg-green-100
+                                            @break
+                                        @case('declined')
+                                            bg-red-100
+                                            @break
+                                        @default
+                                            bg-blue-100
+                                    @endswitch
+                                @else
+                                    @switch($player->player_participation_validation)
+                                        @case('pending')
+                                            bg-yellow-100
+                                            @break
+                                        @case('accepted')
+                                            bg-green-100
+                                            @break
+                                        @case('declined')
+                                            bg-red-100
+                                            @break
+                                        @default
+                                            bg-blue-100
+                                    @endswitch
+                                 @endif
+
                                  px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                                     <div class="flex-shrink-0">
                                         <img class="h-10 w-10 rounded-full"
@@ -53,7 +70,7 @@
                             @endforeach
                         </div>
                     </li>
-                    @if($game->status == "resultvalidations")
+                    @if($game->status == "resultvalidations" && $CurrentUserGame->player_result_validation == "pending")
                         <li class="px-6 py-4">
                             Le resultat du match à été renseigné : <br>
                             @if($winner !== null)
@@ -92,7 +109,13 @@
                         </li>
                         @endif
 
-                    @else
+                    @elseif($CurrentUserGame->player_result_validation== "accepted")
+                        <li class="px-6 py-4">
+                            Le resultat est en attente d'etre approuvé par les autres joueurs
+                        </li>
+
+                    @elseif($game->status == "inprogress")
+
                         <li class="px-6 py-4">
                             @php
                                 $data = json_encode(["id" => $game->id]);
@@ -106,6 +129,10 @@
                                 </svg>
                             </a>
                         </li>
+                    @elseif($CurrentUserGame->player_participation_validation == "accepted")
+                         <li class="px-6 py-4">
+                        En attente des joueurs pour commencer la partie
+                         </li>
                     @endif
                     @php
                         $data = json_encode(["id" => $game->id]);
@@ -125,21 +152,6 @@
                                 </a>
                             </li>
                     @endif
-                    @if($game->status == "inprogress")
-                            <li class="px-6 py-4">
-
-                                <a wire:click="$emit('openModal', 'game.result-form', {{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                    {{ __('Give result') }}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-3 bi bi-person-check-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                              d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                    </svg>
-                                </a>
-                            </li>
-
-                    @endif
-
                 </ul>
             </div>
         </div>
