@@ -109,7 +109,7 @@
                         </li>
                         @endif
 
-                    @elseif($CurrentUserGame->player_result_validation== "accepted")
+                    @elseif($CurrentUserGame->player_result_validation == "accepted")
                         <li class="px-6 py-4">
                             Le resultat est en attente d'etre approuvé par les autres joueurs
                         </li>
