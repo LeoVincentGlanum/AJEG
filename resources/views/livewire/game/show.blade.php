@@ -72,7 +72,7 @@
                     </li>
                     @if($game->status == "resultvalidations" && $CurrentUserGame->player_result_validation == "pending")
                         <li class="px-6 py-4">
-                            Le resultat du match à été renseigné : <br>
+                            Le resultat du match a été renseigné : <br>
                             @if($winner !== null)
 
                             <div class="pointer-events-auto mt-5 mb-5 m-auto w-full max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
@@ -107,11 +107,45 @@
                                 </div>
                             </div>
                         </li>
+                        @else
+                        <div class="pointer-events-auto mt-5 mb-5 m-auto w-full max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                                <div class="p-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 pt-0.5">
+                                            <img class="h-10 w-10 rounded-full"
+                                                 src=""
+                                                 alt="">
+                                        </div>
+                                        <div class="ml-3 w-0 flex-1">
+                                            <p class="text-sm font-medium text-gray-900"> <span
+                                                        class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">{{ ucfirst($gamePlayer->first()->result->value) }}</span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-500">Jouant les s</p>
+                                            <div class="mt-4 flex">
+                                                <button type="button" wire:click.prevent="accept"
+                                                        class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    Accept
+                                                </button>
+                                                <button type="button" wire:click.prevent="decline"
+                                                        class="ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    Decline
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4 flex flex-shrink-0">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
+
+
 
                     @elseif($CurrentUserGame->player_result_validation== "accepted")
                         <li class="px-6 py-4">
-                            Le resultat est en attente d'etre approuvé par les autres joueurs
+                            Le résultat est en attente d'etre approuvé par les autres joueurs
                         </li>
 
                     @elseif($game->status == "inprogress")
