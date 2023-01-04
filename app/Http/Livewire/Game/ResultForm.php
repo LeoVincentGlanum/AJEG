@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
 use App\ModelStates\GameStatus;
-use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\PlayerResultStates\Accepted;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\GameStates\PlayersValidation;
@@ -43,7 +43,7 @@ final class ResultForm extends ModalComponent
     {
         try {
 
-            if ($this->game->status == InProgress::$name) {
+            if ($this->game->status == GameAccepted::$name) {
                 $this->game->status->transitionTo(ResultValidations::class);
             }
             foreach ($this->game->gamePlayers as $player) {

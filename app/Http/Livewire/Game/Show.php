@@ -3,12 +3,14 @@
 namespace App\Http\Livewire\Game;
 
 use App\Models\Game;
+use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\PlayerParticipationStates\Pending;
 use Livewire\Component;
 use App\Models\GamePlayer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasToast;
 use App\ModelStates\GameStates\Validate;
-use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStates\GameAccepted;
 use Illuminate\Database\Eloquent\Collection;
 use App\ModelStates\PlayerResultStates\Accepted;
 use App\Http\Livewire\Game\Traits\HasGameResultMapper;
@@ -71,18 +73,24 @@ class Show extends Component
                 $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                 $player->save();
             }
-            if ($player->player_participation_validation == "pending"){
+            if ($player->player_participation_validation === Pending::$name){
                 $allCompleted = false;
             }
         }
         if($allCompleted){
-            $this->game->status->transitionTo(InProgress::class);
+            $this->game->status->transitionTo(GameAccepted::class);
             $this->game->save();
         }
         $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
     }
+    public function LaunchGame()
+    {
+        $this->game->status->transitionTo(InProgress::class);
 
+        $this->successToast('Game is now launch dont forget close bet');
+        $this->emitSelf('refreshListPlayer');
+    }
     public function refuseInvitation()
     {
         $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);

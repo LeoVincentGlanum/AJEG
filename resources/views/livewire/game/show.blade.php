@@ -23,7 +23,7 @@
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             @foreach($gamePlayer as $player)
                                 <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300
-                                @if($game->status == "resultvalidations" || $game->status == "inprogress")
+                                @if($game->status == "resultvalidations" || $game->status == "GameAccepted")
                                     @switch($player->player_result_validation)
                                         @case('pending')
                                             bg-yellow-100
@@ -129,10 +129,21 @@
                                 </svg>
                             </a>
                         </li>
-                    @elseif($CurrentUserGame->player_participation_validation == "accepted")
-                         <li class="px-6 py-4">
-                        En attente des joueurs pour commencer la partie
-                         </li>
+                    @elseif($CurrentUserGame->player_participation_validation == "accepted" )
+                            @if($game->status == \App\ModelStates\GameStates\PlayersValidation::$name)
+                             <li class="px-6 py-4">
+                            En attente des joueurs pour commencer la partie
+                            </li>
+                            @endif
+                            @if($game->status == \App\ModelStates\GameStates\GameAccepted::$name)
+                                    <li class="px-6 py-4">
+                                        <a wire:click="LaunchGame" class="inline-flex mr-2 items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                            {{ __('Launch game') }}
+                                            <x-heroicon-o-check class="ml-5 w-5" />
+                                        </a>
+                                        {{__("After launch game the option bet will be closed")}}
+                                    </li>
+                            @endif
                     @endif
                     @php
                         $data = json_encode(["id" => $game->id]);

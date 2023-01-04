@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Dashboard;
 
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
+use App\ModelStates\GameStates\GameAccepted;
+use App\ModelStates\GameStates\InProgress;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -22,7 +24,7 @@ class ListGames extends Component
                 ->whereHas('gamePlayers', function ($query) {
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
-                ->where('status', '=', 'waiting')->orWhere('status', '=', 'Allaccepted')
+                ->Where('status', '=', InProgress::$name)
                 ->get();
         } catch (\Throwable $e) {
             report($e);
