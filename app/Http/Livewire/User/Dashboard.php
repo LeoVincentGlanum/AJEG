@@ -39,13 +39,18 @@ class Dashboard extends Component
 
     private function getStat()
     {
-        $userGames = GamePlayer::query()->where('user_id', $this->user->id)->get();
 
+        $userGames = GamePlayer::query()->whereHas('game', function (\Illuminate\Database\Eloquent\Builder $query) {
+            $query->where('status','=', 'validate');
+        })->where('user_id', $this->user->id)->get();
         $this->win = $userGames->where('result', '=', GameResultEnum::win)->count();
         $this->lose = $userGames->where('result', '=', GameResultEnum::lose)->count();
         $this->pat = $userGames->where('result', '=', GameResultEnum::pat)->count();
         $this->nul = $userGames->where('result', '=', GameResultEnum::nul)->count();
         $this->inStandby = $userGames->where('result', '=', null)->count();
+        $this->totalGames = $this->win + $this->lose+ $this->pat+$this->nul+$this->inStandby;
+
+
         $this->totalGames = $userGames->count();
     }
 

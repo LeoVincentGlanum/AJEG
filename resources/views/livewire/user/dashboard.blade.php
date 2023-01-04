@@ -16,7 +16,7 @@
                     'Défaites',
                     'Pats',
                     'Nuls',
-                    'En attente',
+                    'En cour',
                 ],
                 datasets: [
                     {
