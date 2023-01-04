@@ -23,9 +23,8 @@ class PendingGames extends Component
                 ->where('status', '=', 'playersvalidation')
                 ->get();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->games = [];
-            $this->errorToast('An error occurred while retrieving your games');
         }
     }
     public function render()

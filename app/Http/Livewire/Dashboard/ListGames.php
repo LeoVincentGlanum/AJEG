@@ -22,12 +22,12 @@ class ListGames extends Component
                 ->whereHas('gamePlayers', function ($query) {
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
-                ->where('status', '=', 'waiting')->orWhere('status', '=', 'inprogress')
+                ->where('status', '=', 'waiting')->orWhere('status', '=', 'Allaccepted')
                 ->get();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
+
             $this->games = [];
-            $this->errorToast('An error occurred while retrieving your games');
         }
     }
 

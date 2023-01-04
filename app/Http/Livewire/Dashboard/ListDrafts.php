@@ -24,9 +24,8 @@ class ListDrafts extends Component
                 ->where('status', '=', 'draft')
                 ->get();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->games = [];
-            $this->errorToast('An error occurred while retrieving your games');
         }
     }
 
