@@ -4,19 +4,18 @@ namespace App\Http\Livewire\Game;
 
 use App\Models\Game;
 use App\Models\Bet as GameBet;
-use App\Models\GamePlayer;
+use LivewireUI\Modal\ModalComponent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-class Bet extends Component
+class Bet extends ModalComponent
 {
-    public Game $game;
+    public Game $currentGame;
 
     public Collection $gamePlayer;
 
-    public array $gameplayer_bet;
+    public array $gameplayer_id;
 
     public bool $showInput = false;
 
@@ -25,21 +24,22 @@ class Bet extends Component
     public float $ratio;
     public int $gain = 0;
 
-    public function mount($game)
+    public function  mount(int $game)
     {
-        $this->game = $game;
-        $this->gamePlayer = $game->gamePlayers;
+        $this->currentGame = Game::find($game);
+        $this->gamePlayer = $this->currentGame->gamePlayers;
+
     }
 
     public function render()
     {
-        return view('livewire.game.bet');
+        return view('livewire.notifications.bet-game');
     }
 
     public function initBet($ratio, $player)
     {
         $this->ratio = $ratio;
-        $this->gameplayer_bet = $player;
+        $this->gameplayer_id = $player;
         if ($this->bet !== 0) {
             $this->gain = $this->bet * $this->ratio;
         }
@@ -55,9 +55,9 @@ class Bet extends Component
     {
         try {
             $newBet = new GameBet();
-            $newBet->game_id = $this->game->id;
+            $newBet->game_id = $this->currentGame->id;
             $newBet->gambler_id = Auth::id();
-            $newBet->gameplayer_bet = $this->gameplayer_bet['id'];
+            $newBet->gameplayer_id = $this->gameplayer_id['id'];
             $newBet->bet_deposit = $this->bet;
             $newBet->bet_gain = $this->gain;
             $newBet->bet_status = "Pending";
@@ -66,7 +66,7 @@ class Bet extends Component
                 User::query()->where('id', Auth::id())->decrement('coins', $this->bet);
 
                 session()->flash('message', 'Votre paris a bien été enregistré.');
-                return redirect()->route('game.show', $this->game->id);
+                return redirect()->route('game.show', $this->currentGame->id);
             }
 
         } catch (\Exception $exception) {

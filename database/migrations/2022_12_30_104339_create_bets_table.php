@@ -15,7 +15,15 @@ return new class extends Migration
     {
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
+            $table->foreignId('gambler_id')->constrained('users');
+            $table->foreignId('gameplayer_id')->constrained('game_players');
+            $table->integer('bet_deposit');
+            $table->integer('bet_gain');
+            $table->string('bet_status');
             $table->timestamps();
+
+            $table->unique(['game_id', 'gambler_id', 'gameplayer_id']);
         });
     }
 

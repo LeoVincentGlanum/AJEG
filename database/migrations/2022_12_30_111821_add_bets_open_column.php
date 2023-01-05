@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('games', function (Blueprint $table) {
-            $table->boolean('has_bets')->after('status');
+            $table->boolean('bet_available')->after('status');
         });
     }
 

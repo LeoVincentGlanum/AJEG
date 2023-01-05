@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bets_ratio', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('game_players', function (Blueprint $table) {
+            $table->decimal('bet_ratio', 10,2)->after('player_participation_validation')->nullable();
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bets_ratio');
+        //
     }
 };

@@ -10,6 +10,7 @@ use App\Models\GamePlayer;
 use Illuminate\Support\Arr;
 use App\Enums\GameResultEnum;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\Bet;
 use App\Http\Livewire\Traits\HasToast;
 use App\ModelStates\GameStates\Validate;
 use App\ModelStates\GameStates\GameAccepted;
@@ -23,10 +24,12 @@ class Show extends Component
 
      use HasGameResultMapper, HasToast;
     public Game $game;
+
+    public bool $isBetAvailable = false;
     public ?GamePlayer $winner;
     public Collection  $gamePlayer;
 
-    public GamePlayer $CurrentUserGame;
+    public GamePlayer $currentUserGame;
 
     protected $listeners = ['refreshComponent' => '$refresh', 'refreshListPlayer'];
 
@@ -35,7 +38,10 @@ class Show extends Component
         $this->game            = $game;
         $this->gamePlayer      = $game->gamePlayers;
         $this->winner          = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        $this->currentUserGame  = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        $this->isBetAvailable =   $game->bet_available
+            && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
+            && in_array($game->status, ['playersvalidation', 'accepted']);
     }
 
     public function accept()
