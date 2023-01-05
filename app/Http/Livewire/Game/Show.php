@@ -28,8 +28,7 @@ class Show extends Component
 
     public GamePlayer $CurrentUserGame;
 
-
-    protected $listeners = ['refreshListPlayer'];
+    protected $listeners = ['refreshComponent' => '$refresh', 'refreshListPlayer'];
 
     public function mount($game)
     {
@@ -162,8 +161,14 @@ class Show extends Component
             $this->game->status->transitionTo(GameAccepted::class);
             $this->game->save();
         }
+
+
+        $this->winner          = $this->game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
+        $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+
         $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
+        return view('livewire.game.result-form');
     }
     public function LaunchGame()
     {

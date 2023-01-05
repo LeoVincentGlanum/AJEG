@@ -1,4 +1,5 @@
 <div>
+
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-5">
         <div class="mx-auto max-w-3xl">
             <div class="overflow-hidden rounded-md border border-gray-300 bg-white">
@@ -152,7 +153,7 @@
                             @php
                                 $data = json_encode(["id" => $game->id]);
                             @endphp
-                            <a wire:click="$emit('openModal', 'game.result-form', {{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            <a onclick="test({{ $data }})" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                 {{ __('Give result') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-3 bi bi-person-check-fill" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -200,3 +201,16 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+		function test(data){
+			console.log("ça passe !")
+			console.log(data)
+			window.livewire.emit('openModal','game.result-form',data);
+        }
+
+
+
+</script>
