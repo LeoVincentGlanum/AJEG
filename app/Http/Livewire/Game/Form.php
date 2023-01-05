@@ -39,6 +39,8 @@ class Form extends Component
 
     public ?string $partyName = "";
 
+    public ?bool $selectedBets = false;
+
     protected $messages = [
         'selectBlanc.not_in' => 'Attention ! Merci de selectionner un joueur blanc',
         'resultat.required' => 'Merci de saisir le resultat de la partie',
@@ -70,6 +72,7 @@ class Form extends Component
     }
 
     public function saveDraft(){
+
 
         $validated = $this->validate([
             'partyName' => 'required',
@@ -157,6 +160,7 @@ class Form extends Component
         $newGame = new Game();
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
+        $newGame->has_bets = $this->selectedBets;
         $newGame->save();
 
         $match = match ($this->type) {

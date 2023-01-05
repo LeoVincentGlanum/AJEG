@@ -98,5 +98,7 @@
     "ended" : "Terminé",
     "waiting" : "Demande de partie",
     "validate" : "Validé",
-    "Save draft" : "Enregistrer en brouillon"
+    "Save draft" : "Enregistrer en brouillon",
+    "Bet on that game": "Parier sur cette partie",
+    "Game Informations": "Informations de la partie"
 }
