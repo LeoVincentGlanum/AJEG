@@ -19,6 +19,7 @@ use App\Models\GameType;
 use App\Models\GamePlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\ModelStates\PlayerParticipationStates\Accepted;
 
 class Form extends Component
 {
@@ -28,6 +29,7 @@ class Form extends Component
     public ?Collection $gameTypes;
     public ?string $type = "waiting";
     public ?string $resultat = "none";
+
 
 
 
@@ -57,6 +59,10 @@ class Form extends Component
                     if ($player->color === "blanc"){
                         $this->selectBlanc = $player->user_id;
                     }
+                }
+            } elseif(count($game->gamePlayers) > 2) {
+                foreach ($game->gamePlayers as $player) {
+                    $this->playersIdColors[$player->user_id] = $player->color;
                 }
             }
         }
@@ -96,13 +102,13 @@ class Form extends Component
             $result = null;
 
             if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose;
+                $result = GameResultEnum::lose->value;
                 if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win;
+                    $result = GameResultEnum::win->value;
                 }
             }
 
@@ -181,14 +187,14 @@ class Form extends Component
 
             $result = null;
 
-            if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose;
+            if ($this->type == GameStatusEnum::ended->value) {
+                $result = GameResultEnum::lose->value;
                 if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win;
+                    $result = GameResultEnum::win->value;
                 }
             }
 
@@ -196,6 +202,9 @@ class Form extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color   = $color;
+            if($id == Auth::id()){
+                $gameplayer->player_participation_validation->transitionTo(Accepted::class);
+            }
             $gameplayer->result  = $result;
             $gameplayer->save();
         }
@@ -217,9 +226,8 @@ class Form extends Component
                 }
                 return redirect('dashboard');
            }
-
         session()->flash('message', 'Votre partie a bien été créée.');
-             return redirect('dashboard');
+        return redirect('dashboard');
     }
 
     public function render()

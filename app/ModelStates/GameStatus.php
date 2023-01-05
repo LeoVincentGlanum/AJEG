@@ -6,6 +6,7 @@ use App\ModelStates\GameStates\Archived;
 use App\ModelStates\GameStates\AskAdmin;
 use App\ModelStates\GameStates\Cancel;
 use App\ModelStates\GameStates\Draft;
+use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
@@ -29,8 +30,12 @@ abstract class GameStatus extends State
             ->allowTransition(Draft::class, ResultValidations::class)
 
 
+
+
             ->allowTransition(PlayersValidation::class, Draft::class)
-            ->allowTransition(PlayersValidation::class, InProgress::class)
+            ->allowTransition(PlayersValidation::class, GameAccepted::class)
+
+            ->allowTransition(GameAccepted::class, InProgress::class)
 
             ->allowTransition(InProgress::class, Cancel::class)
             ->allowTransition(InProgress::class, ResultValidations::class)
@@ -44,6 +49,7 @@ abstract class GameStatus extends State
 
             ->registerState(Draft::class)
             ->registerState(PlayersValidation::class)
+            ->registerState(GameAccepted::class)
             ->registerState(InProgress::class)
             ->registerState(ResultValidations::class)
             ->registerState(AskAdmin::class)

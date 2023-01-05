@@ -71,7 +71,7 @@
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span @class(['inline-flex rounded-full',
                                         'bg-yellow-100'=>$game->status == \App\ModelStates\GameStates\PlayersValidation::class,
-                                        'bg-blue-100'=>$game->status == \App\ModelStates\GameStates\InProgress::class,
+                                        'bg-blue-100'=>$game->status == \App\ModelStates\GameStates\GameAccepted::class,
                                         'bg-green-100'=>$game->status == \App\ModelStates\GameStates\Validate::class,
                                         'px-2 text-xs font-semibold leading-5 text-green-800'])>
                                             {{ $game->status }}

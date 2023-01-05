@@ -26,9 +26,9 @@ class ListTournaments extends Component
                 ->where('status', '!=', 'Terminé')
                 ->get();
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            report($e);
             $this->tournaments = [];
-            $this->errorToast('An error occurred while retrieving your tournaments');
+
         }
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('notification_id')
                 ->constrained('notifications')
-                ->deleteOnCascade();
+                ->onDelete('cascade');
             $table->foreignId('user_id')
                 ->constrained('users');
             $table->boolean('is_done');

@@ -13,6 +13,9 @@
     "Game name": "Nom de la partie",
     "Game update": "Mise à jour de la partie",
     "Game History": "Historique des parties",
+    "game accepted": "Partie accepté",
+    "Launch game" : "lancer la partie",
+    "After launch game the option bet will be closed" : "Apres avoir lancer la partie l'option pariez sera fermé",
     "White": "Blanc",
     "Select white player ...": "Sélectionnez le joueur blanc ...",
     "White player": "Joueur blanc",
@@ -91,6 +94,9 @@
     "archived" : "Archivé",
     "ask admin" : "Demande de modération",
     "cancel" : "Annulé",
+    "Accept" : "Accepter",
+    "Refuse" : "Refuser",
+    "this is an invitation to play do you want accept ?" : "ceci et une invitation a jouer voulez-vous accepter ?",
     "draft" : "Brouillon",
     "in progress" : "En cours",
     "player validation" : "En validation des joueurs",
@@ -98,6 +104,8 @@
     "ended" : "Terminé",
     "waiting" : "Demande de partie",
     "validate" : "Validé",
+    "Save draft" : "Enregistrer en brouillon",
+    "You accepted the game" : "Vous avez accepté la partie"
     "Save draft" : "Enregistrer en brouillon",
     "Bet on that game": "Parier sur cette partie",
     "Game Informations": "Informations de la partie"

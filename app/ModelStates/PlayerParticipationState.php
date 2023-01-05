@@ -5,7 +5,7 @@
 use App\ModelStates\PlayerParticipationStates\Draft;
 use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\PlayerParticipationStates\Declined;
-use App\ModelStates\PlayerResultStates\Pending;
+use App\ModelStates\PlayerParticipationStates\Pending;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 
@@ -18,14 +18,12 @@ abstract class PlayerParticipationState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Draft::class)
+            ->default(Pending::class)
 
-            ->allowTransition(Draft::class, Pending::class)
             ->allowTransition(Pending::class, Accepted::class)
             ->allowTransition(Pending::class, Declined::class)
 
 
-            ->registerState(Draft::class)
             ->registerState(Pending::class)
             ->registerState(Accepted::class)
             ->registerState(Declined::class);

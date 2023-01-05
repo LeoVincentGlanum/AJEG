@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
+use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStatus;
+use App\ModelStates\GameStates\GameAccepted;
+use App\ModelStates\PlayerResultStates\Accepted;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\Http\Livewire\Game\Traits\HasGameResultMapper;
@@ -40,15 +43,22 @@ final class ResultForm extends ModalComponent
     public function save()
     {
         try {
-            $this->game->status->transitionTo(PlayersValidation::class);
-            foreach ($this->game->users as $user) {
-                $user->pivot->result = Arr::get($this->playersResult, $user->id);
-                $user->pivot->save();
+
+            if ($this->game->status == InProgress::$name) {
+                $this->game->status->transitionTo(ResultValidations::class);
+            }
+            foreach ($this->game->gamePlayers as $player) {
+                if ($player->user_id === auth()->id()){
+                    $player->player_result_validation->transitionTo(Accepted::class);
+                }
+                $player->result = Arr::get($this->playersResult, $player->user_id);
+                $player->save();
             }
             $this->game->save();
 
-            $this->successToast('The result has been put into validation');
-            $this->closeModal();
+            $this->dispatchBrowserEvent('toast', ['message' => __("The result has been put into validation"), 'type' => 'success']);
+            redirect()->route('dashboard');
+
         } catch (\Throwable $e) {
             Log::error($e->getMessage() . $e->getTraceAsString());
             $this->errorToast('An error occurred while entering the result');
