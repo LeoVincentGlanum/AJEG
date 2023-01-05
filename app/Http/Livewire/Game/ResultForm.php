@@ -12,6 +12,7 @@ use App\ModelStates\GameStates\PlayersValidation;
 use App\Http\Livewire\Game\Traits\HasGameResultMapper;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
@@ -28,21 +29,19 @@ final class ResultForm extends ModalComponent
 
     public function mount(int $id)
     {
-        try {
-            $this->game = Game::query()->find($id);
+        $this->game = Game::query()->find($id);
 
-            foreach ($this->game->users as $player) {
-                $this->playersResult = Arr::add($this->playersResult, $player->id, '');
-            }
-        } catch (\Throwable $e) {
-            Log::error($e->getMessage());
-            $this->errorToast('An error occurred while retrieving data');
+        foreach ($this->game->users as $player) {
+            $this->playersResult = Arr::add($this->playersResult, $player->id, '');
         }
     }
 
     public function save()
     {
         try {
+            if(!$this->game->status->equals(InProgress::class)) {
+                throw new Exception('Status is not inProgress');
+            }
 
             if ($this->game->status == InProgress::$name) {
                 $this->game->status->transitionTo(ResultValidations::class);
@@ -60,7 +59,6 @@ final class ResultForm extends ModalComponent
             redirect()->route('dashboard');
 
         } catch (\Throwable $e) {
-            Log::error($e->getMessage() . $e->getTraceAsString());
             $this->errorToast('An error occurred while entering the result');
         }
     }

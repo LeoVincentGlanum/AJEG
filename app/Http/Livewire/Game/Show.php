@@ -28,8 +28,10 @@ class Show extends Component
 
     public GamePlayer $CurrentUserGame;
 
-
-    protected $listeners = ['refreshListPlayer'];
+    public  $testValue;
+    public  bool $unSync = false;
+    public string $CurrentState;
+    protected $listeners = ['refreshListPlayer' ];
 
     public function mount($game)
     {
@@ -37,6 +39,8 @@ class Show extends Component
         $this->gamePlayer      = $game->gamePlayers;
         $this->winner          = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
         $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        $this->CurrentState = $this->game->status->name();
+
     }
 
     public function accept()
@@ -141,9 +145,15 @@ class Show extends Component
         dd("perdu");
     }
 
+
+
     public function refreshListPlayer()
     {
         $this->gamePlayer = $this->game->gamePlayers;
+
+        $this->emitTo('interface.interactable-advises','setState',$this->game->status->name());
+
+        $this->successToast('refresh');
     }
 
     public function acceptInvitation()
