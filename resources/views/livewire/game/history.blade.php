@@ -56,7 +56,7 @@
                                                 @foreach($game->users as $user)
                                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
                                                          src="{{ asset('storage/photos/'.$user->photo) }}"
-                                                         alt="Dries Vincent">
+                                                         alt="" onerror="this.onerror=null; this.src='/img/user-default.png'">
                                                 @endforeach
                                             </div>
                                         </div>
@@ -64,7 +64,8 @@
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         @foreach($game->users as $user)
                                             <a class="inline-flex items-center hover:text-violet-600" href="profile/{{$user->id}}"
-                                               class="font-medium text-gray-900"><img class="mr-2 w-10 h-10" src="{{asset('img/roi-'.$user->pivot->color.'-cercle.png')}}"> {{ $user->name . " " . $user->pivot->color }} </a>
+                                               class="font-medium text-gray-900">
+                                                @if($user->pivot->color === "noir" ||$user->pivot->color === "blanc" ) <img class="mr-2 w-10 h-10" src="{{asset('img/roi-'.$user->pivot->color.'-cercle.png')}}">@endif {{ $user->name . " " . $user->pivot->color }} </a>
                                             <br>
                                         @endforeach
                                     </td>
