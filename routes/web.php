@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{game}', [GameController::class, 'show'])->name('game.show');
         Route::view('/history', 'game.history')->name('game.history');
         Route::get('/ranking', [GameController::class, 'ranking'])->name('game.ranking');
+        Route::get('/darts', [GameController::class, 'darts'])->name('game.darts');
     });
 
     Route::prefix('/tournament')->group(function () {

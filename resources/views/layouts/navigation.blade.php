@@ -41,6 +41,12 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                     <x-nav-link :href="route('game.darts')" :active="request()->routeIs('game.darts')">
+                        {{ __('Darts') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
 
                 <livewire:layouts.navigation-daily-reward />

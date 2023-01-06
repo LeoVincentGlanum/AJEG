@@ -24,4 +24,9 @@ class GameController extends Controller
     {
         return view('game.ranking', ['users' => $users, 'page' => request()->get('page')]);
     }
+
+    public function darts()
+    {
+        return view('game.darts');
+    }
 }
