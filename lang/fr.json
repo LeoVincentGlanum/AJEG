@@ -105,5 +105,7 @@
     "waiting" : "Demande de partie",
     "validate" : "Validé",
     "Save draft" : "Enregistrer en brouillon",
-    "You accepted the game" : "Vous avez accepté la partie"
+    "You accepted the game" : "Vous avez accepté la partie",
+    "pagination.next" : "Page suivante",
+    "pagination.previous" : "Page précédente"
 }

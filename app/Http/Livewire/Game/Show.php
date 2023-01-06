@@ -35,7 +35,9 @@ class Show extends Component
         $this->game            = $game;
         $this->gamePlayer      = $game->gamePlayers;
         $this->winner          = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        if($this->gamePlayer->where('user_id' ,'=', Auth::id())->first()){
+            $this->CurrentUserGame = $this->gamePlayer->where('user_id' ,'=', Auth::id())->first();
+        }
     }
 
     public function accept()
