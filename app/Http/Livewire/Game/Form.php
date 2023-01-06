@@ -6,14 +6,12 @@ use App\Actions\CreateNotificationAction;
 use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
+use App\Http\Livewire\Game\Traits\HasBetMapper;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
-use App\Models\UserNotification;
-use App\ModelStates\GameStates\Draft;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
-use http\Env\Request;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -23,13 +21,13 @@ use App\ModelStates\PlayerParticipationStates\Accepted;
 
 class Form extends Component
 {
+    use HasBetMapper;
 
     public Collection $users;
     public Collection $notifications;
     public ?Collection $gameTypes;
     public ?string $type = "waiting";
     public ?string $resultat = "none";
-
 
     public ?array $playersId = [];
 
@@ -77,8 +75,6 @@ class Form extends Component
 
     public function saveDraft()
     {
-
-
         $validated = $this->validate([
             'partyName' => 'required',
         ], [
@@ -121,8 +117,6 @@ class Form extends Component
             $this->dispatchBrowserEvent('toast', ['message' => 'Le brouillon à été enregisté.', 'type' => 'success']);
 
             redirect()->route('dashboard');
-
-
         }
     }
 
@@ -135,7 +129,6 @@ class Form extends Component
                 }
             }
         }
-
     }
 
     public function rules()
@@ -162,9 +155,6 @@ class Form extends Component
     {
         $this->validate();
 
-        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get();
-
-//        dd($users);
         $newGame = new Game();
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
@@ -208,17 +198,12 @@ class Form extends Component
             }
             $gameplayer->result = $result;
 
-
-            // CALCUL OF BET RATIO
-
-            // calcul du plus fort
-
             $gameplayer->save();
         }
 
-        $gameplayers = GamePlayer::query()->where('game_id', '=', $newGame->id)->get();
+        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get();
+        $this->calcBetRatio($users);
 
-        $this->calcBetRatio($gameplayers, $users);
         if ($this->type == GameStatusEnum::waiting->value) {
             session()->flash('message_url', route('game.show', ['game' => $newGame->id]));
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
@@ -245,18 +230,4 @@ class Form extends Component
     {
         return view('livewire.game.form');
     }
-
-    private function calcBetRatio($gameplayers, $users)
-    {
-        $player1 = $users[0];
-        $player2 = $users[1];
-        //plus fort
-        $ratioWeaker = ($player1->elo / $player2->elo) + 1;
-        $ratioStronger = ($player2->elo / $player1->elo) + 1;
-
-        GamePlayer::query()->where('user_id', $player1->id)->update(['bet_ratio' => $ratioStronger]);
-        GamePlayer::query()->where('user_id', $player2->id)->update(['bet_ratio' => $ratioWeaker]);
-
-    }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Game;
 
 use App\Models\Game;
+use App\Models\User;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\PlayerParticipationStates\Pending;
 use Livewire\Component;
@@ -22,12 +23,13 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Averages;
 class Show extends Component
 {
 
-     use HasGameResultMapper, HasToast;
+    use HasGameResultMapper, HasToast;
+
     public Game $game;
 
     public bool $isBetAvailable = false;
     public ?GamePlayer $winner;
-    public Collection  $gamePlayer;
+    public Collection $gamePlayer;
 
     public GamePlayer $currentUserGame;
 
@@ -35,17 +37,18 @@ class Show extends Component
 
     public function mount($game)
     {
-        $this->game            = $game;
-        $this->gamePlayer      = $game->gamePlayers;
-        $this->winner          = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        $this->currentUserGame  = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
-        $this->isBetAvailable =   $game->bet_available
+        $this->game = $game;
+        $this->gamePlayer = $game->gamePlayers;
+        $this->winner = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
+        $this->currentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        $this->isBetAvailable = $game->bet_available
             && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
             && in_array($game->status, ['playersvalidation', 'accepted']);
     }
 
     public function accept()
     {
+        $gameBets = Bet::query()->with('user')->where('game_id', $this->game->id)->get();
         $users = $this->game->gamePlayers;
 
         $winner = null;
@@ -82,7 +85,13 @@ class Show extends Component
         }
         if ($allCompleted) {
             $this->game->status->transitionTo(Validate::class);
-            $this->game->save();
+            if ($this->game->save()) {
+                collect($gameBets)
+                    ->map(function ($gameBet) {
+                        return User::query()->where('id', $gameBet->user->id)->increment('coins', $gameBet->bet_gain);
+                    });
+            }
+
         }
 
         $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
@@ -97,7 +106,7 @@ class Show extends Component
 
     function newRatings(float $rating1, float $rating2, $score1, $score2)
     {
-        $K         = $this->valeur_k($rating1 + $rating2 / 2);
+        $K = $this->valeur_k($rating1 + $rating2 / 2);
         $expected1 = $this->expectedScore($rating1, $rating2);
         $expected2 = $this->expectedScore($rating2, $rating1);
 
@@ -108,7 +117,7 @@ class Show extends Component
         return array($newRating1, $newRating2);
     }
 
-    function valeur_k($elo) : ?int
+    function valeur_k($elo): ?int
     {
         $k = null;
 
@@ -159,23 +168,24 @@ class Show extends Component
                 $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                 $player->save();
             }
-            if ($player->player_participation_validation === Pending::$name){
+            if ($player->player_participation_validation === Pending::$name) {
                 $allCompleted = false;
             }
         }
-        if($allCompleted){
+        if ($allCompleted) {
             $this->game->status->transitionTo(GameAccepted::class);
             $this->game->save();
         }
 
 
-        $this->winner          = $this->game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
+        $this->winner = $this->game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
         $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
 
         $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
         return view('livewire.game.result-form');
     }
+
     public function LaunchGame()
     {
         $this->game->status->transitionTo(InProgress::class);
@@ -183,6 +193,7 @@ class Show extends Component
         $this->successToast('Game is now launch dont forget close bet');
         $this->emitSelf('refreshListPlayer');
     }
+
     public function refuseInvitation()
     {
         $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);

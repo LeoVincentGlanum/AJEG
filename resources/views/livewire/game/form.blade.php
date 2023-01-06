@@ -132,7 +132,7 @@
 
                             @if($type === \App\Enums\GameStatusEnum::waiting->value)
                                 <div class="mt-5">
-                                    <label for="exampleInputEmail1">Date de la partie</label>
+                                    <label for="exampleInputEmail1">{{__('Activate bet')}}</label>
                                     <input type="checkbox"
                                            wire:model="selectedBets"
                                            class="mt-1 block  rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">

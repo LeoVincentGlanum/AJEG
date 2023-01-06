@@ -24,7 +24,7 @@ class Bet extends ModalComponent
     public float $ratio;
     public int $gain = 0;
 
-    public function  mount(int $game)
+    public function mount(int $game)
     {
         $this->currentGame = Game::find($game);
         $this->gamePlayer = $this->currentGame->gamePlayers;
@@ -62,7 +62,9 @@ class Bet extends ModalComponent
             $newBet->bet_gain = $this->gain;
             $newBet->bet_status = "Pending";
 
-            if ($newBet->save()) {
+            $canBet = Auth::user()->coins <= $this->bet;
+
+            if ($canBet && $newBet->save()) {
                 User::query()->where('id', Auth::id())->decrement('coins', $this->bet);
 
                 session()->flash('message', 'Votre paris a bien été enregistré.');
@@ -70,7 +72,9 @@ class Bet extends ModalComponent
             }
 
         } catch (\Exception $exception) {
-            dd($exception);
+            session()->flash('alert-class', 'alert-danger');
+            session()->flash('message', 'Une erreur est survenue');
+            return redirect()->route('game.show', $this->currentGame->id);
         }
     }
 }

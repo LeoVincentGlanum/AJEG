@@ -9,9 +9,9 @@ class Bet extends Model
 {
     use HasStates;
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class, 'id', 'gambler_id');
+        return $this->belongsTo(User::class, 'gambler_id', 'id');
     }
 
     public function gamePlayer()
