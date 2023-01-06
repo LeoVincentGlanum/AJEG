@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('elo')->default(500);
+            $table->integer('elo')->default(500);
         });
     }
 
