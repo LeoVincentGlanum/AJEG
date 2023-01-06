@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-
+     <livewire:actuality/>
 
     <livewire:dashboard.list-drafts/>
 

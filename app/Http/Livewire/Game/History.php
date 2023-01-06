@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
+use App\ModelStates\GameStates\Validate;
+use App\ModelStates\GameStates\ResultValidations;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
@@ -48,21 +50,43 @@ class History extends Component
         $this->goToPage(1);
     }
 
-    public function gameResult($game): string
+    public function gameResult($game) : string
     {
-        foreach ($game->users as $player) {
-            if ($player->pivot->result === GameResultEnum::lose->value) {
-                continue;
+        if ($game->status == Validate::$name) {
+            foreach ($game->gamePlayers as $player) {
+                if ($player->result !== null) {
+                    if ($player->result->value === GameResultEnum::lose->value) {
+                        continue;
+                    }
+                    return match ($player->result->value) {
+                        GameResultEnum::win->value => $player->user->name." a gagné",
+                        GameResultEnum::nul->value => "Match nul",
+                        GameResultEnum::pat->value => "Pat",
+                    };
+                }
+            }
+            return "-";
+        } elseif($game->status == ResultValidations::$name) {
+            foreach ($game->gamePlayers as $player) {
+                if ($player->result !== null) {
+                    if ($player->result->value === GameResultEnum::lose->value) {
+                        continue;
+                    }
+                    return match ($player->result->value) {
+                        GameResultEnum::win->value => "[En attente] ".$player->user->name." a gagné",
+                        GameResultEnum::nul->value => "[En attente] Match nul",
+                        GameResultEnum::pat->value => "[En attente] Pat",
+                    };
+                }
             }
 
-            return match ($player->pivot->result) {
-                GameResultEnum::win->value => $player->name." a gagné",
-                GameResultEnum::nul->value => "Match nul",
-                GameResultEnum::pat->value => "Pat",
-            };
+            return "-";
+        }else{
+            return "-";
         }
 
-        return "-";
+
+
     }
 
     public function paginationView(): string

@@ -40,7 +40,9 @@ class Show extends Component
         $this->game = $game;
         $this->gamePlayer = $game->gamePlayers;
         $this->winner = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        $this->currentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        if($this->gamePlayer->where('user_id' ,'=', Auth::id())->first()){
+            $this->currentUserGame = $this->gamePlayer->where('user_id' ,'=', Auth::id())->first();
+        }
         $this->isBetAvailable = $game->bet_available
             && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
             && in_array($game->status, ['playersvalidation', 'accepted']);
