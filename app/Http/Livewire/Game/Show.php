@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Game;
 use App\Models\Game;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\PlayerParticipationStates\Pending;
+use Exception;
 use Livewire\Component;
 use App\Models\GamePlayer;
 use Illuminate\Support\Arr;
@@ -46,6 +47,8 @@ class Show extends Component
 
     public function accept()
     {
+        try{
+
         $users = $this->game->gamePlayers;
 
         $winner = null;
@@ -88,6 +91,12 @@ class Show extends Component
         $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
 
         redirect()->route('dashboard');
+        }
+        catch(Exception $e)
+        {
+            report($e);
+            $this->errorToast('quelque chose c\'est mal passé');
+        }
     }
 
     function expectedScore($rating1, $rating2)
@@ -148,22 +157,29 @@ class Show extends Component
 
     public function acceptInvitation()
     {
-        $allCompleted = true;
-        foreach ($this->gamePlayer as $player) {
-            if ($player->user_id === Auth::id()) {
-                $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
-                $player->save();
+        try {
+            $allCompleted = true;
+            foreach ($this->gamePlayer as $player) {
+                if ($player->user_id === Auth::id()) {
+                    $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
+                    $player->save();
+                }
+                if ($player->player_participation_validation === Pending::$name){
+                    $allCompleted = false;
+                }
             }
-            if ($player->player_participation_validation === Pending::$name){
-                $allCompleted = false;
+            if($allCompleted){
+                $this->game->status->transitionTo(GameAccepted::class);
+                $this->game->save();
             }
+            $this->successToast('You accepted the game');
         }
-        if($allCompleted){
-            $this->game->status->transitionTo(GameAccepted::class);
-            $this->game->save();
+        catch(Exception $e)
+        {
+            report($e);
         }
-        $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
+
     }
 
     public function refreshListPlayer()
@@ -172,14 +188,28 @@ class Show extends Component
     }
     public function LaunchGame()
     {
-        $this->game->status->transitionTo(InProgress::class);
+        try {
+            $this->game->status->transitionTo(InProgress::class);
 
-        $this->successToast('Game is now launch dont forget close bet');
+            $this->successToast('Game is now launch dont forget close bet');
+        }
+        catch(Exception $e)
+        {
+            report($e);
+        }
         $this->emitSelf('refreshListPlayer');
+
     }
     public function refuseInvitation()
     {
+        try{
+
         $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
+        }
+         catch(Exception $e)
+        {
+            report($e);
+        }
         $this->emitSelf('refreshListPlayer');
     }
 
