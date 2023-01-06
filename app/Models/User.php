@@ -8,18 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
-use Livewire\WithPagination;
 
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable, WithPagination;
-
-    public Collection $users;
-
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -84,17 +79,5 @@ class User extends Authenticatable
     public function isParticipationScorePositif(): bool
     {
         return $this->getParticipationScore() >= 0;
-    }
-
-    public function paginationView(): string
-    {
-        return 'component.pagination';
-    }
-
-    public function render()
-    {
-        return view('livewire.game.ranking', [
-            'Users' => self::query()->where('name', 'like', '%' . $this->search . '%')->paginate(40)
-        ]);
     }
 }

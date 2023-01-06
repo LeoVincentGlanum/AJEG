@@ -48,10 +48,12 @@
                                                                         <div class="flex space-x-3">
                                                                             <span style="margin-right: 25px">{{ $user_rank[$user->id] }}</span>
                                                                             <img class="h-6 w-6 rounded-full"
-                                                                                 src="{{ asset('storage/photos/'.$user->photo) }}"                                                                                 alt="">
+                                                                                 src="{{ asset('storage/photos/'.$user->photo) }}"
+                                                                                 alt="">
                                                                             <div class="flex-1 space-y-1">
                                                                                 <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-sm font-medium" style="width: 200px">{{ $user->name }}</h3>
+                                                                                    <h3 class="text-sm font-medium"
+                                                                                        style="width: 200px">{{ $user->name }}</h3>
                                                                                     <p class="text-sm text-gray-500 mx-10 md:mx-80">{{ $user->elo }}</p>
                                                                                 </div>
                                                                                 <p class="text-sm text-gray-500">{{ $devise ?? null }}</p>
@@ -94,7 +96,8 @@
                                                                                  alt="">
                                                                             <div class="flex-1 space-y-1">
                                                                                 <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-sm font-medium" style="width: 200px">{{ $user->name }}</h3>
+                                                                                    <h3 class="text-sm font-medium"
+                                                                                        style="width: 200px">{{ $user->name }}</h3>
                                                                                     <p class="text-sm text-gray-500 mx-80">{{ $user->elo }}</p>
                                                                                 </div>
                                                                                 <p class="text-sm text-gray-500">{{ $devise ?? null }}</p>
@@ -139,7 +142,8 @@
                                                                                  alt="">
                                                                             <div class="flex-1 space-y-1">
                                                                                 <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-sm font-medium" style="width: 200px">{{ $user->name }}</h3>
+                                                                                    <h3 class="text-sm font-medium"
+                                                                                        style="width: 200px">{{ $user->name }}</h3>
                                                                                     <p class="text-sm text-gray-500 mx-80">{{ $user->elo }}</p>
                                                                                 </div>
                                                                                 <p class="text-sm text-gray-500">{{ $devise ?? null }}</p>
@@ -182,7 +186,8 @@
                                                                                  alt="">
                                                                             <div class="flex-1 space-y-1">
                                                                                 <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-sm font-medium" style="width: 200px">{{ $user->name }}</h3>
+                                                                                    <h3 class="text-sm font-medium"
+                                                                                        style="width: 200px">{{ $user->name }}</h3>
                                                                                     <p class="text-sm text-gray-500 mx-80">{{ $user->elo }}</p>
                                                                                 </div>
                                                                                 <p class="text-sm text-gray-500">{{ $devise ?? null }}</p>
@@ -225,7 +230,8 @@
                                                                                  alt="">
                                                                             <div class="flex-1 space-y-1">
                                                                                 <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-sm font-medium" style="width: 200px">{{ $user->name }}</h3>
+                                                                                    <h3 class="text-sm font-medium"
+                                                                                        style="width: 200px">{{ $user->name }}</h3>
                                                                                     <p class="text-sm text-gray-500 mx-80">{{ $user->elo }}</p>
                                                                                 </div>
                                                                                 <p class="text-sm text-gray-500">{{ $devise ?? null }}</p>
@@ -246,13 +252,13 @@
                             </ul>
                         </div>
                     </div>
+                    <div>
+                        {{ $users->links() }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-{{--    //pagination--}}
-
-{{ $users->links('components.pagination-ranking',['users' => $users]) }}
 
 </div>

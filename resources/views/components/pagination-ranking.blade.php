@@ -7,8 +7,10 @@
     </div>
     <div class="hidden md:-mt-px md:flex">
         @php
+
             $lastPage = $users->lastPage();
             $currentPage = $users->currentPage();
+
         @endphp
             @for($i = 1; $i <= $lastPage; $i++)
                 @if($i <= 1)
@@ -19,7 +21,7 @@
                         <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
                     @endif
                 @elseif($i >= $currentPage-1 && $i <= $currentPage+1)
-                    <button wire:click="previousPage" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
+                    <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
                                                           "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"  => $currentPage!==$i,
                                                           "border-indigo-500 text-indigo-600" => $currentPage===$i]) {{($currentPage===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
                 @endif
@@ -28,7 +30,7 @@
                     @if($currentPage < $lastPage-2)
                         <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
                     @endif
-                    <button wire:click="nextPage" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
+                    <button wire:click="gotoPage({{$i}})" @class(["inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium",
                                                   "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"  => $currentPage!==$i,
                                                   "border-indigo-500 text-indigo-600" => $currentPage===$i]) {{($currentPage===$i ? 'aria-current="page"' : '')}}>{{$i}}</button>
                 @endif
