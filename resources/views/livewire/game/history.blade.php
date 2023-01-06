@@ -17,12 +17,12 @@
                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                     {{ __('Status') }}
                                     <div>
-                                         @foreach(\App\Models\Game::getStatesFor('status') as $status)
-                                                <option value="{{ $status }}">{{ $status }}</option>
-                                            @endforeach
+
                                         <select wire:model="searchStatus" class="mt-1 block w-100 h-10 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                             <option value="">--{{ __('Choose a status') }}--</option>
-
+                                             @foreach(\App\Models\Game::getStatesFor('status') as $status)
+                                                <option value="{{ $status }}">{{ __("game ".$status )}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </th>
@@ -63,18 +63,20 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         @foreach($game->users as $user)
-                                            <a class="hover:text-violet-600" href="profile/{{$user->id}}"
-                                               class="font-medium text-gray-900">{{ $user->name . " " . $user->pivot->color }} </a>
+                                            <a class="inline-flex items-center hover:text-violet-600" href="profile/{{$user->id}}"
+                                               class="font-medium text-gray-900"><img class="mr-2 w-10 h-10" src="{{asset('img/roi-'.$user->pivot->color.'-cercle.png')}}"> {{ $user->name . " " . $user->pivot->color }} </a>
                                             <br>
                                         @endforeach
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <span @class(['inline-flex rounded-full',
-                                        'bg-yellow-100'=>$game->status == \App\ModelStates\GameStates\PlayersValidation::class,
-                                        'bg-blue-100'=>$game->status == \App\ModelStates\GameStates\GameAccepted::class,
-                                        'bg-green-100'=>$game->status == \App\ModelStates\GameStates\Validate::class,
-                                        'px-2 text-xs font-semibold leading-5 text-green-800'])>
-                                            {{ $game->status }}
+                                        <span @class(['inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium ',
+                                        'text-yellow-800 bg-yellow-100'=>$game->status == \App\ModelStates\GameStates\PlayersValidation::$name,
+                                        'text-purple-800 bg-purple-100'=>$game->status == \App\ModelStates\GameStates\ResultValidations::$name,
+                                        'text-indigo-800 bg-indigo-100'=>$game->status == \App\ModelStates\GameStates\InProgress::$name,
+                                        'text-blue-800 bg-blue-100'=>$game->status == \App\ModelStates\GameStates\GameAccepted::$name,
+                                        'text-green-800 bg-green-100'=>$game->status == \App\ModelStates\GameStates\Validate::$name,
+                                        ])>
+                                            {{ __($game->status->name()) }}
                                         </span>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $this->gameResult($game) }}</td>
