@@ -22,7 +22,6 @@
                         </table>
 
                         <div class="flow-root" style="margin-left: 300px">
-
                             <ul role="list" class="-mb-8 m-3">
                                 <li>
                                     <div class="relative pb-8">
@@ -37,9 +36,6 @@
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
                                                     <h2 class="mx-3">Grand Master</h2>
-                                                    @php
-                                                        $cpt = 1;
-                                                    @endphp
                                                     @foreach ($users as $user)
                                                         @if((int)$user->elo > 2000 && (int)$user->elo < 2500)
                                                             <div>
@@ -62,8 +58,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
@@ -84,9 +78,6 @@
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
                                                     <h2 class="mx-3">Master</h2>
-                                                    @php
-                                                        $cpt = 1;
-                                                    @endphp
                                                     @foreach ($users as $user)
                                                         @if((int)$user->elo > 1750 && (int)$user->elo < 2000)
                                                             <div>
@@ -109,8 +100,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
@@ -131,9 +120,6 @@
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
                                                     <h2 class="mx-3">Diamant</h2>
-                                                    @php
-                                                        $cpt = 1;
-                                                    @endphp
                                                     @foreach ($users as $user)
                                                         @if((int)$user->elo > 1500 && (int)$user->elo < 1750)
                                                             <div>
@@ -156,8 +142,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
@@ -200,8 +184,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
 
@@ -246,8 +228,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
@@ -290,8 +270,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
@@ -334,8 +312,6 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @php $cpt ++;
-                                                            @endphp
                                                         @endif
                                                     @endforeach
                                                 </div>
