@@ -5,8 +5,8 @@
 
 
                     <livewire:interface.interactable-advises
-                        mainText="l etat de la page et n est pas synchronisé avec le server"
-                        buttonText="patate"
+                        mainText="l'etat de la page et n'est pas synchronisé avec le server"
+                        buttonText="sync"
                         eventName="refresh"
                         :model="$game"
                         key="{{ now() }}"
