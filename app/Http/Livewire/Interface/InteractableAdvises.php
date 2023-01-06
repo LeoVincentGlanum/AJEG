@@ -4,87 +4,57 @@ namespace App\Http\Livewire\Interface;
 
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class InteractableAdvises extends Component
 {
-
-    use HasToast;
-
     public string $mainText;
     public string $buttonText;
-    public string $componentName;
     public string $state;
     public string $eventName;
     public bool $visible = false;
-    public Game $game;
-    public $lastCall = null;
-    public string $getValue;
-    public $listeners =['setVisibleAdvise','setState'];
-    public bool $setStateDone = true;
+    public Model $model;
 
-    public function mount(string $mainText,string $buttonText ,string $componentName , string $eventName , string $state,Game $game,string $getValue)
-    {
-        dump('mount');
+    public function mount(
+        string $mainText,
+        string $buttonText,
+        string $eventName,
+        Model $model,
+    ) {
         $this->mainText = $mainText;
-        $this->state = $state;
-        $this->game            = $game;
-        $this->getValue = $getValue;
+
+        $this->state = $model->status->name();
+        $this->model = $model;
 
         if(isset($buttonText))
         {
             $this->buttonText = $buttonText;
-            $this->componentName = $componentName;
             $this->eventName = $eventName;
         }
     }
 
-    public function pollEvent()
+    public function sync()
     {
-        if(!$this->visible)
-        {
-            $isMethode = false;
-            if (str_contains($this->getValue, '()')) {
-                $methode = str_replace("()", "", $this->getValue);
-                $isMethode = true;
-            }
-            $orderCall = explode("->", $methode);
-            $count = count($orderCall);
-            $lastCall = null;
-            for($i = 0 ;$i<$count ; $i++)
-            {
-                if($i === 0)
-                {
-                    $lastCall = $this->{$orderCall[$i]};
-                }
-                elseif ($isMethode && $i === $count-1)
-                {
-                    $lastCall = $lastCall->{$orderCall[$i]}();
-                }
-                else
-                {
-                    $lastCall = $lastCall->{$orderCall[$i]};
-                }
-            }
-            $this->lastCall =$lastCall;
-    //        dump($lastCall .' !== '.$this->state);
-            if($this->lastCall !== $this->state)
+        if(!$this->visible) {
+
+            $model = clone $this->model;
+
+            $model->refresh();
+            $newStatus = $model->status->name();
+
+            if($newStatus !== $this->state)
             {
                 $this->visible = true;
+                $this->state = $newStatus;
             }
         }
     }
-    public function setState($state)
-    {
-        $this->state = $state;
-        $this->successToast($state);
-        $setStateDone = true;
-    }
-    public function setFalseVisibleAdvise()
-    {
-        $this->emitTo($this->componentName, $this->eventName);
-        $this->visible = false;
 
+    public function refreshParent()
+    {
+        $this->emit($this->eventName);
+        $this->visible = false;
     }
 
     public function render()

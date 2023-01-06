@@ -20,18 +20,19 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Averages;
 
 class Show extends Component
 {
+    use HasGameResultMapper, HasToast;
 
-     use HasGameResultMapper, HasToast;
     public Game $game;
     public ?GamePlayer $winner;
     public Collection  $gamePlayer;
 
     public GamePlayer $CurrentUserGame;
 
-    public  $testValue;
-    public  bool $unSync = false;
     public string $CurrentState;
-    protected $listeners = ['refreshListPlayer' ];
+    protected $listeners = [
+        'refresh' => '$refresh',
+        'refreshListPlayer'
+    ];
 
     public function mount($game)
     {
@@ -145,17 +146,6 @@ class Show extends Component
         dd("perdu");
     }
 
-
-
-    public function refreshListPlayer()
-    {
-        $this->gamePlayer = $this->game->gamePlayers;
-
-        $this->emitTo('interface.interactable-advises','setState',$this->game->status->name());
-
-        $this->successToast('refresh');
-    }
-
     public function acceptInvitation()
     {
         $allCompleted = true;
@@ -174,6 +164,11 @@ class Show extends Component
         }
         $this->successToast('You accepted the game');
         $this->emitSelf('refreshListPlayer');
+    }
+
+    public function refreshListPlayer()
+    {
+        $this->gamePlayer = $this->game->gamePlayers;
     }
     public function LaunchGame()
     {

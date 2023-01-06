@@ -5,14 +5,12 @@
 
 
                     <livewire:interface.interactable-advises
-                        :componentName="$this::getName()"
-                        :mainText='"l etat de la page et n est pas synchronisé avec le server"'
-                        :buttonText='"Sync"'
-                        :eventName='"refreshListPlayer"'
-                        :state="$CurrentState"
-                        :game="$game"
-                        :getValue='"game->status->name()"'
-                        />
+                        mainText="l etat de la page et n est pas synchronisé avec le server"
+                        buttonText="patate"
+                        eventName="refresh"
+                        :model="$game"
+                        key="{{ now() }}"
+                    />
 
 
             <div class="overflow-hidden rounded-md border border-gray-300 bg-white">
