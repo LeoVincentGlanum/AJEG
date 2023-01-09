@@ -2,10 +2,23 @@
 
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-5">
         <div class="mx-auto max-w-3xl">
+
+
+
+                    <livewire:interface.interactable-advises
+                        mainText="l'etat de la page et n'est pas synchronisé avec le server"
+                        buttonText="sync"
+                        eventName="refresh"
+                        :model="$game"
+                        key="{{ now() }}"
+                    />
+
+
             <div class="overflow-hidden rounded-md border border-gray-300 bg-white">
                 <ul role="list" class="divide-y divide-gray-300">
                     <li class="px-6 py-4">
                         <div>
+
                             <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('Game update') }}</h3>
                             <div class="flex justify-between">
                                 <p class="mt-1 max-w-2xl text-sm text-gray-500">This information will be displayed publicly so be careful what you share.</p>
