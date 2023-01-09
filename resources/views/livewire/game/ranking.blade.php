@@ -35,7 +35,11 @@
                                                 </div>
                                                 <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                     <div>
-                                                        <h2 class="mx-3">{{$key}}</h2>
+                                                        <div class="inline-flex">
+                                                            <h2 class="mx-3">{{$key}}</h2> <span
+                                                                class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800"> <x-heroicon-m-arrow-up class="h-5"/> 2000</span>
+                                                        </div>
+
                                                         @php
                                                             $cpt = 1;
                                                         @endphp
