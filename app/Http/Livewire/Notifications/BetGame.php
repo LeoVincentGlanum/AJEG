@@ -62,7 +62,7 @@ class BetGame extends ModalComponent
             $newBet->bet_gain = $this->gain;
             $newBet->bet_status = "Pending";
 
-            $canBet = Auth::user()->coins <= $this->bet;
+            $canBet = Auth::user()->coins >= $this->bet;
 
             if ($canBet && $newBet->save()) {
                 User::query()->where('id', Auth::id())->decrement('coins', $this->bet);
