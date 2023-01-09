@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\Game;
+namespace App\Http\Livewire\Notifications;
 
-use App\Models\Game;
 use App\Models\Bet as GameBet;
-use LivewireUI\Modal\ModalComponent;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use LivewireUI\Modal\ModalComponent;
 
-class Bet extends ModalComponent
+class BetGame extends ModalComponent
 {
     public Game $currentGame;
 
