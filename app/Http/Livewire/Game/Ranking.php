@@ -13,6 +13,18 @@ class Ranking extends Component
 
     public string $searchPlayer = '';
     public array $rank;
+
+    public array $EloRanks =
+        [
+            'Grand Master'=> ['King-Transparent-PNG.png',2500,0],
+            'Master'=> ['grandmaster.png',2000,1750],
+            'Diamant'=> ['diams.png',1750,1500],
+            'Rubis'=> ['rubis.png',1500,1200],
+            'Gold'=> ['gold.png',1200,800],
+            'Silver'=> ['silver.jfif',499,800],
+            'Charbon'=> ['charbon.jfif',0,499],
+
+        ];
     public function mount()
     {
         $usersToRank = User::query()->orderBy('elo', 'desc')->get();
