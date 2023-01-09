@@ -7,6 +7,8 @@
 
      <livewire:actuality/>
 
+    <livewire:dashboard.open-bets/>
+
     <livewire:dashboard.list-drafts/>
 
     <livewire:dashboard.pending-games />

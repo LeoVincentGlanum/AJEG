@@ -31,7 +31,7 @@ class Show extends Component
     public ?GamePlayer $winner;
     public Collection $gamePlayer;
 
-    public GamePlayer $currentUserGame;
+    public ?GamePlayer $currentUserGame = null;
 
     protected $listeners = ['refreshComponent' => '$refresh', 'refreshListPlayer'];
 
