@@ -179,7 +179,7 @@ class Show extends Component
                 $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                 $player->save();
             }
-            if ($player->player_participation_validation === Pending::$name) {
+            if ($player->player_participation_validation == Pending::$name) {
                 $allCompleted = false;
             }
         }
