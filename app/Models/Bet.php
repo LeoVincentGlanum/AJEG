@@ -14,7 +14,7 @@ class Bet extends Model
         return $this->belongsTo(User::class, 'gambler_id', 'id');
     }
 
-    public function gamePlayer()
+    public function gamePlayers()
     {
         return $this->hasMany(GamePlayer::class, 'id', 'player_bet_on');
     }

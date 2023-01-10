@@ -36,10 +36,10 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td>{{ $cpt }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->elo }}</td>
-                                    <td>@if((int)$user->elo > 2000 && (int)$user->elo < 2500)
+                                    <td class="text-center">{{ $cpt }}</td>
+                                    <td class="text-center">{{ $user->name }}</td>
+                                    <td class="text-center">{{ $user->elo }}</td>
+                                    <td class="text-center">@if((int)$user->elo > 2000 && (int)$user->elo < 2500)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                         <img

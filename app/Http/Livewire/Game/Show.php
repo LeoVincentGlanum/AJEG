@@ -40,8 +40,8 @@ class Show extends Component
         $this->game = $game;
         $this->gamePlayer = $game->gamePlayers;
         $this->winner = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        if($this->gamePlayer->where('user_id' ,'=', Auth::id())->first()){
-            $this->currentUserGame = $this->gamePlayer->where('user_id' ,'=', Auth::id())->first();
+        if ($this->gamePlayer->where('user_id', '=', Auth::id())->first()) {
+            $this->currentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
         }
         $this->isBetAvailable = $game->bet_available
             && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
@@ -87,11 +87,19 @@ class Show extends Component
         }
         if ($allCompleted) {
             $this->game->status->transitionTo(Validate::class);
-            if ($this->game->save()) {
-                collect($gameBets)
-                    ->map(function ($gameBet) {
-                        return User::query()->where('id', $gameBet->user->id)->increment('coins', $gameBet->bet_gain);
-                    });
+            if ($winner !== null && $this->game->save()) {
+                foreach ($gameBets as $bet) {
+                    if ($bet->gameplayer_id === $winner->id) {
+                        User::query()
+                            ->where('id', $bet->gambler_id)
+                            ->increment('coins', $bet->bet_deposit);
+                    }
+                }
+
+//                collect($gameBets)
+//                    ->map(function ($gameBet) {
+//                        return User::query()->where('id','=',$winner)->where('id', $gameBet->user->id)->increment('coins', $gameBet->bet_gain);
+//                    });
             }
 
         }
