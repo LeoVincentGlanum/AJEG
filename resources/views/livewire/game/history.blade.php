@@ -48,7 +48,7 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
-                            @foreach($pageGames as $game)
+                            @forelse($pageGames as $game)
                                 <tr>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                         <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
@@ -82,10 +82,21 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $this->gameResult($game) }}</td>
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                        @if($game->status == \App\ModelStates\GameStates\GameAccepted::$name || $game->status == \App\ModelStates\GameStates\PlayersValidation::$name)
                                         <a href="#" class="text-indigo-600 hover:text-indigo-900">pariez</a>
+                                             @endif
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="p-5" style="    text-align-last: center;">
+                                Il n'y a pas de donnée qui correspondent aux filtres  <button wire:click="resetFilters"
+                                                class="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded-lg mt-4">
+                                            Réinitialiser les filtres
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
