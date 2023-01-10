@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Game;
 use App\Models\Game;
 use App\Models\User;
 use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\PlayerParticipationStates\Pending;
 use Livewire\Component;
 use App\Models\GamePlayer;
@@ -45,7 +46,7 @@ class Show extends Component
         }
         $this->isBetAvailable = $game->bet_available
             && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
-            && in_array($game->status, ['playersvalidation', 'accepted']);
+            && in_array($game->status, [PlayersValidation::$name, GameAccepted::$name]);
     }
 
     public function accept()
@@ -92,7 +93,7 @@ class Show extends Component
                     if ($bet->gameplayer_id === $winner->id) {
                         User::query()
                             ->where('id', $bet->gambler_id)
-                            ->increment('coins', $bet->bet_deposit);
+                            ->increment('coins', $bet->bet_gain);
                     }
                 }
 
