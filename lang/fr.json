@@ -112,8 +112,11 @@
     "ended" : "Terminé",
     "waiting" : "Demande de partie",
     "validate" : "Validé",
-    "Save draft" : "Enregistrer en brouillon",
     "You accepted the game" : "Vous avez accepté la partie",
+    "Save draft" : "Enregistrer en brouillon",
+    "Bet on that game": "Parier sur cette partie",
+    "Game Informations": "Informations de la partie",
+    "Activate bet": "Activer les paris ?",
     "pagination.next" : "Page suivante",
     "pagination.previous" : "Page précédente"
 }

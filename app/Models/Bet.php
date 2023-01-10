@@ -2,21 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ModelStates\HasStates;
 
 class Bet extends Model
 {
-    use HasFactory;
+    use HasStates;
 
-    protected $table = 'bets';
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'gambler_id', 'id');
+    }
 
-    protected $fillable = [
-        'user_id',
-        'game_id',
-        'amount',
-        'result',
-        'created_at',
-        'updated_at',
-    ];
+    public function gamePlayers()
+    {
+        return $this->hasMany(GamePlayer::class, 'id', 'player_bet_on');
+    }
+
+    public function games()
+    {
+        return $this->hasMany(Game::class, 'id', 'game_id');
+    }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Game;
 
 use App\Models\Game;
+use App\Models\User;
 use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\PlayerParticipationStates\Pending;
 use Exception;
 use Livewire\Component;
@@ -11,6 +13,7 @@ use App\Models\GamePlayer;
 use Illuminate\Support\Arr;
 use App\Enums\GameResultEnum;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\Bet;
 use App\Http\Livewire\Traits\HasToast;
 use App\ModelStates\GameStates\Validate;
 use App\ModelStates\GameStates\GameAccepted;
@@ -21,13 +24,16 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Averages;
 
 class Show extends Component
 {
+
     use HasGameResultMapper, HasToast;
 
     public Game $game;
-    public ?GamePlayer $winner;
-    public Collection  $gamePlayer;
 
-    public GamePlayer $CurrentUserGame;
+    public bool $isBetAvailable = false;
+    public ?GamePlayer $winner;
+    public Collection $gamePlayer;
+
+    public ?GamePlayer $currentUserGame = null;
 
     public string $CurrentState;
     protected $listeners = [
@@ -37,63 +43,74 @@ class Show extends Component
 
     public function mount($game)
     {
-        $this->game            = $game;
-        $this->gamePlayer      = $game->gamePlayers;
-        $this->winner          = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-        if($this->gamePlayer->where('user_id' ,'=', Auth::id())->first()){
-            $this->CurrentUserGame = $this->gamePlayer->where('user_id' ,'=', Auth::id())->first();
+        $this->game = $game;
+        $this->gamePlayer = $game->gamePlayers;
+        $this->winner = $game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
+        if ($this->gamePlayer->where('user_id', '=', Auth::id())->first()) {
+            $this->currentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
         }
+        $this->isBetAvailable = $game->bet_available
+            && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
+            && in_array($game->status, [PlayersValidation::$name, GameAccepted::$name]);
     }
 
     public function accept()
     {
-        try{
+        try {
+            $gameBets = Bet::query()->with('user')->where('game_id', $this->game->id)->get();
 
-        $users = $this->game->gamePlayers;
+            $users = $this->game->gamePlayers;
 
-        $winner = null;
-        $looser = null;
+            $winner = null;
+            $looser = null;
 
-        foreach ($users as $player) {
-            if ($player->result->value === 'win') {
-                $winner = $player;
-                continue;
+            foreach ($users as $player) {
+                if ($player->result->value === 'win') {
+                    $winner = $player;
+                    continue;
+                }
+
+                $looser = $player;
             }
 
-            $looser = $player;
-        }
+            $eloJ1 = Arr::get($users, 0)->user->elo;
+            $eloJ2 = Arr::get($users, 1)->user->elo;
 
-        $eloJ1 = Arr::get($users, 0)->user->elo;
-        $eloJ2 = Arr::get($users, 1)->user->elo;
-
-        $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
+            $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
 //
-        Arr::get($users, 0)->user->elo = $result[0];
-        Arr::get($users, 0)->user->save();
-        Arr::get($users, 1)->user->elo = $result[1];
-        Arr::get($users, 1)->user->save();
+            Arr::get($users, 0)->user->elo = $result[0];
+            Arr::get($users, 0)->user->save();
+            Arr::get($users, 1)->user->elo = $result[1];
+            Arr::get($users, 1)->user->save();
 
-        $allCompleted = true;
-        foreach ($this->gamePlayer as $player) {
-            if ($player->user_id === Auth::id()) {
-                $player->player_result_validation->transitionTo(Accepted::class);
-                $player->save();
+            $allCompleted = true;
+            foreach ($this->gamePlayer as $player) {
+                if ($player->user_id === Auth::id()) {
+                    $player->player_result_validation->transitionTo(Accepted::class);
+                    $player->save();
+                }
+                if ($player->player_result_validation == "pending") {
+                    $allCompleted = false;
+                }
             }
-            if ($player->player_result_validation == "pending") {
-                $allCompleted = false;
+            if ($allCompleted) {
+                $this->game->status->transitionTo(Validate::class);
+                if ($winner !== null && $this->game->save()) {
+                    foreach ($gameBets as $bet) {
+                        if ($bet->gameplayer_id === $winner->id) {
+                            User::query()
+                                ->where('id', $bet->gambler_id)
+                                ->increment('coins', $bet->bet_gain);
+                        }
+                    }
+                }
+
             }
-        }
-        if ($allCompleted) {
-            $this->game->status->transitionTo(Validate::class);
-            $this->game->save();
-        }
 
-        $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
+            $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
 
-        redirect()->route('dashboard');
-        }
-        catch(Exception $e)
-        {
+            redirect()->route('dashboard');
+        } catch (Exception $e) {
             report($e);
             $this->errorToast('quelque chose c\'est mal passé');
         }
@@ -106,7 +123,7 @@ class Show extends Component
 
     function newRatings(float $rating1, float $rating2, $score1, $score2)
     {
-        $K         = $this->valeur_k($rating1 + $rating2 / 2);
+        $K = $this->valeur_k($rating1 + $rating2 / 2);
         $expected1 = $this->expectedScore($rating1, $rating2);
         $expected2 = $this->expectedScore($rating2, $rating1);
 
@@ -117,7 +134,7 @@ class Show extends Component
         return array($newRating1, $newRating2);
     }
 
-    function valeur_k($elo) : ?int
+    function valeur_k($elo): ?int
     {
         $k = null;
 
@@ -155,6 +172,11 @@ class Show extends Component
         dd("perdu");
     }
 
+    public function refreshListPlayer()
+    {
+        $this->gamePlayer = $this->game->gamePlayers;
+    }
+
     public function acceptInvitation()
     {
         try {
@@ -164,7 +186,7 @@ class Show extends Component
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
-                if ($player->player_participation_validation === Pending::$name) {
+                if ($player->player_participation_validation == Pending::$name) {
                     $allCompleted = false;
                 }
             }
@@ -173,24 +195,31 @@ class Show extends Component
                 $this->game->save();
             }
             $this->successToast('You accepted the game');
+            $allCompleted = true;
+            foreach ($this->gamePlayer as $player) {
+                if ($player->user_id === Auth::id()) {
+                    $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
+                    $player->save();
+                }
+                if ($player->player_participation_validation == Pending::$name) {
+                    $allCompleted = false;
+                }
+            }
+            if ($allCompleted) {
+                $this->game->status->transitionTo(GameAccepted::class);
+                $this->game->save();
+            }
 
-            $this->winner          = $this->game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
-            $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
             $this->successToast('You accepted the game');
-        }
-
-        catch(Exception $e)
-        {
+            $this->winner = $this->game->gamePlayers->toQuery()->where('result', '=', 'win')->first();
+            $this->CurrentUserGame = $this->gamePlayer->where('user_id', '=', Auth::id())->first();
+        } catch (Exception $e) {
             report($e);
         }
         $this->emitSelf('refreshListPlayer');
-
+        return view('livewire.game.result-form');
     }
 
-    public function refreshListPlayer()
-    {
-        $this->gamePlayer = $this->game->gamePlayers;
-    }
     public function LaunchGame()
     {
         try {
@@ -205,17 +234,18 @@ class Show extends Component
         $this->emitSelf('refreshListPlayer');
 
     }
+
     public function refuseInvitation()
     {
         try{
 
         $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
+        $this->emitSelf('refreshListPlayer');
         }
          catch(Exception $e)
         {
             report($e);
         }
-        $this->emitSelf('refreshListPlayer');
     }
 
     public function render()

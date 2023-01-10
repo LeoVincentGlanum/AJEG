@@ -1,5 +1,3 @@
-
-
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -124,10 +122,23 @@
 
                             <select wire:model="type" name="status"
                                     class="mt-1 block w-full rounded-md border-gray-300 py-2 value}}-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                <option value="{{\App\Enums\GameStatusEnum::waiting->name}}">{{trans(\App\Enums\GameStatusEnum::waiting->value)}}</option>
-                                <option value="{{\App\Enums\GameStatusEnum::progress->name}}">{{trans(\App\Enums\GameStatusEnum::progress->value)}}</option>
-                                <option value="{{\App\Enums\GameStatusEnum::ended->name}}">{{trans(\App\Enums\GameStatusEnum::ended->value)}}</option>
+                                <option
+                                    value="{{\App\Enums\GameStatusEnum::waiting->name}}">{{trans(\App\Enums\GameStatusEnum::waiting->value)}}</option>
+                                <option
+                                    value="{{\App\Enums\GameStatusEnum::progress->name}}">{{trans(\App\Enums\GameStatusEnum::progress->value)}}</option>
+                                <option
+                                    value="{{\App\Enums\GameStatusEnum::ended->name}}">{{trans(\App\Enums\GameStatusEnum::ended->value)}}</option>
                             </select>
+
+                            @if($type === \App\Enums\GameStatusEnum::waiting->value)
+                                <div class="mt-5">
+                                    <label for="exampleInputEmail1">{{__('Activate bet')}}</label>
+                                    <input type="checkbox"
+                                           wire:model="selectedBets"
+                                           class="mt-1 block  rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                            @endif
+
 
                             @if($type === \App\Enums\GameStatusEnum::ended->name)
                                 <div class="mt-5">
@@ -137,7 +148,7 @@
                                            id="date">
                                 </div>
 
-                            @error('resultat')
+                                @error('resultat')
                                 <div class="rounded-md bg-yellow-50 p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">

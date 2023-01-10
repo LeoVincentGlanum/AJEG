@@ -2,17 +2,23 @@
 
 namespace App\Http\Livewire\Notifications;
 
+use App\Http\Livewire\Game\Traits\HasBetMapper;
+use App\Models\Bet;
 use App\Models\Game;
+use App\Models\User;
 use LivewireUI\Modal\ModalComponent;
 
 class DeleteGameRequest extends ModalComponent
 {
+    use HasBetMapper;
     public Game $currentGame;
-    public function  mount(int $game)
+
+    public function mount(int $game)
     {
         $this->currentGame = Game::find($game);
 
     }
+
     public function RequestDeleteNotification()
     {
 //        Log::info('avant Envoie');
@@ -21,6 +27,7 @@ class DeleteGameRequest extends ModalComponent
 
 
         try {
+            $this->cashOutAllGambler();
             $this->currentGame->delete();
             $this->dispatchBrowserEvent('toast', ['message' => 'La partie à bien été supprimé', 'type' => 'success']);
 
@@ -33,6 +40,7 @@ class DeleteGameRequest extends ModalComponent
 //        $this->closeModalWithEvents([ListGameType::getName() => ['refreshListGameType', [$this->currentGame]]]);
 
     }
+
     public function render()
     {
         return view('livewire.notifications.delete-game-request');

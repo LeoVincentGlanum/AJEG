@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
+use App\Http\Livewire\Game\Traits\HasBetMapper;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStatus;
 use App\ModelStates\GameStates\GameAccepted;
@@ -19,7 +20,7 @@ use LivewireUI\Modal\ModalComponent;
 
 final class ResultForm extends ModalComponent
 {
-    use HasGameResultMapper, HasToast;
+    use HasGameResultMapper, HasToast, HasBetMapper;
 
     public Game $game;
 
