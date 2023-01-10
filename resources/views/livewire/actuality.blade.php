@@ -39,7 +39,7 @@ body {
   font-size: 50px;
   position: relative;
   display: inline-block;
-  animation: move 10s infinite linear;
+  animation: move {{10+(count($bets)*2)}}s infinite linear;
   color: #EBB55F;
 }
 
@@ -56,7 +56,12 @@ body {
 <div class="table center">
   <div class="monitor-wrapper center">
     <div class="monitor center">
-      <p>Une partie va bientot commencée, les paries sont ouverts : Thomas 1.78x VS Léo 3.95x </p>
+      <p>Une partie va bientôt commencer, les paris sont ouverts :
+        @foreach($bets as $bet)
+
+          {{$bet->gamePlayers[0]->user->name}} {{$bet->gamePlayers[0]->bet_ratio}}x CONTRE {{$bet->gamePlayers[1]->user->name}} {{$bet->gamePlayers[1]->bet_ratio}}x  |
+          @endforeach
+      </p>
     </div>
   </div>
 </div>

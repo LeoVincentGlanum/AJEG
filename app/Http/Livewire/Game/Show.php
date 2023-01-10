@@ -101,6 +101,8 @@ class Show extends Component
                             User::query()
                                 ->where('id', $bet->gambler_id)
                                 ->increment('coins', $bet->bet_gain);
+                            $bet->bet_status = "Win";
+                            $bet->save();
                         }
                     }
                 }

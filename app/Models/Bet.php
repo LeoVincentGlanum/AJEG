@@ -16,7 +16,7 @@ class Bet extends Model
 
     public function gamePlayers()
     {
-        return $this->hasMany(GamePlayer::class, 'id', 'player_bet_on');
+        return $this->hasMany(GamePlayer::class, 'id', 'gameplayer_id');
     }
 
     public function games()

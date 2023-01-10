@@ -36,7 +36,7 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td class="text-center">{{ $cpt }}</td>
+                                    <td class="text-center">{{ $this->rank[$user->id] }}</td>
                                     <td class="text-center">{{ $user->name }}</td>
                                     <td class="text-center">{{ $user->elo }}</td>
                                     <td class="text-center">@if((int)$user->elo > 2000 && (int)$user->elo < 2500)
