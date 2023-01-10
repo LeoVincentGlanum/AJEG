@@ -61,7 +61,7 @@
                             <div>
                                 <img class="inline-block h-9 w-9 rounded-full"
                                      src="{{ asset('storage/photos/'.Auth::user()->photo) }}"
-                                     alt="">
+                                     alt="" onerror="this.onerror=null; this.src='/img/user-default.png'">
                                 {{ Auth::user()->name }}
                             </div>
                             <div class="ml-1">

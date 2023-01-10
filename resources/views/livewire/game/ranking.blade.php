@@ -30,14 +30,14 @@
                                             <div class="relative flex space-x-3">
                                                 <div>
                                                 <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
-                                                  <img src="/img/{{$value[0]}}" style="max-width: 150%">
+                                                  <img src="/img/{{$value[0]}}"  style="max-width: 150%" alt="">
                                                 </span>
                                                 </div>
                                                 <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                     <div>
                                                         <div class="inline-flex">
                                                             <h2 class="mx-3">{{$key}}</h2> <span
-                                                                class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800"> <x-heroicon-m-arrow-up class="h-5"/> 2000</span>
+                                                                class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800"> <x-heroicon-m-arrow-up class="h-4"/> {{\Illuminate\Support\Arr::get($value,2)}}</span>
                                                         </div>
 
                                                         @php

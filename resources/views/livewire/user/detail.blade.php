@@ -57,7 +57,7 @@
                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     <form wire:submit.prevent="savePicture" class="flex items-center space-x-6">
                         <div class="shrink-0">
-                            <img class="h-16 w-16 object-cover rounded-full" src="{{ asset('storage/photos/'.$user->photo) }}" alt="Current profile photo" />
+                            <img class="h-16 w-16 object-cover rounded-full" src="{{ asset('storage/photos/'.$user->photo) }}"  onerror="this.onerror=null; this.src='/img/user-default.png'" alt="Current profile photo" />
                         </div>
                         <label class="block">
                             <span class="sr-only">Choose profile photo</span>
@@ -69,7 +69,7 @@
                               hover:file:bg-violet-100
                             "/>
                             @if ($photo)
-                                <img src="{{ $photo->temporaryUrl() }}" class="h-16 w-16 object-cover rounded-full">
+                                <img src="{{ $photo->temporaryUrl() }}"  onerror="this.onerror=null; this.src='/img/user-default.png'" class="h-16 w-16 object-cover rounded-full">
                                 <button class="mt-2 rounded-full border border-transparent bg-indigo-600 px-3.5 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit">Save Photo</button>
                             @endif
                             @error('photo')

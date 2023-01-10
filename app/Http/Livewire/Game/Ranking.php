@@ -16,11 +16,11 @@ class Ranking extends Component
 
     public array $EloRanks =
         [
-            'Grand Master'=> ['King-Transparent-PNG.png',2500,0],
-            'Master'=> ['grandmaster.png',2000,1750],
-            'Diamant'=> ['diams.png',1750,1500],
-            'Rubis'=> ['rubis.png',1500,1200],
-            'Gold'=> ['gold.png',1200,800],
+            'Grand Master'=> ['King-Transparent-PNG.png',2000,4000],
+            'Master'=> ['grandmaster.png',1750,2000],
+            'Diamant'=> ['diams.png',1500,1750],
+            'Rubis'=> ['rubis.png',1200,1500],
+            'Gold'=> ['gold.png',800,1200],
             'Silver'=> ['silver.jfif',499,800],
             'Charbon'=> ['charbon.jfif',0,499],
 
@@ -36,6 +36,7 @@ class Ranking extends Component
             $this->rank[$user->id] = $cpt;
             $cpt++;
         }
+
     }
 
     public function makeQueryFilter(): LengthAwarePaginator

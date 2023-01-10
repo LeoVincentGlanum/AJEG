@@ -3,9 +3,9 @@
         <li class="py-4">
             <div class="flex space-x-3">
                 <span style="margin-right: 25px">{{ $rank }}</span>
-                <img class="h-6 w-6 rounded-full"
-                     src="{{ asset('storage/photos/'.$user->photo) }}"
-                     alt="">
+                <img class="h-9 w-9 rounded-full"
+                     src="{{ asset('storage/photos/'.$user->photo) }}"  alt="" onerror="this.onerror=null; this.src='/img/user-default.png'"
+                >
                 <div class="flex-1 space-y-1">
                     <div class="flex items-center justify-between">
                         <h3 class="text-sm font-medium"
