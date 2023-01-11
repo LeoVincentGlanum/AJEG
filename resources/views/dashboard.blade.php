@@ -4,7 +4,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
+{{--    @php $bets  @endphp--}}
+{{--    @if() @endif--}}
      <livewire:actuality/>
 
     <livewire:dashboard.open-bets/>
