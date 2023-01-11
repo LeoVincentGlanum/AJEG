@@ -2,7 +2,7 @@
 
 namespace App\ModelStates\BetStates;
 
-class PendingBet extends \App\ModelStates\GameStatus
+class PendingBet extends \App\ModelStates\BetState
 {
     public static string $name = 'Pending';
 

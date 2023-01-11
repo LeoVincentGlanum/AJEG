@@ -2,9 +2,9 @@
 
 namespace App\ModelStates\BetStates;
 
-class LooseBet extends \App\ModelStates\GameStatus
+class LooseBet extends \App\ModelStates\BetState
 {
-    public static string $name = 'Loose';
+    public static string $name = 'Lost';
 
     public function color(): string
     {
@@ -12,6 +12,6 @@ class LooseBet extends \App\ModelStates\GameStatus
     }
     public function name(): string
     {
-        return trans('Loose');
+        return trans('Lost');
     }
 }

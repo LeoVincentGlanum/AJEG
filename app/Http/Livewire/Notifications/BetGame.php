@@ -61,7 +61,6 @@ class BetGame extends ModalComponent
             $newBet->gameplayer_id = $this->gameplayer_id['id'];
             $newBet->bet_deposit = $this->bet;
             $newBet->bet_gain = $this->gain;
-            $newBet->bet_status = PendingBet::$name;
 
             $canBet = Auth::user()->coins >= $this->bet;
 

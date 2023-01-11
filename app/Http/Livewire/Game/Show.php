@@ -9,6 +9,7 @@ use App\Models\Bet;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\User;
+use App\ModelStates\BetStates\LooseBet;
 use App\ModelStates\BetStates\WinBet;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
@@ -95,13 +96,21 @@ class Show extends Component
             }
             if ($allCompleted) {
                 $this->game->status->transitionTo(Validate::class);
+                if ($looser !== null && $this->game->save()) {
+                    foreach ($gameBets as $bet) {
+                        if ($bet->gameplayer_id === $looser->id) {
+                            $bet->bet_status->transitionTo(LooseBet::class);
+                            $bet->save();
+                        }
+                    }
+                }
                 if ($winner !== null && $this->game->save()) {
                     foreach ($gameBets as $bet) {
                         if ($bet->gameplayer_id === $winner->id) {
                             User::query()
                                 ->where('id', $bet->gambler_id)
                                 ->increment('coins', $bet->bet_gain);
-                            $bet->bet_status = WinBet::$name;
+                            $bet->bet_status->transitionTo(WinBet::class);
                             $bet->save();
                         }
                     }
@@ -228,9 +237,7 @@ class Show extends Component
             $this->game->status->transitionTo(InProgress::class);
 
             $this->successToast('Game is now launch dont forget close bet');
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             report($e);
         }
         $this->emitSelf('refreshListPlayer');
@@ -239,13 +246,11 @@ class Show extends Component
 
     public function refuseInvitation()
     {
-        try{
+        try {
 
-        $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
-        $this->emitSelf('refreshListPlayer');
-        }
-         catch(Exception $e)
-        {
+            $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
+            $this->emitSelf('refreshListPlayer');
+        } catch (Exception $e) {
             report($e);
         }
     }

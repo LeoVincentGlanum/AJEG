@@ -19,11 +19,12 @@
                         {{ $bet->games[0]->users[0]->name }}
                     @else
                         {{ $bet->games[0]->users[1]->name }}
-                @endif</td>
+                    @endif</td>
                 <td class="text-center">{{ $bet->bet_deposit }}</td>
                 <td class="text-center">
-                    @if($bet->bet_status === "Pending") 0
-                    @elseif($bet->bet_status === "Win")
+                    @if($bet->bet_status == \App\ModelStates\BetStates\PendingBet::$name || $bet->bet_status == \App\ModelStates\BetStates\LooseBet::$name)
+                        0
+                    @elseif($bet->bet_status == \App\ModelStates\BetStates\WinBet::$name)
                         {{ $bet->bet_gain }}
                     @endif</td>
                 <td class="text-center">{{ $bet->bet_status }}</td>

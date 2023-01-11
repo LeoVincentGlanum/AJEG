@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\ModelStates\BetState;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStates\HasStates;
 
 class Bet extends Model
 {
     use HasStates;
+
+    protected $casts = [
+        'bet_status' => BetState::class
+    ];
 
     public function user()
     {
