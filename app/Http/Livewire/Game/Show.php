@@ -2,25 +2,25 @@
 
 namespace App\Http\Livewire\Game;
 
+use App\Enums\GameResultEnum;
+use App\Http\Livewire\Game\Traits\HasGameResultMapper;
+use App\Http\Livewire\Traits\HasToast;
+use App\Models\Bet;
 use App\Models\Game;
+use App\Models\GamePlayer;
 use App\Models\User;
+use App\ModelStates\BetStates\WinBet;
+use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStates\PlayersValidation;
-use App\ModelStates\PlayerParticipationStates\Pending;
-use Exception;
-use Livewire\Component;
-use App\Models\GamePlayer;
-use Illuminate\Support\Arr;
-use App\Enums\GameResultEnum;
-use Illuminate\Support\Facades\Auth;
-use \App\Models\Bet;
-use App\Http\Livewire\Traits\HasToast;
 use App\ModelStates\GameStates\Validate;
-use App\ModelStates\GameStates\GameAccepted;
-use Illuminate\Database\Eloquent\Collection;
+use App\ModelStates\PlayerParticipationStates\Pending;
 use App\ModelStates\PlayerResultStates\Accepted;
-use App\Http\Livewire\Game\Traits\HasGameResultMapper;
-use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Averages;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Show extends Component
 {
@@ -101,7 +101,7 @@ class Show extends Component
                             User::query()
                                 ->where('id', $bet->gambler_id)
                                 ->increment('coins', $bet->bet_gain);
-                            $bet->bet_status = "Win";
+                            $bet->bet_status = WinBet::$name;
                             $bet->save();
                         }
                     }

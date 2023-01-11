@@ -14,7 +14,7 @@
         @foreach($bets as $bet)
             <tr>
                 <td class="text-center">{{$bet->created_at }}</td>
-                <td class="text-center">{{ $bet->gamePlayers[0]->user->name }}</td>
+                <td class="text-center">{{ $bet->gamePlayers[0]->user->name }}({{$bet->gamePlayers[0]->bet_ratio}})</td>
                 <td class="text-center">@if($bet->gamePlayers[0]->user->name == $bet->games[0]->users[1]->name)
                         {{ $bet->games[0]->users[0]->name }}
                     @else

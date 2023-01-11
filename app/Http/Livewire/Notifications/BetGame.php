@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Notifications;
 use App\Models\Bet as GameBet;
 use App\Models\Game;
 use App\Models\User;
+use App\ModelStates\BetStates\PendingBet;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
@@ -60,7 +61,7 @@ class BetGame extends ModalComponent
             $newBet->gameplayer_id = $this->gameplayer_id['id'];
             $newBet->bet_deposit = $this->bet;
             $newBet->bet_gain = $this->gain;
-            $newBet->bet_status = "Pending";
+            $newBet->bet_status = PendingBet::$name;
 
             $canBet = Auth::user()->coins >= $this->bet;
 
