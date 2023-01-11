@@ -13,8 +13,7 @@ class Bets extends Component
     use WithFileUploads, HasToast;
 
     public function mount(){
-        $this->bets = Bet::query()->with("gamePlayers.user")->where("gambler_id", Auth::id())->get();
-//        dd($this->bets);
+        $this->bets = Bet::query()->with("gamePlayers.user")->with("games.users")->where("gambler_id", Auth::id())->get();
     }
 
     public function render()
