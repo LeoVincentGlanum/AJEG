@@ -42,8 +42,8 @@
 
                                                 @foreach($game->users as $user)
                                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
-                                                         src="{{ asset('storage/photos/'.$user->photo) }}"
-                                                         alt="Dries Vincent">
+                                                         src="{{ asset('public/img/'.$user->photo) }}"
+                                                         alt="Photo de profil de {{$user->name}}">
                                                 @endforeach
                                             </div>
                                         </div>

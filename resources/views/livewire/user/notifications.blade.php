@@ -9,7 +9,7 @@
                     <div class="flex items-center px-4 py-4 sm:px-6">
                         <div class="flex min-w-0 flex-1 items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ asset('storage/photos/'.$creatorNotification->photo) }}" class="h-12 w-12 rounded-full" alt="" >
+                                <img src="{{ asset('public/img/'.$creatorNotification->photo) }}" class="h-12 w-12 rounded-full" alt="Photo de profil de {{$creatorNotification->name}}" >
                             </div>
                             <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                 <div>

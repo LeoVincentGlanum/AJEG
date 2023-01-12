@@ -4,7 +4,7 @@
             <div class="flex space-x-3">
                 <span style="margin-right: 25px">{{ $rank }}</span>
                 <img class="h-9 w-9 rounded-full"
-                     src="{{ asset('storage/photos/'.$user->photo) }}"  alt="" onerror="this.onerror=null; this.src='/img/user-default.png'"
+                     src="{{ asset('public/img/'.$user->photo) }}"  alt="Photo de profil de {{$user->name}}" onerror="this.onerror=null; this.src='/img/user-default.png'"
                 >
                 <div class="flex-1 space-y-1">
                     <div class="flex items-center justify-between">

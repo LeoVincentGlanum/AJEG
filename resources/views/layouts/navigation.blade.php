@@ -60,8 +60,8 @@
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>
                                 <img class="inline-block h-9 w-9 rounded-full"
-                                     src="{{ asset('storage/photos/'.Auth::user()->photo) }}"
-                                     alt="" onerror="this.onerror=null; this.src='/img/user-default.png'">
+                                     src="{{ asset('public/img/'.Auth::user()->photo) }}"
+                                     alt="Photo de profil de {{Auth::user()->name}}" onerror="this.onerror=null; this.src='/img/user-default.png'">
                                 {{ Auth::user()->name }}
                             </div>
                             <div class="ml-1">
