@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\TournamentStatusEnum;
 use App\Enums\TournamentTypeEnum;
+use App\ModelStates\TournamentStatus;
+use App\ModelStates\TournamentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,9 +33,14 @@ class Tournament extends Model
         'winner_id',
     ];
 
+//    protected $casts = [
+//        'type' => TournamentTypeEnum::class,
+//        'status' => TournamentStatusEnum::class
+//    ];
+
     protected $casts = [
-        'type' => TournamentTypeEnum::class,
-        'status' => TournamentStatusEnum::class
+        'type' => TournamentType::class,
+        'status' => TournamentStatus::class
     ];
 
     public function organizer(): BelongsTo
@@ -92,8 +99,7 @@ class Tournament extends Model
 
     public function isEditable(): bool
     {
-        if ($this->status->position() > TournamentStatusEnum::started->position())
-        {
+        if ($this->status->position() > TournamentStatusEnum::started->position()) {
             return false;
         }
 

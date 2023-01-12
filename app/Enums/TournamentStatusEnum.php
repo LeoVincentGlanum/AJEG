@@ -2,6 +2,12 @@
 
 namespace App\Enums;
 
+use App\ModelStates\TournamentStatusStates\CanceledTournament;
+use App\ModelStates\TournamentStatusStates\FinishedTournament;
+use App\ModelStates\TournamentStatusStates\FullTournament;
+use App\ModelStates\TournamentStatusStates\OpenTournament;
+use App\ModelStates\TournamentStatusStates\StartedTournament;
+
 enum TournamentStatusEnum:string
 {
     case open = 'Open';
@@ -12,17 +18,28 @@ enum TournamentStatusEnum:string
 
     public function position(): int
     {
-        return TournamentStatusEnum::getPosition($this);
+        return self::getPosition($this);
     }
 
     public static function getPosition(self $value): int
     {
         return match ($value) {
-            TournamentStatusEnum::open => 1,
-            TournamentStatusEnum::full => 2,
-            TournamentStatusEnum::started => 3,
-            TournamentStatusEnum::finished => 4,
-            TournamentStatusEnum::canceled => 5,
+            self::open => 1,
+            self::full => 2,
+            self::started => 3,
+            self::finished => 4,
+            self::canceled => 5,
+        };
+    }
+
+    public static function mapWithStateMachine(string $value): array
+    {
+        return match($value) {
+            self::open->value => [OpenTournament::class],
+            self::full->value => [FullTournament::class],
+            self::started->value => [StartedTournament::class],
+            self::finished->value => [FinishedTournament::class],
+            self::canceled->value => [CanceledTournament::class],
         };
     }
 }

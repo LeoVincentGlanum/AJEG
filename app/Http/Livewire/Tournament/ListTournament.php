@@ -6,6 +6,7 @@ use App\Enums\TournamentStatusEnum;
 use App\Enums\TournamentTypeEnum;
 use App\Models\GameType;
 use App\Models\Tournament;
+use App\ModelStates\TournamentType;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -48,16 +49,17 @@ class ListTournament extends Component
 
     public function makeQueryFilter()
     {
+//        dd($this);
         return Tournament::query()
             ->with(['organizer', 'gameType', 'participants', 'winner'])
             ->when($this->type !== '',
-                fn($query) => $query->where('type', '=', $this->type)
+                fn($query) => $query->whereType('type', TournamentTypeEnum::mapWithStateMachine($this->type))
             )
             ->when($this->gameType !== '',
                 fn($query) => $query->where('game_type_id', '=', $this->gameType)
             )
             ->when($this->tournamentStatus !== '',
-                fn($query) => $query->where('status', '=', $this->tournamentStatus)
+                fn($query) => $query->where('status', $this->tournamentStatus)
             )
             ->when($this->minElo !== 0 && $this->maxElo !== 7000,
                 fn($query) => $query->where('elo_min', '>=', $this->minElo)->where('elo_max', '<=', $this->maxElo)
