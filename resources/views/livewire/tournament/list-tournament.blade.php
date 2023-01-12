@@ -199,8 +199,10 @@
                                                 </td>
                                                 @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id())
                                                     <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                                        <a href="{{ route('tournament.edit', ['tournament' => $tournament->id]) }}" target="_blank">
-                                                            <x-heroicon-s-pencil class="w-5 h-5 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
+                                                        <a href="{{ route('tournament.edit', ['tournament' => $tournament->id]) }}"
+                                                           target="_blank">
+                                                            <x-heroicon-s-pencil
+                                                                class="w-5 h-5 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
                                                         </a>
                                                     </td>
                                                 @endif
@@ -209,28 +211,42 @@
                                                         $data = json_encode(["id" => $tournament->id]);
                                                     @endphp
                                                     <a wire:click="$emit('openModal', 'tournament.register', {{ $data }})">
-                                                        <x-heroicon-s-ticket class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
+                                                        <x-heroicon-s-ticket
+                                                            class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td class="px-4 py-8" colspan="12">
-                                                    <div class="text-center">
-                                                        <x-heroicon-o-trophy class="mx-auto h-12 w-12 text-gray-400"/>
-                                                        <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de tournois') }}</h3>
-                                                        <div class="mt-6">
-                                                            <a
-                                                                wire:click="$emit('openModal', 'tournament.form')"
-                                                                class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
-                                                            >
-                                                                {{ __('Créer un tournoi') }}
-                                                            </a>
-                                                        </div>
-                                                    </div>
+                                            @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id() && $tournament->status == \App\ModelStates\TournamentStatusStates\FullTournament::$name)
+                                                <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
+                                                    @php
+                                                        $data = json_encode(["id" => $tournament->id]);
+                                                    @endphp
+                                                    <a wire:click="$emit('openModal', 'tournament.start', {{ $data }})">
+                                                        <x-heroicon-s-play
+                                                            class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
+                                                    </a>
                                                 </td>
-                                            </tr>
-                                        @endforelse
+                                                @endif
+                                                </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td class="px-4 py-8" colspan="12">
+                                                            <div class="text-center">
+                                                                <x-heroicon-o-trophy
+                                                                    class="mx-auto h-12 w-12 text-gray-400"/>
+                                                                <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de tournois') }}</h3>
+                                                                <div class="mt-6">
+                                                                    <a
+                                                                        wire:click="$emit('openModal', 'tournament.form')"
+                                                                        class="btn px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-indigo-500 hover:bg-indigo-700"
+                                                                    >
+                                                                        {{ __('Créer un tournoi') }}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
                                         </tbody>
                                     </table>
                                 </div>
