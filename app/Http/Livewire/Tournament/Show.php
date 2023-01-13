@@ -18,13 +18,25 @@ class Show extends Component
 
     public string $searchPlayer = '';
 
+    public array $results = [];
+
     public string $searchResult = '';
 
     public function mount(Tournament $tournament)
     {
         $this->tournament = $tournament;
         $this->games = Game::query()->with("gamePlayers.user")->where("tournament_id", $tournament->id)->get();
-//        dd($this->games);
+
+        $this->results = [];
+        foreach ($this->games as $game) {
+            foreach ($game->gamePlayers as $gamePlayer) {
+                $this->results[] = [
+                    "game_id" => $gamePlayer->game_id,
+                    "user_id" => $gamePlayer->user_id,
+                    "result" => $gamePlayer->result
+                ];
+            }
+        }
     }
 
     public function makeQueryFilter(): LengthAwarePaginator
@@ -88,6 +100,7 @@ class Show extends Component
     {
         return view('livewire.tournament.show', [
             'pageGames' => $this->makeQueryFilter(),
+            'results' => $this->results,
         ]);
     }
 }
