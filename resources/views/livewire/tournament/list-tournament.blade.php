@@ -206,6 +206,7 @@
                                                         </a>
                                                     </td>
                                                 @endif
+                                                @if($tournament->status->equals(\App\ModelStates\TournamentStatusStates\OpenTournament::class))
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     @php
                                                         $data = json_encode(["id" => $tournament->id]);
@@ -216,7 +217,8 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id() && $tournament->status == \App\ModelStates\TournamentStatusStates\FullTournament::$name)
+                                            @endif
+                                            @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id() && $tournament->status->equals(\App\ModelStates\TournamentStatusStates\FullTournament::class))
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     @php
                                                         $data = json_encode($tournament->id);

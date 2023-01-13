@@ -22,14 +22,17 @@ class PendingGames extends Component
                 ->whereHas('gamePlayers', function ($query) {
                     $query->where('user_id', auth()->user()->id);
                 })
-                ->where('status', '=', PlayersValidation::$name)
-                ->orWhere('status', GameAccepted::$name)
+                ->where(function ($query) {
+                    $query->where('status', '=', PlayersValidation::$name)
+                        ->orWhere('status', GameAccepted::$name);
+                })
                 ->get();
         } catch (\Throwable $e) {
             report($e);
             $this->games = [];
         }
     }
+
     public function render()
     {
         return view('livewire.dashboard.pending-games');
