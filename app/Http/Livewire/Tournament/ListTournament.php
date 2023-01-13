@@ -12,6 +12,7 @@ use App\Models\Tournament;
 use App\Models\TournamentParticipant;
 use App\Models\User;
 use App\ModelStates\GameStates\GameAccepted;
+use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\TournamentStatusStates\StartedTournament;
 use App\ModelStates\TournamentType;
 use Illuminate\Database\Eloquent\Collection;
@@ -82,7 +83,7 @@ class ListTournament extends Component
     }
 
 
-     public function startTournament($id)
+    public function startTournament($id)
     {
         // Récupération des participants du tournoi
         $participants = TournamentParticipant::query()->where("tournament_id", $id)->pluck("user_id");
@@ -130,12 +131,14 @@ class ListTournament extends Component
             $gamePlayer1->user_id = $match['player1'];
             $gamePlayer1->bet_ratio = $ratioPlayer1;
             $gamePlayer1->color = $colorPlayer1;
+            $gamePlayer1->player_participation_validation->transitionTo(Accepted::class);
             $gamePlayer1->save();
             $gamePlayer2 = new GamePlayer();
             $gamePlayer2->game_id = $game->id;
             $gamePlayer2->user_id = $match['player2'];
             $gamePlayer2->bet_ratio = $ratioPlayer2;
             $gamePlayer2->color = $colorPlayer2;
+            $gamePlayer2->player_participation_validation->transitionTo(Accepted::class);
             $gamePlayer2->save();
 
             $count++;
@@ -147,9 +150,6 @@ class ListTournament extends Component
 
         $this->successToast('The tournament has started, all games have been created');
     }
-
-
-
 
     public function resetFilter()
     {

@@ -18,10 +18,10 @@
                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
                                 {{ __('Pats') }}
                             </th>
-                            <th scope="col"
-                                class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
-                                {{ __('Draws') }}
-                            </th>
+{{--                            <th scope="col"--}}
+{{--                                class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">--}}
+{{--                                {{ __('Draws') }}--}}
+{{--                            </th>--}}
                             <th scope="col"
                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
                                 {{ __('Losses') }}
@@ -49,9 +49,9 @@
                             <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                 {{ $participant->pivot->paths ?? "-" }}
                             </td>
-                            <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                {{ $participant->pivot->draws ?? "-" }}
-                            </td>
+{{--                            <td class="px-4 py-2 text-xs whitespace-nowrap text-center">--}}
+{{--                                {{ $participant->pivot->draws ?? "-" }}--}}
+{{--                            </td>--}}
                             <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                 {{ $participant->pivot->losses ?? "-" }}
                             </td>
