@@ -31,7 +31,10 @@ abstract class TournamentStatus extends State
             ->allowTransition(OpenTournament::class, FullTournament::class)
             ->allowTransition(OpenTournament::class, FinishedTournament::class)
 
+            ->allowTransition(FullTournament::class, StartedTournament::class)
+
             ->allowTransition(StartedTournament::class, FinishedTournament::class)
+            ->allowTransition(StartedTournament::class, CanceledTournament::class)
 
             ->registerState(OpenTournament::class)
             ->registerState(StartedTournament::class)

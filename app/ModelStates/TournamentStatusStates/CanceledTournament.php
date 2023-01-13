@@ -4,7 +4,7 @@ namespace App\ModelStates\TournamentStatusStates;
 
 class CanceledTournament extends \App\ModelStates\TournamentStatus
 {
-    public static string $name = 'Canceled';
+    public static string $name = 'canceled';
 
     public function color(): string
     {
@@ -12,6 +12,6 @@ class CanceledTournament extends \App\ModelStates\TournamentStatus
     }
     public function name(): string
     {
-        return trans('Canceled');
+        return trans('canceled');
     }
 }

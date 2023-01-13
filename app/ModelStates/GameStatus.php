@@ -28,6 +28,7 @@ abstract class GameStatus extends State
             ->allowTransition(Draft::class, Cancel::class)
             ->allowTransition(Draft::class, Archived::class)
             ->allowTransition(Draft::class, ResultValidations::class)
+            ->allowTransition(Draft::class, GameAccepted::class)
 
 
 

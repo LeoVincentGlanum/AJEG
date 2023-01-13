@@ -10,11 +10,11 @@ use App\ModelStates\TournamentStatusStates\StartedTournament;
 
 enum TournamentStatusEnum:string
 {
-    case open = 'Open';
-    case full = 'Full';
-    case started = 'Started';
-    case finished = 'Finished';
-    case canceled = 'Canceled';
+    case open = 'open';
+    case full = 'full';
+    case started = 'started';
+    case finished = 'finished';
+    case canceled = 'canceled';
 
     public function position(): int
     {

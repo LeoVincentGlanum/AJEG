@@ -219,9 +219,9 @@
                                             @if($tournament->organizer_id === \Illuminate\Support\Facades\Auth::id() && $tournament->status == \App\ModelStates\TournamentStatusStates\FullTournament::$name)
                                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                                     @php
-                                                        $data = json_encode(["id" => $tournament->id]);
+                                                        $data = json_encode($tournament->id);
                                                     @endphp
-                                                    <a wire:click="$emit('openModal', 'tournament.start', {{ $data }})">
+                                                    <a wire:click="startTournament({{ $data }})">
                                                         <x-heroicon-s-play
                                                             class="w-6 h-6 cursor-pointer text-indigo-500 hover:text-indigo-700"/>
                                                     </a>

@@ -49,12 +49,12 @@ class Register extends ModalComponent
             return;
         }
 
-        if ($this->tournament->elo_max < $this->user->elo) {
+        if ($this->tournament->elo_max !== null && $this->tournament->elo_max < $this->user->elo) {
             $this->errorToast('Your elo is too high');
             return;
         }
 
-        if ($this->tournament->min > $this->user->elo) {
+        if ($this->tournament->elo_min > $this->user->elo) {
             $this->errorToast('Your elo isn\'t high enough');
             return;
         }
