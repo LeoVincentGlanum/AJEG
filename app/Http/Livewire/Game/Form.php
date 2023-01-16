@@ -10,8 +10,12 @@ use App\Http\Livewire\Game\Traits\HasBetMapper;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\PendingResult;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
+use App\ModelStates\PlayerRecognitionResultStates\Pending;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -94,16 +98,16 @@ class Form extends Component
                 $color = "blanc";
             }
 
-            $result = null;
+            $result = PendingResult::class;
 
             if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose->value;
+                $result = Loss::class;
                 if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win->value;
+                    $result = Win::class;
                 }
             }
 
@@ -196,8 +200,9 @@ class Form extends Component
             if ($id == Auth::id()) {
                 $gameplayer->player_participation_validation->transitionTo(Accepted::class);
             }
-            $gameplayer->result = $result;
-
+            if ($result !== null) {
+                $gameplayer->result = $result;
+            }
             $gameplayer->save();
         }
 

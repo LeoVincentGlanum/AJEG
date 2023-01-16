@@ -121,7 +121,6 @@
                                                         <span
                                                             class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">Win</span>
                                                     </p>
-
                                                     <p class="mt-1 text-sm text-gray-500">Jouant les {{$winner->color}}
                                                         s</p>
                                                     <div class="mt-4 flex">
@@ -154,7 +153,7 @@
                                         </div>
                                         <div class="ml-3 w-0 flex-1">
                                             <p class="text-sm font-medium text-gray-900"> <span
-                                                    class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">{{ ucfirst($gamePlayer->first()->result->value) }}</span>
+                                                    class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">{{ ucfirst($gamePlayer->first()->result) }}</span>
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-500">Jouant les {{$winner->color}}</p>

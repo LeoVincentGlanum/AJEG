@@ -11,12 +11,18 @@ use App\Models\GamePlayer;
 use App\Models\User;
 use App\ModelStates\BetStates\LooseBet;
 use App\ModelStates\BetStates\WinBet;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\PendingResult;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\Validate;
 use App\ModelStates\PlayerParticipationStates\Pending;
 use App\ModelStates\PlayerRecognitionResultStates\Accepted;
+use App\ModelStates\PlayerRecognitionResultStates\Pending as PlayerRecognitionResultStatesPending;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -57,7 +63,7 @@ class Show extends Component
 
     public function accept()
     {
-        try {
+//        try {
             $gameBets = Bet::query()->with('user')->where('game_id', $this->game->id)->get();
 
             $users = $this->game->gamePlayers;
@@ -66,7 +72,7 @@ class Show extends Component
             $looser = null;
 
             foreach ($users as $player) {
-                if ($player->result->value === 'win') {
+                if ($player->result->equals(Win::class)) {
                     $winner = $player;
                     continue;
                 }
@@ -78,6 +84,7 @@ class Show extends Component
             $eloJ2 = Arr::get($users, 1)->user->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
+//            dd('ici');
 //
             Arr::get($users, 0)->user->elo = $result[0];
             Arr::get($users, 0)->user->save();
@@ -90,7 +97,7 @@ class Show extends Component
                     $player->player_result_validation->transitionTo(Accepted::class);
                     $player->save();
                 }
-                if ($player->player_result_validation == "pending") {
+                if ($player->player_result_validation->equals(PlayerRecognitionResultStatesPending::class)) {
                     $allCompleted = false;
                 }
             }
@@ -121,10 +128,10 @@ class Show extends Component
             $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
 
             redirect()->route('dashboard');
-        } catch (Exception $e) {
-            report($e);
-            $this->errorToast('quelque chose c\'est mal passé');
-        }
+//        } catch (Exception $e) {
+//            report($e);
+//            $this->errorToast('quelque chose s\'est mal passé');
+//        }
     }
 
     function expectedScore($rating1, $rating2)
@@ -139,8 +146,9 @@ class Show extends Component
         $expected2 = $this->expectedScore($rating2, $rating1);
 
 
-        $newRating1 = $rating1 + $K * ($this->getScoreWithResult($score1->result->value) - $expected1);
-        $newRating2 = $rating2 + $K * ($this->getScoreWithResult($score2->result->value) - $expected2);
+//        dd($this->getScoreWithResult($score1->result));
+        $newRating1 = $rating1 + $K * ($this->getScoreWithResult($score1->result) - $expected1);
+        $newRating2 = $rating2 + $K * ($this->getScoreWithResult($score2->result) - $expected2);
 
         return array($newRating1, $newRating2);
     }
@@ -170,11 +178,17 @@ class Show extends Component
 
     public function getScoreWithResult($result)
     {
-        return match ($result) {
-            GameResultEnum::win->value => 1.2,
-            GameResultEnum::pat->value => 0.85,
-            GameResultEnum::nul->value => 0.5,
-            GameResultEnum::lose->value => 0,
+//        dd($result::$name);
+        return match ($result::$name) {
+//            GameResultEnum::win->value => 1.2,
+//            GameResultEnum::pat->value => 0.85,
+//            GameResultEnum::nul->value => 0.5,
+//            GameResultEnum::lose->value => 0,
+            Win::$name => 1.2,
+            Pat::$name => 0.85,
+            Draw::$name => 0.5,
+            Loss::$name => 0,
+            Pending::$name => 0,
         };
     }
 
@@ -197,7 +211,7 @@ class Show extends Component
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
-                if ($player->player_participation_validation == Pending::$name) {
+                if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }
@@ -212,7 +226,7 @@ class Show extends Component
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
-                if ($player->player_participation_validation == Pending::$name) {
+                if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }

@@ -49,7 +49,7 @@ final class ResultForm extends ModalComponent
                 throw new Exception('Status is not inProgress');
             }
 
-            if ($this->game->status == InProgress::$name) {
+            if ($this->game->status->equals(InProgress::class)) {
                 $this->game->status->transitionTo(ResultValidations::class);
             }
             foreach ($this->game->gamePlayers as $player) {
