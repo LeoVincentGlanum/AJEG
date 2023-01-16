@@ -7,7 +7,7 @@ use App\Http\Livewire\Game\Traits\HasBetMapper;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStatus;
 use App\ModelStates\GameStates\GameAccepted;
-use App\ModelStates\PlayerResultStates\Accepted;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\Http\Livewire\Game\Traits\HasGameResultMapper;

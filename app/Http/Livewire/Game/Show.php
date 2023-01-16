@@ -16,7 +16,7 @@ use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\Validate;
 use App\ModelStates\PlayerParticipationStates\Pending;
-use App\ModelStates\PlayerResultStates\Accepted;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;

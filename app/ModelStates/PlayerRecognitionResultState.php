@@ -2,13 +2,13 @@
 
  namespace App\ModelStates;
 
-use App\ModelStates\PlayerResultStates\Accepted;
-use App\ModelStates\PlayerResultStates\Pending;
-use App\ModelStates\PlayerResultStates\Refused;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted;
+use App\ModelStates\PlayerRecognitionResultStates\Pending;
+use App\ModelStates\PlayerRecognitionResultStates\Refused;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 
-abstract class PlayerResultState extends State
+abstract class PlayerRecognitionResultState extends State
 {
     abstract public function color(): string;
 

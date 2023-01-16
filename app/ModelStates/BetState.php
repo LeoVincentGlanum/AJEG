@@ -5,9 +5,9 @@
 use App\ModelStates\BetStates\LooseBet;
 use App\ModelStates\BetStates\PendingBet;
 use App\ModelStates\BetStates\WinBet;
-use App\ModelStates\PlayerResultStates\Accepted;
-use App\ModelStates\PlayerResultStates\Pending;
-use App\ModelStates\PlayerResultStates\Refused;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted;
+use App\ModelStates\PlayerRecognitionResultStates\Pending;
+use App\ModelStates\PlayerRecognitionResultStates\Refused;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 
