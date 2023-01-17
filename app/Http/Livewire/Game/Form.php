@@ -208,7 +208,7 @@ class Form extends Component
             $gameplayer->save();
         }
 
-        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get();
+        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get()->toArray();
         $this->calcBetRatio($users);
 
         if ($this->type == GameStatusEnum::waiting->value) {
