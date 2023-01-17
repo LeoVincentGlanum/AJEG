@@ -7,7 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Rankingchess extends Component
+class Rankingdarts extends Component
 {
     use WithPagination;
 
@@ -27,7 +27,7 @@ class Rankingchess extends Component
         ];
     public function mount()
     {
-        $usersToRank = User::query()->orderBy('elo_chess', 'desc')->get();
+        $usersToRank = User::query()->orderBy('elo_darts', 'desc')->get();
 
         $this->rank = [];
 
@@ -46,16 +46,16 @@ class Rankingchess extends Component
 
             return User::query()
                 ->where('name', 'like', '%' . $this->searchPlayer . '%')
-                ->orderBy('elo_chess', 'desc')
+                ->orderBy('elo_darts', 'desc')
                 ->paginate(20);
         }
 
-        return User::query()->orderBy('elo_chess', 'desc')->paginate(20);
+        return User::query()->orderBy('elo_darts', 'desc')->paginate(20);
     }
 
     public function render()
     {
-        return view('livewire.game.rankingchess', [
+        return view('livewire.game.rankingdarts', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
         ]);
