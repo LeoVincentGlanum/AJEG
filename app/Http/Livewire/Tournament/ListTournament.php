@@ -113,11 +113,11 @@ class ListTournament extends Component
             //calcul des ratio en fonction de l'elo
             $player1 = User::query()->where("id", $match['player1'])->firstOrFail();
             $player2 = User::query()->where("id", $match['player2'])->firstOrFail();
-            $ratioPlayer2 = ($player1->elo / $player2->elo) + 1;
-            $ratioPlayer1 = ($player2->elo / $player1->elo) + 1;
+            $ratioPlayer2 = ($player1->elo_chess / $player2->elo_chess) + 1;
+            $ratioPlayer1 = ($player2->elo_chess / $player1->elo_chess) + 1;
 
             //Couleur blanche donnée au joueur ayant le elo le plus faible
-            if ($player1->elo >= $player2->elo) {
+            if ($player1->elo_chess >= $player2->elo_chess) {
                 $colorPlayer1 = "noir";
                 $colorPlayer2 = "blanc";
             } else {

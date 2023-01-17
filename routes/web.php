@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{game}', [GameController::class, 'show'])->name('game.show');
         Route::view('/history', 'game.history')->name('game.history');
         Route::get('/bet/{game}', [GameController::class, 'bet'])->name('game.bet');
-        Route::get('/ranking', [GameController::class, 'ranking'])->name('game.ranking');
+        Route::get('/rankingchess', [GameController::class, 'rankingchess'])->name('game.rankingchess');
     });
 
     Route::prefix('/tournament')->group(function () {

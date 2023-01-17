@@ -74,14 +74,14 @@ class Show extends Component
                 $looser = $player;
             }
 
-            $eloJ1 = Arr::get($users, 0)->user->elo;
-            $eloJ2 = Arr::get($users, 1)->user->elo;
+            $eloJ1 = Arr::get($users, 0)->user->elo_chess;
+            $eloJ2 = Arr::get($users, 1)->user->elo_chess;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
 //
-            Arr::get($users, 0)->user->elo = $result[0];
+            Arr::get($users, 0)->user->elo_chess = $result[0];
             Arr::get($users, 0)->user->save();
-            Arr::get($users, 1)->user->elo = $result[1];
+            Arr::get($users, 1)->user->elo_chess = $result[1];
             Arr::get($users, 1)->user->save();
 
             $allCompleted = true;

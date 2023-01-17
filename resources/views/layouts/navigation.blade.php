@@ -35,8 +35,8 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                     <x-nav-link :href="route('game.ranking')" :active="request()->routeIs('game.ranking')">
-                        {{ __('Ranking') }}
+                     <x-nav-link :href="route('game.rankingchess')" :active="request()->routeIs('game.rankingchess')">
+                        {{ __('Ranking Échecs') }}
                     </x-nav-link>
                 </div>
 

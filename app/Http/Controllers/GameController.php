@@ -25,8 +25,8 @@ class GameController extends Controller
         return view('game.bet', ['game' => $game]);
     }
 
-    public function ranking(Collection $users)
+    public function rankingchess(Collection $users)
     {
-        return view('game.ranking', ['users' => $users, 'page' => request()->get('page')]);
+        return view('game.rankingchess', ['users' => $users, 'page' => request()->get('page')]);
     }
 }
