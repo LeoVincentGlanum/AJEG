@@ -63,7 +63,7 @@ class Show extends Component
 
     public function accept()
     {
-//        try {
+        try {
             $gameBets = Bet::query()->with('user')->where('game_id', $this->game->id)->get();
 
             $users = $this->game->gamePlayers;
@@ -84,8 +84,7 @@ class Show extends Component
             $eloJ2 = Arr::get($users, 1)->user->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
-//            dd('ici');
-//
+
             Arr::get($users, 0)->user->elo = $result[0];
             Arr::get($users, 0)->user->save();
             Arr::get($users, 1)->user->elo = $result[1];
@@ -128,10 +127,10 @@ class Show extends Component
             $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
 
             redirect()->route('dashboard');
-//        } catch (Exception $e) {
-//            report($e);
-//            $this->errorToast('quelque chose s\'est mal passé');
-//        }
+        } catch (Exception $e) {
+            report($e);
+            $this->errorToast('quelque chose s\'est mal passé');
+        }
     }
 
     function expectedScore($rating1, $rating2)

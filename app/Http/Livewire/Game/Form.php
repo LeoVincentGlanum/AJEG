@@ -10,7 +10,9 @@ use App\Http\Livewire\Game\Traits\HasBetMapper;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Game;
+use App\ModelStates\GamePlayerResultStates\Draw;
 use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
 use App\ModelStates\GamePlayerResultStates\PendingResult;
 use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\PlayersValidation;
@@ -98,16 +100,16 @@ class Form extends Component
                 $color = "blanc";
             }
 
-            $result = PendingResult::class;
+            $result = PendingResult::$name;
 
             if ($this->type == GameStatusEnum::ended) {
-                $result = Loss::class;
-                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
+                $result = Loss::$name;
+                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = Win::class;
+                    $result = Win::$name;
                 }
             }
 
@@ -183,13 +185,13 @@ class Form extends Component
             $result = null;
 
             if ($this->type == GameStatusEnum::ended->value) {
-                $result = GameResultEnum::lose->value;
-                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
+                $result = Loss::$name;
+                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win->value;
+                    $result = Win::$name;
                 }
             }
 
@@ -197,9 +199,7 @@ class Form extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color = $color;
-            if ($id == Auth::id()) {
-                $gameplayer->player_participation_validation->transitionTo(Accepted::class);
-            }
+            $gameplayer->player_participation_validation->transitionTo(Accepted::class);
             if ($result !== null) {
                 $gameplayer->result = $result;
             }
