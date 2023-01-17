@@ -62,7 +62,6 @@ class History extends Component
                     if ($player->result->equals(Loss::class)) {
                         continue;
                     }
-//                    dd($player->result::class, $player->result::$name);
                     return match ($player->result::$name) {
                         Win::$name => $player->user->name." a gagné",
                         Draw::$name => "Match nul",
@@ -77,7 +76,7 @@ class History extends Component
                     if ($player->result->equals(Loss::class)) {
                         continue;
                     }
-                    return match ($player->result) {
+                    return match ($player->result::$name) {
                         Win::$name => "[En attente] ".$player->user->name." a gagné",
                         Draw::$name => "[En attente] Match nul",
                         Pat::$name => "[En attente] Pat",
