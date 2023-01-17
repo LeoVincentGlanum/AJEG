@@ -138,6 +138,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                             </li>
                         @else
                             <div
@@ -153,8 +154,6 @@
                                             <p class="text-sm font-medium text-gray-900"> <span
                                                     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">{{ ucfirst($gamePlayer->first()->result) }}</span>
                                             </p>
-
-                                            <p class="mt-1 text-sm text-gray-500">Jouant les {{$winner->color}}</p>
                                             <div class="mt-4 flex">
                                                 <button type="button" wire:click.prevent="accept"
                                                         class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
