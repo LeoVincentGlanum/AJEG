@@ -7,6 +7,7 @@ use App\Http\Livewire\Traits\HasToast;
 use App\Models\Tournament;
 use App\Models\TournamentParticipant;
 use App\Models\User;
+use App\ModelStates\TournamentStatusStates\FullTournament;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
@@ -70,7 +71,7 @@ class Register extends ModalComponent
             $this->user->save();
 
             if ($this->tournament->participants->count() + 1 === $this->tournament->number_of_players) {
-                $this->tournament->status = TournamentStatusEnum::full->value;
+                $this->tournament->status->equals(FullTournament::class);
                 $this->tournament->save();
             }
 

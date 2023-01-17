@@ -5,6 +5,10 @@ namespace App\Http\Livewire\Tournament;
 use App\Enums\GameResultEnum;
 use App\Models\Game;
 use App\Models\Tournament;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\GameStates\Validate;
 use Livewire\Component;
@@ -60,40 +64,37 @@ class Show extends Component
 
     public function gameResult($game): string
     {
-        if ($game->status == Validate::$name) {
+        if ($game->status->equals(Validate::class)) {
             foreach ($game->gamePlayers as $player) {
                 if ($player->result !== null) {
-                    if ($player->result->value === GameResultEnum::lose->value) {
+                    if ($player->result->equals(Loss::class)) {
                         continue;
                     }
-                    return match ($player->result->value) {
-                        GameResultEnum::win->value => $player->user->name . " a gagné",
-                        GameResultEnum::nul->value => "Match nul",
-                        GameResultEnum::pat->value => "Pat",
+                    return match ($player->result::$name) {
+                        Win::$name => $player->user->name . " a gagné",
+                        Draw::$name => "Match nul",
+                        Pat::$name => "Pat",
                     };
                 }
             }
             return "-";
-        } elseif ($game->status == ResultValidations::$name) {
+        } elseif ($game->status->equals(ResultValidations::class)) {
             foreach ($game->gamePlayers as $player) {
                 if ($player->result !== null) {
-                    if ($player->result->value === GameResultEnum::lose->value) {
+                    if ($player->result->equals(Loss::class)) {
                         continue;
                     }
-                    return match ($player->result->value) {
-                        GameResultEnum::win->value => "[En attente] " . $player->user->name . " a gagné",
-                        GameResultEnum::nul->value => "[En attente] Match nul",
-                        GameResultEnum::pat->value => "[En attente] Pat",
+                    return match ($player->result::$name) {
+                        Win::$name => "[En attente] " . $player->user->name . " a gagné",
+                        Draw::$name => "[En attente] Match nul",
+                        Pat::$name => "[En attente] Pat",
                     };
                 }
             }
-
             return "-";
         } else {
             return "-";
         }
-
-
     }
 
     public function render()

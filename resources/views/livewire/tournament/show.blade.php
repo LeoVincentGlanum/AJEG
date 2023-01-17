@@ -39,12 +39,13 @@
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                     {{ $participant->name ?? "-" }}
                                 </td>
-                                {{--                                @dd($games)--}}
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                     @php
                                         $winCounter = 0;
                                         foreach ($results as $result) {
-                                            if ($result['user_id'] === $participant->id && $result['result']->value === "win") {
+//                                            if ($result['user_id'] === $participant->id && $result['result']->value === "win") {
+//                                                dd($result['user_id'] === $participant->id, $result['result']->equals(\App\ModelStates\GamePlayerResultStates\PendingResult::class));
+                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Win::class)) {
                                                 $winCounter++;
                                             }
                                         }
@@ -55,7 +56,7 @@
                                     @php
                                         $patsCounter = 0;
                                         foreach ($results as $result) {
-                                            if ($result['user_id'] === $participant->id && $result['result']->value === "pat") {
+                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Pat::class)) {
                                                 $patsCounter++;
                                             }
                                         }
@@ -66,7 +67,7 @@
                                     @php
                                         $lossesCounter = 0;
                                         foreach ($results as $result) {
-                                            if ($result['user_id'] === $participant->id && $result['result']->value === "lose") {
+                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Loss::class)) {
                                                 $lossesCounter++;
                                             }
                                         }
