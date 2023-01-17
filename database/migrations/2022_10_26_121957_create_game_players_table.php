@@ -22,8 +22,7 @@ return new class extends Migration
 
             $table->string('color', 30)
                 ->nullable();
-            $table->string('result', 30)
-                ->nullable();
+            $table->string('result', 30);
             $table->timestamps();
         });
     }

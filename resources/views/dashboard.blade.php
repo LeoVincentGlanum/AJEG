@@ -4,7 +4,14 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
+    @php
+        $gamePlayers = \App\Models\GamePlayer::query()->get();
+//        dd($gamePlayers);
+//                    foreach ($gamePlayers as $player) {
+//                        if ($player->result->value->equals(\App\ModelStates\GamePlayerResultStates\Win::class)) {
+//                            dd($player);
+//                        }}
+    @endphp
     <livewire:actuality/>
 
     <livewire:dashboard.open-bets/>
