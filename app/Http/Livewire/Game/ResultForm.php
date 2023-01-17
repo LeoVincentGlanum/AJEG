@@ -4,6 +4,10 @@ namespace App\Http\Livewire\Game;
 
 use App\Enums\GameResultEnum;
 use App\Http\Livewire\Game\Traits\HasBetMapper;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStatus;
 use App\ModelStates\GameStates\GameAccepted;
@@ -74,10 +78,10 @@ final class ResultForm extends ModalComponent
         $lastPlayerSelect = $this->playerSelect[$id];
 
         match ($lastPlayerSelect) {
-            GameResultEnum::win->value => $this->isWinSetResults($id),
-            GameResultEnum::lose->value => $this->isLoseSetResults($id),
-            GameResultEnum::pat->value => $this->isPatSetResults(),
-            GameResultEnum::nul->value => $this->isNulSetResults()
+            Win::$name => $this->isWinSetResults($id),
+            Loss::$name => $this->isLoseSetResults($id),
+            Pat::$name => $this->isPatSetResults(),
+            Draw::$name => $this->isNulSetResults()
         };
     }
 
