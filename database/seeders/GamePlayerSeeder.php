@@ -5,11 +5,9 @@ namespace Database\Seeders;
 use App\Enums\GameResultEnum;
 use App\Models\Game;
 use App\Models\User;
-
 use App\ModelStates\GamePlayerResultStates\Draw;
 use App\ModelStates\GamePlayerResultStates\Loss;
 use App\ModelStates\GamePlayerResultStates\Pat;
-use App\ModelStates\GamePlayerResultStates\PendingResult;
 use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\AskAdmin;
 use App\ModelStates\GameStates\Validate;
@@ -30,14 +28,7 @@ class GamePlayerSeeder extends Seeder
     {
         $games = Game::all();
         $players = User::all();
-        $results = GameResultEnum::cases();
-        $results = [
-            PendingResult::$name,
-            Win::$name,
-            Loss::$name,
-            Pat::$name,
-            Draw::$name,
-        ];
+        $results = [Draw::class, Loss::class, Pat::class, Win::class];
         $colors = ['black', 'white'];
         $resultsValidation = [PlayerResultAccepted::class, PlayerResultRefused::class];
 
@@ -54,11 +45,10 @@ class GamePlayerSeeder extends Seeder
             if ($game->isStatusNeedResult()) {
                 $result1 = Arr::random($results);
                 $result2 = match ($result1) {
-                    Win::$name => Loss::$name,
-                    Loss::$name => Win::$name,
-                    Pat::$name => Pat::$name,
-                    Draw::$name => Draw::$name,
-                    PendingResult::$name => PendingResult::$name,
+                    Win::class => Loss::class,
+                    Loss::class => Win::class,
+                    Pat::class => Pat::class,
+                    Draw::class => Draw::class,
                 };
             }
 
