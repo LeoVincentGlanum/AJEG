@@ -120,7 +120,7 @@ class Show extends Component
 
             $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);
 
-            redirect()->route('dashboard');
+            redirect()->route('chess.dashboard');
         } catch (Exception $e) {
             report($e);
             $this->errorToast('quelque chose c\'est mal passé');

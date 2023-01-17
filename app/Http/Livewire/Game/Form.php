@@ -70,7 +70,7 @@ class Form extends Component
 
     public function gotto()
     {
-        return redirect("dashboard");
+        return redirect("chess.dashboard");
     }
 
     public function saveDraft()
@@ -116,7 +116,7 @@ class Form extends Component
 
             $this->dispatchBrowserEvent('toast', ['message' => 'Le brouillon à été enregisté.', 'type' => 'success']);
 
-            redirect()->route('dashboard');
+            redirect()->route('chess.dashboard');
         }
     }
 
@@ -220,10 +220,10 @@ class Form extends Component
                     $sendNotificationAction->execute($notification->id, $id);
                 }
             }
-            return redirect('dashboard');
+            return redirect('chess.dashboard');
         }
         session()->flash('message', 'Votre partie a bien été créée.');
-        return redirect('dashboard');
+        return redirect('chess.dashboard');
     }
 
     public function render()

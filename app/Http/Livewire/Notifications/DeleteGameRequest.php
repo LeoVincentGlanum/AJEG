@@ -30,7 +30,7 @@ class DeleteGameRequest extends ModalComponent
             $this->cashOutAllGambler();
             $this->currentGame->delete();
             $this->dispatchBrowserEvent('toast', ['message' => 'La partie à bien été supprimé', 'type' => 'success']);
-            redirect()->route('dashboard');
+            redirect()->route('chess.dashboard');
 
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('toast', ['message' => $e->getMessage(), 'type' => 'error']);
