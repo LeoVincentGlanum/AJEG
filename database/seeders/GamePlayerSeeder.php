@@ -5,11 +5,15 @@ namespace Database\Seeders;
 use App\Enums\GameResultEnum;
 use App\Models\Game;
 use App\Models\User;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\AskAdmin;
 use App\ModelStates\GameStates\Validate;
 use App\ModelStates\PlayerParticipationStates\Accepted as PlayerParticipationAccepted;
-use App\ModelStates\PlayerResultStates\Accepted as PlayerResultAccepted;
-use App\ModelStates\PlayerResultStates\Refused as PlayerResultRefused;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted as PlayerResultAccepted;
+use App\ModelStates\PlayerRecognitionResultStates\Refused as PlayerResultRefused;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -41,10 +45,10 @@ class GamePlayerSeeder extends Seeder
             if ($game->isStatusNeedResult()) {
                 $result1 = Arr::random($results)->value;
                 $result2 = match ($result1) {
-                    GameResultEnum::win->value => GameResultEnum::lose->value,
-                    GameResultEnum::lose->value => GameResultEnum::win->value,
-                    GameResultEnum::pat->value => GameResultEnum::pat->value,
-                    GameResultEnum::nul->value => GameResultEnum::nul->value,
+                    Win::$name => Loss::$name,
+                    Loss::$name => Win::$name,
+                    Pat::$name => Pat::$name,
+                    Draw::$name => Draw::$name,
                 };
             }
 
