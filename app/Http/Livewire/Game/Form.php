@@ -199,7 +199,9 @@ class Form extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color = $color;
-            $gameplayer->player_participation_validation->transitionTo(Accepted::class);
+            if ($id === Auth::id() || $this->type == GameStatusEnum::ended->value) {
+                $gameplayer->player_participation_validation->transitionTo(Accepted::class);
+            }
             if ($result !== null) {
                 $gameplayer->result = $result;
             }

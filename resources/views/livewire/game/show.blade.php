@@ -4,14 +4,13 @@
         <div class="mx-auto max-w-3xl">
 
 
-
-                    <livewire:interface.interactable-advises
-                        mainText="l'etat de la page et n'est pas synchronisé avec le server"
-                        buttonText="sync"
-                        eventName="refresh"
-                        :model="$game"
-                        key="{{ now() }}"
-                    />
+            <livewire:interface.interactable-advises
+                mainText="l'etat de la page et n'est pas synchronisé avec le server"
+                buttonText="sync"
+                eventName="refresh"
+                :model="$game"
+                key="{{ now() }}"
+            />
 
 
             <div class="overflow-hidden rounded-md border border-gray-300 bg-white">
@@ -54,15 +53,15 @@
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             @foreach($gamePlayer as $player)
                                 <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300
-                                @if($game->status == "resultvalidations" || $game->status == "GameAccepted")
+                                @if($game->status->equals(\App\ModelStates\GameStates\ResultValidations::class) || $game->status->equals(\App\ModelStates\GameStates\GameAccepted::class))
                                     @switch($player->player_result_validation)
-                                        @case('pending')
+                                        @case(\App\ModelStates\PlayerRecognitionResultStates\Pending::$name)
                                             bg-yellow-100
                                             @break
-                                        @case('accepted')
+                                        @case(\App\ModelStates\PlayerRecognitionResultStates\Accepted::$name)
                                             bg-green-100
                                             @break
-                                        @case('declined')
+                                        @case(\App\ModelStates\PlayerRecognitionResultStates\Refused::$name)
                                             bg-red-100
                                             @break
                                         @default
@@ -70,13 +69,13 @@
                                     @endswitch
                                 @else
                                     @switch($player->player_participation_validation)
-                                        @case('pending')
+                                        @case(\App\ModelStates\PlayerParticipationStates\Pending::$name)
                                             bg-yellow-100
                                             @break
-                                        @case('accepted')
+                                        @case(\App\ModelStates\PlayerParticipationStates\Accepted::$name)
                                             bg-green-100
                                             @break
-                                        @case('declined')
+                                        @case(\App\ModelStates\PlayerParticipationStates\Declined::$name)
                                             bg-red-100
                                             @break
                                         @default
@@ -102,11 +101,10 @@
                         </div>
                     </li>
                     @if($currentUserGame !== null)
-                        @if($game->status == "resultvalidations" && $currentUserGame->player_result_validation == "pending")
+                        @if($game->status->equals(\App\ModelStates\GameStates\ResultValidations::class) && $currentUserGame->player_result_validation->equals(\App\ModelStates\PlayerRecognitionResultStates\Pending::class))
                             <li class="px-6 py-4">
                                 Le resultat du match a été renseigné : <br>
                                 @if($winner !== null)
-
                                     <div
                                         class="pointer-events-auto mt-5 mb-5 m-auto w-full max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                         <div class="p-4">
@@ -176,7 +174,7 @@
                             </div>
                         @endif
 
-                    @elseif($currentUserGame->player_result_validation == "accepted")
+                    @elseif($currentUserGame->player_result_validation->equals(\App\ModelStates\PlayerRecognitionResultStates\Accepted::class))
                         <li class="px-6 py-4">
                             Le résultat est en attente d'etre approuvé par les autres joueurs
                         </li>
@@ -199,13 +197,13 @@
                                 </svg>
                             </a>
                         </li>
-                    @elseif($currentUserGame->player_participation_validation == "accepted" )
-                        @if($game->status == \App\ModelStates\GameStates\PlayersValidation::$name)
+                    @elseif($currentUserGame->player_participation_validation->equals(\App\ModelStates\PlayerParticipationStates\Accepted::class))
+                        @if($game->status->equals(\App\ModelStates\GameStates\PlayersValidation::class))
                             <li class="px-6 py-4">
                                 En attente des joueurs pour commencer la partie
                             </li>
                         @endif
-                        @if($game->status == \App\ModelStates\GameStates\GameAccepted::$name)
+                        @if($game->status->equals(\App\ModelStates\GameStates\GameAccepted::class))
                             <li class="px-6 py-4">
                                 <a wire:click="LaunchGame"
                                    class="inline-flex mr-2 items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -219,7 +217,7 @@
                     @php
                         $data = json_encode(["id" => $game->id]);
                     @endphp
-                    @if($game->status == "playersvalidation" && $currentUserGame->player_participation_validation== "pending")
+                    @if($game->status->equals(\App\ModelStates\GameStates\PlayersValidation::class) && $currentUserGame->player_participation_validation->equals(\App\ModelStates\PlayerParticipationStates\Pending::class))
                         <li class="px-6 py-4">
                             <a>{{__('this is an invitation to play do you want accept ?')}}</a>
                         </li>
