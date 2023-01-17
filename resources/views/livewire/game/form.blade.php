@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-medium leading-6 text-gray-900">Selectionner vos joueurs : </h3>
-                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Cocher les joueurs présent dans la partie.
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Cocher les joueurs présents dans la partie.
                                 (minimum 2 )</p>
                         </div>
                         <label for="exampleInputEmail1" class="text-lg font-medium leading-6 text-gray-900">
@@ -201,7 +201,7 @@
                                     <div class="ml-3">
                                         <h3 class="text-sm font-medium text-red-800">Attention</h3>
                                         <div class="mt-2 text-sm text-red-700">
-                                            <p> Vous devez renseingner aux moins deux joueurs avant de passer à la
+                                            <p> Vous devez renseigner aux moins deux joueurs avant de passer à la
                                                 suite</p>
                                         </div>
                                     </div>

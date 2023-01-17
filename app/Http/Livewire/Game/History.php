@@ -70,7 +70,9 @@ class History extends Component
                 }
             }
             return "-";
-        } elseif($game->status->equals(ResultValidations::class)) {
+        }
+
+        if ($game->status->equals(ResultValidations::class)) {
             foreach ($game->gamePlayers as $player) {
                 if ($player->result !== null) {
                     if ($player->result->equals(Loss::class)) {
@@ -84,13 +86,9 @@ class History extends Component
                 }
             }
 
-            return "-";
-        }else{
-            return "-";
         }
 
-
-
+        return "-";
     }
 
     public function paginationView(): string
