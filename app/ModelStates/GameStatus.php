@@ -1,6 +1,6 @@
 <?php
 
- namespace App\ModelStates;
+namespace App\ModelStates;
 
 use App\ModelStates\GameStates\Archived;
 use App\ModelStates\GameStates\AskAdmin;
@@ -29,25 +29,15 @@ abstract class GameStatus extends State
             ->allowTransition(Draft::class, Archived::class)
             ->allowTransition(Draft::class, ResultValidations::class)
             ->allowTransition(Draft::class, GameAccepted::class)
-
-
-
-
             ->allowTransition(PlayersValidation::class, Draft::class)
             ->allowTransition(PlayersValidation::class, GameAccepted::class)
-
             ->allowTransition(GameAccepted::class, InProgress::class)
-
             ->allowTransition(InProgress::class, Cancel::class)
             ->allowTransition(InProgress::class, ResultValidations::class)
-
             ->allowTransition(ResultValidations::class, AskAdmin::class)
             ->allowTransition(ResultValidations::class, Validate::class)
-
             ->allowTransition(AskAdmin::class, Cancel::class)
             ->allowTransition(AskAdmin::class, Validate::class)
-
-
             ->registerState(Draft::class)
             ->registerState(PlayersValidation::class)
             ->registerState(GameAccepted::class)
@@ -56,11 +46,6 @@ abstract class GameStatus extends State
             ->registerState(AskAdmin::class)
             ->registerState(Validate::class)
             ->registerState(Cancel::class);
-
-
-
     }
-
-
 }
 

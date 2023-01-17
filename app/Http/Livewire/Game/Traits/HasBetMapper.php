@@ -17,7 +17,7 @@ trait HasBetMapper
             });
     }
 
-    protected function calcBetRatio($users): void
+    protected function calcBetRatio(array $users): void
     {
         $player1 = $users[0];
         $player2 = $users[1];

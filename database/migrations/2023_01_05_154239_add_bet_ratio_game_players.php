@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('game_players', function (Blueprint $table) {
-            $table->decimal('bet_ratio', 10,2)->after('player_participation_validation')->nullable();
+            $table->decimal('bet_ratio', 10)->after('player_result_validation')->nullable();
         });
     }
 
