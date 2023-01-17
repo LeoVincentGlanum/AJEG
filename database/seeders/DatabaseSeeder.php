@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             GameSeeder::class,
-            GamePlayerSeeder::class
+            GamePlayerSeeder::class,
+            BetSeeder::class
         ]);
 
         DB::table('game_types')->insert([

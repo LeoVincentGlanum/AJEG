@@ -47,6 +47,11 @@ class Game extends Model
         return $this->hasOne(User::class,'id','created_by');
     }
 
+    public function bets(): HasMany
+    {
+        return $this->hasMany(Bet::class, 'game_id', 'id');
+    }
+
     public function isStatusNeedResult(): bool
     {
         if ($this->status->equals(Draft::class)) {
