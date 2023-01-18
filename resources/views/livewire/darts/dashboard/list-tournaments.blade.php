@@ -2,34 +2,34 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-                Vos games jouées en attente de validation
+                Vos tournois en cours
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md">
                 <ul role="list" class="divide-y divide-gray-200">
-                    @forelse($games as $game)
+                    @forelse($tournaments as $tournament)
                         <li>
-                            <a href="{{ route('game.show',['game' => $game->id]) }}" class="block hover:bg-gray-50">
+                            <a href="{{ route('darts.tournament.show',['tournament' => $tournament->id]) }}" class="block hover:bg-gray-50">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
                                             <div class="flex text-sm">
                                                 <p class="truncate font-medium text-indigo-600">
-                                                    {{ $game->label != null ? $game->label : 'Partie numéro ' . $game->id }}
+                                                    {{ $tournament->label != null ? $tournament->label : 'Partie numéro ' . $tournament->id }}
                                                 </p>
-                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500"> {{ $game->status }} </p>
+                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500"> {{ $tournament->status }} </p>
                                             </div>
                                             <div class="mt-2 flex">
                                                 <div class="flex items-center text-sm text-gray-500">
                                                     <x-heroicon-o-calendar class="h-6 w-6"/>
                                                     <p class="ml-2">
-                                                        Créée le {{ $game->created_at->format('d/m/Y') }}
+                                                        Créée le {{ $tournament->created_at->format('d/m/Y') }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
                                             <div class="flex -space-x-1 overflow-hidden">
-                                                @foreach($game->users as $user)
+                                                @foreach($tournament->participants as $user)
                                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
                                                          src="{{ asset('public/img/'.$user->photo) }}"
                                                          alt="Photo de profil de {{$user->name}}">
@@ -44,9 +44,10 @@
                             </a>
                         </li>
                     @empty
-                        <li>
-                            <div>Vous n'avez pas de partie en cours</div>
-                        </li>
+                        <div class="text-center p-4">
+                            <x-heroicon-o-trophy class="mx-auto h-12 w-12 text-gray-400"/>
+                            <h3 class="font-custom-title mt-2 text-sm font-medium text-gray-900">{{ __('Pas de tournois') }}</h3>
+                        </div>
                     @endforelse
                 </ul>
             </div>

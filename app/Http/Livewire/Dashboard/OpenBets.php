@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use App\Models\Game;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\PlayersValidation;
+use Illuminate\Support\Facades\Route;
 
 class OpenBets extends Component
 {
@@ -38,6 +39,10 @@ class OpenBets extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.open-bets');
+        if (str_contains(Route::currentRouteName(), 'darts')) {
+            return view('livewire.darts.dashboard.open-bets');
+        } else {
+            return view('livewire.chess.dashboard.open-bets');
+        }
     }
 }
