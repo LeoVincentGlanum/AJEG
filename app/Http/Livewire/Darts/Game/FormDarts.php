@@ -158,6 +158,7 @@ class FormDarts extends Component
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
         $newGame->bet_available = $this->selectedBets;
+        $newGame->sport_id = 2;
         $newGame->save();
 
         $match = match ($this->type) {
@@ -217,10 +218,12 @@ class FormDarts extends Component
                 if ((int)$id != Auth::id()) {
                     $sendNotificationAction->execute($notification->id, $id);
                 }
-            }dump(2);
+            }
+            dump(2);
 
             return redirect('darts.dashboard');
-        }dump(3);
+        }
+        dump(3);
 
         session()->flash('message', 'Votre partie a bien été créée.');
         return redirect('darts.dashboard');
