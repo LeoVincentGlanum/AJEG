@@ -6,6 +6,7 @@ use App\Models\GameType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -23,6 +24,12 @@ class DatabaseSeeder extends Seeder
         DB::table('game_types')->insert([
             'label' => 'standard',
             'ratio' => 1.0,
+        ]);
+        DB::table('sports')->insert([
+            'label' => 'Échecs',
+        ]);
+        DB::table('sports')->insert([
+            'label' => 'Fléchettes',
         ]);
 
     }
