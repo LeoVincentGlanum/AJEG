@@ -21,6 +21,6 @@ class UserRank extends Component
 
     public function render()
     {
-        return view('livewire.game.user-rank');
+        return view('livewire.chess.game.user-rank');
     }
 }

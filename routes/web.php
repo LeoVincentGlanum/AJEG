@@ -29,24 +29,26 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('/game')->group(function () {
-            Route::get('/create/{game?}', [GameController::class, 'create'])->name('game.create');
-            Route::get('/show/{game}', [GameController::class, 'show'])->name('game.show');
-            Route::view('/history', 'game.history')->name('game.history');
-            Route::get('/bet/{game}', [GameController::class, 'bet'])->name('game.bet');
-            Route::get('/rankingchess', [GameController::class, 'rankingchess'])->name('game.rankingchess');
-            Route::get('/rankingdarts', [GameController::class, 'rankingdarts'])->name('game.rankingdarts');
+            Route::get('/create/{game?}', [GameController::class, 'create'])->name('chess.game.create');
+            Route::get('/show/{game}', [GameController::class, 'show'])->name('chess.game.show');
+            Route::view('/history', 'chess.game.history')->name('chess.game.history');
+            Route::get('/bet/{game}', [GameController::class, 'bet'])->name('chess.game.bet');
+            Route::get('/ranking', [GameController::class, 'rankingchess'])->name('chess.game.ranking');
         });
 
         Route::prefix('/tournament')->group(function () {
-            Route::view('/', 'tournament.index')->name('tournament.index');
-            Route::get('/show/{tournament}', [TournamentController::class, 'show'])->name('tournament.show');
-            Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('tournament.edit');
+            Route::view('/', 'chess.tournament.index')->name('chess.tournament.index');
+            Route::get('/show/{tournament}', [TournamentController::class, 'show'])->name('chess.tournament.show');
+            Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('chess.tournament.edit');
         });
     });
     Route::prefix('/darts')->group(function () {
 
         Route::view('/dashboard', 'darts.dashboard')->name('darts.dashboard');
 
+        Route::prefix('/game')->group(function () {
+            Route::get('/ranking', [GameController::class, 'rankingdarts'])->name('darts.game.ranking');
+        });
     });
 });
 

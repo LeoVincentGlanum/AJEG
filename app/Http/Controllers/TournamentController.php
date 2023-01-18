@@ -11,11 +11,11 @@ class TournamentController extends Controller
 {
     public function show(Tournament $tournament): Factory|View|Application
     {
-        return view('tournament.show', ['tournament' => $tournament]);
+        return view('chess.tournament.show', ['tournament' => $tournament]);
     }
 
     public function edit(Tournament $tournament): Factory|View|Application
     {
-        return view('tournament.edit', ['tournament' => $tournament]);
+        return view('chess.tournament.edit', ['tournament' => $tournament]);
     }
 }

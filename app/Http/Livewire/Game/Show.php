@@ -228,7 +228,7 @@ class Show extends Component
             report($e);
         }
         $this->emitSelf('refreshListPlayer');
-        return view('livewire.game.result-form');
+        return view('livewire.chess.game.result-form');
     }
 
     public function LaunchGame()
@@ -257,6 +257,6 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.game.show');
+        return view('livewire.chess.game.show');
     }
 }

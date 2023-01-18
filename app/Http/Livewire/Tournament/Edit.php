@@ -152,6 +152,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.tournament.edit');
+        return view('livewire.chess.tournament.edit');
     }
 }

@@ -55,7 +55,7 @@ class Rankingchess extends Component
 
     public function render()
     {
-        return view('livewire.game.rankingchess', [
+        return view('livewire.chess.game.ranking', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
         ]);

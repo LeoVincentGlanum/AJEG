@@ -96,7 +96,7 @@ class History extends Component
 
     public function render()
     {
-        return view('livewire.game.history', [
+        return view('livewire.chess.game.history', [
             'pageGames' => $this->makeQueryFilter(),
         ]);
     }

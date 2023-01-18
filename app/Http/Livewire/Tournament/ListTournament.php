@@ -159,7 +159,7 @@ class ListTournament extends Component
 
     public function render()
     {
-        return view('livewire.tournament.list-tournament', [
+        return view('livewire.chess.tournament.list-tournament', [
             'tournaments' => $this->makeQueryFilter()->paginate(10)
         ]);
     }

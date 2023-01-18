@@ -12,25 +12,25 @@ class GameController extends Controller
 {
     public function show(Game $game): Factory|View|Application
     {
-        return view('game.show', ['game' => $game]);
+        return view('chess.game.show', ['game' => $game]);
     }
 
     public function create(Game $game)
     {
-        return view('game.create', ['game' => $game]);
+        return view('chess.game.create', ['game' => $game]);
     }
 
     public function bet(Game $game)
     {
-        return view('game.bet', ['game' => $game]);
+        return view('chess.game.bet', ['game' => $game]);
     }
 
     public function rankingchess(Collection $users)
     {
-        return view('game.rankingchess', ['users' => $users, 'page' => request()->get('page')]);
+        return view('chess.game.ranking', ['users' => $users, 'page' => request()->get('page')]);
     }
     public function rankingdarts(Collection $users)
     {
-        return view('game.rankingdarts', ['users' => $users, 'page' => request()->get('page')]);
+        return view('darts.game.ranking', ['users' => $users, 'page' => request()->get('page')]);
     }
 }

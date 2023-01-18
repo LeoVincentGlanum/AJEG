@@ -8,7 +8,7 @@
                 <ul role="list" class="divide-y divide-gray-200">
                     @forelse($tournaments as $tournament)
                         <li>
-                            <a href="{{ route('tournament.show',['tournament' => $tournament->id]) }}" class="block hover:bg-gray-50">
+                            <a href="{{ route('chess.tournament.show',['tournament' => $tournament->id]) }}" class="block hover:bg-gray-50">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">

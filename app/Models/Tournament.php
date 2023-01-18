@@ -99,6 +99,7 @@ class Tournament extends Model
 
     public function isEditable(): bool
     {
+        var_dump($this->status);
         if ($this->status->position() > TournamentStatusEnum::started->position()) {
             return false;
         }

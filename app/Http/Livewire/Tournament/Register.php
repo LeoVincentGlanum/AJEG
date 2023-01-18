@@ -87,6 +87,6 @@ class Register extends ModalComponent
 
     public function render()
     {
-        return view('livewire.tournament.register');
+        return view('livewire.chess.tournament.register');
     }
 }

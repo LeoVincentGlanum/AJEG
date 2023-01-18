@@ -55,7 +55,7 @@ class Rankingdarts extends Component
 
     public function render()
     {
-        return view('livewire.game.rankingdarts', [
+        return view('livewire.darts.game.ranking', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
         ]);

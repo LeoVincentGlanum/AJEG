@@ -83,6 +83,6 @@ final class ResultForm extends ModalComponent
 
     public function render()
     {
-        return view('livewire.game.result-form');
+        return view('livewire.chess.game.result-form');
     }
 }

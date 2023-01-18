@@ -98,7 +98,7 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.tournament.show', [
+        return view('livewire.chess.tournament.show', [
             'pageGames' => $this->makeQueryFilter(),
             'results' => $this->results,
         ]);
