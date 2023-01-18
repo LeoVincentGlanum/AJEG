@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\GameResultEnum;
 use Spatie\ModelStates\HasStates;
-use App\ModelStates\PlayerResultState;
+use App\ModelStates\PlayerRecognitionResultState;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\PlayerParticipationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,7 +28,7 @@ class GamePlayer extends Model
 
     protected $casts = [
         'result' => GameResultEnum::class,
-        'player_result_validation' =>  PlayerResultState::class,
+        'player_result_validation' =>  PlayerRecognitionResultState::class,
         'player_participation_validation' => PlayerParticipationState::class
 
     ];

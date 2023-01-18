@@ -1,10 +1,11 @@
 <?php
 
-namespace App\ModelStates\PlayerResultStates;
+namespace App\ModelStates\PlayerRecognitionResultStates;
 
-class Refused extends \App\ModelStates\PlayerResultState
+class Accepted extends \App\ModelStates\PlayerRecognitionResultState
 {
-    public static string $name = 'refused';
+
+    public static string $name = 'accepted';
     public function color(): string
     {
         // TODO: Implement color() method.
