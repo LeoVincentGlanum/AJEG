@@ -5,20 +5,12 @@
                 $creatorNotification = $creatorNotifications[$notification->id]
             @endphp
             <li>
-                <a href="#" class="block hover:bg-gray-50">
+                <a href="{{route('game.show',['game' => $notification->data["game_id"]])}}" class="block hover:bg-gray-50">
                     <div class="flex items-center px-4 py-4 sm:px-6">
                         <div class="flex min-w-0 flex-1 items-center">
-                            <div class="flex-shrink-0">
-                                <img src="{{ asset('public/img/'.$creatorNotification->photo) }}" class="h-12 w-12 rounded-full" alt="Photo de profil de {{$creatorNotification->name}}" >
-                            </div>
+
                             <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                                <div>
-                                    <p class="truncate text-sm font-medium text-indigo-600">{{ $creatorNotification->name }}</p>
-                                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                                        <x-heroicon-m-envelope class="w-5 h-5 cursor-pointer"/>
-                                        <span class="truncate">{{ $creatorNotification->email }}</span>
-                                    </p>
-                                </div>
+
                                 <div class="md:block">
                                     <div>
                                         <p class="text-sm text-gray-900">
@@ -26,7 +18,7 @@
                                                 datetime="{{ $notification->created_at }}">{{ $notification->created_at->format('j F, H:i:s') }}</time>
                                         </p>
                                         <p class="mt-2 flex items-center text-sm text-gray-500">
-                                            {{$notification->message}}
+                                            {{$notification->data["message"]}}
                                         </p>
                                     </div>
                                 </div>

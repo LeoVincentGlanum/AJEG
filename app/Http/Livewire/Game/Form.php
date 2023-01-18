@@ -18,6 +18,7 @@ use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\PlayerRecognitionResultStates\Pending;
+use App\Notifications\GameInvitationNotification;
 use Livewire\Component;
 use App\Models\GameType;
 use App\Models\GamePlayer;
@@ -208,27 +209,23 @@ class Form extends Component
             $gameplayer->save();
         }
 
-        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get()->toArray();
-        $this->calcBetRatio($users);
+        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo', 'ASC')->get();
+        $this->calcBetRatio($users->toArray());
 
         if ($this->type == GameStatusEnum::waiting->value) {
             session()->flash('message_url', route('game.show', ['game' => $newGame->id]));
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
-            $creator = Auth::id();
-            $type = 'Création de partie';
-            $message = 'Vous avez été invité a rejoindre une partie';
+            $users
+                ->filter(fn (User $user) => $user->id !== Auth::id())
+                ->each(fn (User $user) => $user->notify(new GameInvitationNotification(
+                    'Vous avez été invité a rejoindre une partie',
+                    $newGame
+                )));
 
-
-            $notification = $createNotificationAction->execute($creator, $type, $message);
-            //dd($notification,$this->>$this->playersId);
-            foreach ($this->playersId as $id) {
-                if ((int)$id != Auth::id()) {
-                    $sendNotificationAction->execute($notification->id, $id);
-                }
-            }
             return redirect('dashboard');
         }
+
         session()->flash('message', 'Votre partie a bien été créée.');
         return redirect('dashboard');
     }
