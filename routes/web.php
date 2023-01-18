@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\TournamentChessController;
+use App\Http\Controllers\TournamentDartsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameChessController;
+use App\Http\Controllers\GameDartsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournoisController;
 
@@ -26,17 +28,17 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::prefix('/game')->group(function () {
-            Route::get('/create/{game?}', [GameController::class, 'create'])->name('chess.game.create');
-            Route::get('/show/{game}', [GameController::class, 'show'])->name('chess.game.show');
-            Route::view('/history', 'chess.game.history')->name('chess.game.history');
-            Route::get('/bet/{game}', [GameController::class, 'bet'])->name('chess.game.bet');
-            Route::get('/ranking', [GameController::class, 'rankingchess'])->name('chess.game.ranking');
+            Route::get('/create/{game?}', [GameChessController::class, 'create'])->name('chess.game.create');
+            Route::get('/show/{game}', [GameChessController::class, 'show'])->name('chess.game.show-chess');
+            Route::view('/history', 'chess.game.history-chess')->name('chess.game.history-chess');
+            Route::get('/bet/{game}', [GameChessController::class, 'bet'])->name('chess.game.bet');
+            Route::get('/ranking', [GameChessController::class, 'ranking'])->name('chess.game.ranking');
         });
 
         Route::prefix('/tournament')->group(function () {
-            Route::view('/', 'chess.tournament.index')->name('chess.tournament.index');
-            Route::get('/show/{tournament}', [TournamentController::class, 'show'])->name('chess.tournament.show');
-            Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('chess.tournament.edit');
+            Route::view('/', 'chess.tournament.index-chess')->name('chess.tournament.index-chess');
+            Route::get('/show/{tournament}', [TournamentChessController::class, 'show'])->name('chess.tournament.show-chess');
+            Route::get('/{tournament}', [TournamentChessController::class, 'edit'])->name('chess.tournament.edit-chess');
         });
     });
     Route::prefix('/darts')->group(function () {
@@ -44,16 +46,16 @@ Route::middleware(['auth'])->group(function () {
         Route::view('/dashboard', 'darts.dashboard')->name('darts.dashboard');
 
         Route::prefix('/game')->group(function () {
-            Route::get('/create/{game?}', [GameController::class, 'create'])->name('darts.game.create');
-            Route::get('/show/{game}', [GameController::class, 'show'])->name('darts.game.show');
-            Route::view('/history', 'chess.game.history')->name('darts.game.history');
-            Route::get('/bet/{game}', [GameController::class, 'bet'])->name('darts.game.bet');
-            Route::get('/ranking', [GameController::class, 'rankingdarts'])->name('darts.game.ranking');
+            Route::get('/create/{game?}', [GameDartsController::class, 'create'])->name('darts.game.create');
+            Route::get('/show/{game}', [GameDartsController::class, 'show'])->name('darts.game.show-darts');
+            Route::view('/history', 'darts.game.history-darts')->name('darts.game.history-darts');
+            Route::get('/bet/{game}', [GameDartsController::class, 'bet'])->name('darts.game.bet');
+            Route::get('/ranking', [GameDartsController::class, 'ranking'])->name('darts.game.ranking');
         });
         Route::prefix('/tournament')->group(function () {
-            Route::view('/', 'darts.tournament.index')->name('darts.tournament.index');
-            Route::get('/show/{tournament}', [TournamentController::class, 'show'])->name('darts.tournament.show');
-            Route::get('/{tournament}', [TournamentController::class, 'edit'])->name('darts.tournament.edit');
+            Route::view('/', 'darts.tournament.index-darts')->name('darts.tournament.index-darts');
+            Route::get('/show/{tournament}', [TournamentDartsController::class, 'show'])->name('darts.tournament.show-darts');
+            Route::get('/{tournament}', [TournamentDartsController::class, 'edit'])->name('darts.tournament.edit-darts');
         });
     });
 

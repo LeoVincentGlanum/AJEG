@@ -7,17 +7,17 @@
 
     <livewire:actuality/>
 
-    <livewire:dashboard.open-bets/>
+    <livewire:chess.dashboard.open-bets-chess/>
 
-    <livewire:dashboard.list-drafts/>
+    <livewire:chess.dashboard.list-drafts-chess/>
 
-    <livewire:dashboard.pending-games/>
+    <livewire:chess.dashboard.pending-games-chess/>
 
-    <livewire:dashboard.list-games/>
+    <livewire:chess.dashboard.list-games-chess/>
 
-    <livewire:dashboard.list-game-wait-result/>
+    <livewire:chess.dashboard.list-game-wait-result-chess/>
 
-    <livewire:dashboard.list-tournaments/>
+    <livewire:chess.dashboard.list-tournaments-chess/>
 
 
 </x-app-layout>

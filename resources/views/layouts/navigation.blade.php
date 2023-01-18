@@ -35,8 +35,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route($type=='chess'?   'chess.tournament.index': ($type=='darts'?'darts.tournament.index':'chess.tournament.index'))"
-                                :active="request()->routeIs($type=='chess'?   'chess.tournament.index': ($type=='darts'?'darts.tournament.index':'chess.tournament.index'))">
+                    <x-nav-link :href="route($type=='chess'?   'chess.tournament.index-chess': ($type=='darts'?'darts.tournament.index-darts':'chess.tournament.index-chess'))"
+                                :active="request()->routeIs($type=='chess'?   'chess.tournament.index-chess': ($type=='darts'?'darts.tournament.index-darts':'chess.tournament.index-chess'))">
                         <span class="ml-2"> {{ __('Tournaments') }}</span>
                     </x-nav-link>
                 </div>
@@ -49,8 +49,8 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))"
-                                :active="request()->routeIs($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))">
+                    <x-nav-link :href="route($type=='chess'?   'chess.game.history-chess': ($type=='darts'?'darts.game.history-darts':'chess.game.history-chess'))"
+                                :active="request()->routeIs($type=='chess'?   'chess.game.history-chess': ($type=='darts'?'darts.game.history-darts':'chess.game.history-chess'))">
                         {{ __('Game History') }}
                     </x-nav-link>
                 </div>
@@ -175,8 +175,8 @@
                                                :active="request()->routeIs($type=='chess'?   'chess.game.create': ($type=='darts'?'darts.game.create':'chess.game.create'))">
                             {{ __('Create a game') }}
                         </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))"
-                                               :active="request()->routeIs($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))">
+                        <x-responsive-nav-link :href="route($type=='chess'?   'chess.game.history-chess': ($type=='darts'?'darts.game.history-darts':'chess.game.history-chess'))"
+                                               :active="request()->routeIs($type=='chess'?   'chess.game.history-chess': ($type=='darts'?'darts.game.history-darts':'chess.game.history-chess'))">
                             {{ __('Game History') }}
                         </x-responsive-nav-link>
                         <form method="POST" action="{{ route('logout') }}">
