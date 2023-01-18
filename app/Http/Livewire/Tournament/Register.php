@@ -71,7 +71,7 @@ class Register extends ModalComponent
             $this->user->save();
 
             if ($this->tournament->participants->count() + 1 === $this->tournament->number_of_players) {
-                $this->tournament->status->equals(FullTournament::class);
+                $this->tournament->status = FullTournament::$name;
                 $this->tournament->save();
             }
 
