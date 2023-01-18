@@ -1,77 +1,67 @@
+@php
+
+    $type = null;
+
+    if (str_contains(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),"chess")){
+        $type = "chess";
+
+    }else if (str_contains(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),"darts")){
+        $type = "darts";
+
+    }
+
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                @if(substr(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),0,strpos(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),'/'))=="chess")
 
-                    <!-- Logo -->
-                    <div class="shrink-0 flex items-center">
-                        <a href="{{ route('chess.dashboard') }}">
-                            <x-application-logo class="block h-10 w-auto fill-current text-gray-600"/>
-                        </a>
-                    </div>
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    <a href="{{ route( $type=="chess"?   'chess.dashboard': ($type=="darts"?'darts.dashboard':'chess.dashboard')) }}">
+                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600"/>
+                    </a>
+                </div>
 
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('chess.dashboard')" :active="request()->routeIs('chess.dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('chess.tournament.index')"
-                                    :active="request()->routeIs('chess.tournament.index')">
-                            <span class="ml-2"> {{ __('Tournaments') }}</span>
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('chess.game.create')"
-                                    :active="request()->routeIs('chess.game.create')">
-                            <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>
-                            <span class="ml-2"> {{ __('Create a game') }}</span>
-                        </x-nav-link>
-                    </div>
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link
+                        :href="route($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))"
+                        :active="request()->routeIs($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route($type=='chess'?   'chess.tournament.index': ($type=='darts'?'darts.tournament.index':'chess.tournament.index'))"
+                                :active="request()->routeIs($type=='chess'?   'chess.tournament.index': ($type=='darts'?'darts.tournament.index':'chess.tournament.index'))">
+                        <span class="ml-2"> {{ __('Tournaments') }}</span>
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route($type=='chess'?   'chess.game.create': ($type=='darts'?'darts.game.create':'chess.game.create'))"
+                                :active="request()->routeIs($type=='chess'?   'chess.game.create': ($type=='darts'?'darts.game.create':'chess.game.create'))">
+                        <x-heroicon-s-plus-circle class="w-5 h-5 cursor-pointer"/>
+                        <span class="ml-2"> {{ __('Create a game') }}</span>
+                    </x-nav-link>
+                </div>
 
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('chess.game.history')"
-                                    :active="request()->routeIs('chess.game.history')">
-                            {{ __('Game History') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))"
+                                :active="request()->routeIs($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))">
+                        {{ __('Game History') }}
+                    </x-nav-link>
+                </div>
 
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('chess.game.ranking')"
-                                    :active="request()->routeIs('chess.game.ranking')">
-                            {{ __('Ranking Échecs') }}
-                        </x-nav-link>
-                    </div>
-
-                @endif
-                @if(substr(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),0,strpos(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),'/'))=="darts")
-
-                    <!-- Logo -->
-                    <div class="shrink-0 flex items-center">
-                        <a href="{{ route('darts.dashboard') }}">
-                            <x-application-logo class="block h-10 w-auto fill-current text-gray-600"/>
-                        </a>
-                    </div>
-
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('darts.dashboard')" :active="request()->routeIs('darts.dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                    </div>
-
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('darts.game.ranking')"
-                                        :active="request()->routeIs('darts.game.ranking')">
-                                {{ __('Ranking Fléchettes') }}
-                            </x-nav-link>
-                        </div>
-
-                @endif
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link
+                        :href="route($type=='chess'?   'chess.game.ranking': ($type=='darts'?'darts.game.ranking':'chess.game.ranking'))"
+                        :active="request()->routeIs($type=='chess'?   'chess.game.ranking': ($type=='darts'?'darts.game.ranking':'chess.game.ranking'))">
+                        {{ __($type=='chess'?   'Ranking Échecs': ($type=='darts'?'Ranking Fléchettes':'Ranking Échecs')) }}
+                    </x-nav-link>
+                </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
@@ -123,19 +113,11 @@
                                 </x-dropdown-link>
                             @endif
 
-                            @if(substr(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),0,strpos(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),'/'))=="darts")
-                                <x-dropdown-link :href="route('chess.dashboard')"
-                                                 :active="request()->routeIs('chess.dashboard')">
-                                    {{ __('Échecs') }}
-                                </x-dropdown-link>
-                            @endif
+                            <x-dropdown-link :href="route($type=='chess'?   'darts.dashboard': ($type=='darts'?'chess.dashboard':'darts.dashboard'))"
+                                             :active="request()->routeIs($type=='chess'?   'darts.dashboard': ($type=='darts'?'chess.dashboard':'darts.dashboard'))">
+                                {{ __($type=='chess'?   'Fléchettes': ($type=='darts'?'Échecs':'Fléchettes')) }}
+                            </x-dropdown-link>
 
-                            @if(substr(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),0,strpos(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),'/'))=="chess")
-                                <x-dropdown-link :href="route('darts.dashboard')"
-                                                 :active="request()->routeIs('darts.dashboard')">
-                                    {{ __('Fléchettes') }}
-                                </x-dropdown-link>
-                            @endif
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -169,10 +151,9 @@
 
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-            @if(substr(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),0,strpos(\Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(),'/'))=="chess")
                 <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('chess.dashboard')"
-                                           :active="request()->routeIs('chess.dashboard')">
+                    <x-responsive-nav-link :href="route($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))"
+                                           :active="request()->routeIs($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
                 </div>
@@ -186,16 +167,16 @@
 
                     <div class="mt-3 space-y-1">
                         <!-- Authentication -->
-                        <x-responsive-nav-link :href="route('chess.dashboard')"
-                                               :active="request()->routeIs('chess.dashboard')">
+                        <x-responsive-nav-link :href="route($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))"
+                                               :active="request()->routeIs($type=='chess'?   'chess.dashboard': ($type=='darts'?'darts.dashboard':'chess.dashboard'))">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route('chess.game.create')"
-                                               :active="request()->routeIs('chess.game.create')">
+                        <x-responsive-nav-link :href="route($type=='chess'?   'chess.game.create': ($type=='darts'?'darts.game.create':'chess.game.create'))"
+                                               :active="request()->routeIs($type=='chess'?   'chess.game.create': ($type=='darts'?'darts.game.create':'chess.game.create'))">
                             {{ __('Create a game') }}
                         </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route('chess.game.history')"
-                                               :active="request()->routeIs('chess.game.history')">
+                        <x-responsive-nav-link :href="route($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))"
+                                               :active="request()->routeIs($type=='chess'?   'chess.game.history': ($type=='darts'?'darts.game.history':'chess.game.history'))">
                             {{ __('Game History') }}
                         </x-responsive-nav-link>
                         <form method="POST" action="{{ route('logout') }}">
@@ -209,7 +190,6 @@
                         </form>
                     </div>
                 </div>
-            @endif
         </div>
     </div>
 </nav>

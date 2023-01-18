@@ -9,6 +9,7 @@ use App\ModelStates\GameStates\InProgress;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Illuminate\Support\Facades\Route;
 
 class ListGames extends Component
 {
@@ -36,6 +37,10 @@ class ListGames extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.list-games');
+        if (str_contains(Route::currentRouteName(), 'darts')) {
+            return view('livewire.darts.dashboard.list-games');
+        } else {
+            return view('livewire.chess.dashboard.list-games');
+        }
     }
 }

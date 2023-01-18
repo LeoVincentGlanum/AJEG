@@ -2,13 +2,13 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-                Vos parties en attentes
+                Vos games jouées en attente de validation
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md">
                 <ul role="list" class="divide-y divide-gray-200">
                     @forelse($games as $game)
                         <li>
-                            <a href="{{ route('game.show',['game' => $game->id]) }}" class="block hover:bg-gray-50">
+                            <a href="{{ route('darts.game.show',['game' => $game->id]) }}" class="block hover:bg-gray-50">
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                         <div class="truncate">
@@ -16,11 +16,7 @@
                                                 <p class="truncate font-medium text-indigo-600">
                                                     {{ $game->label != null ? $game->label : 'Partie numéro ' . $game->id }}
                                                 </p>
-                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500">
-                                                    <span class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-0.5 text-xs font-medium text-yellow-800">
-                                                    {{ trans($game->status->name()) }}
-                                                    </span>
-                                                </p>
+                                                <p class="ml-1 flex-shrink-0 font-normal text-gray-500"> {{ $game->status }} </p>
                                             </div>
                                             <div class="mt-2 flex">
                                                 <div class="flex items-center text-sm text-gray-500">
@@ -49,7 +45,7 @@
                         </li>
                     @empty
                         <li>
-                            <div>Vous n'avez pas de partie en attente</div>
+                            <div>Vous n'avez pas de partie en cours</div>
                         </li>
                     @endforelse
                 </ul>

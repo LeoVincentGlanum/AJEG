@@ -8,6 +8,7 @@ use App\ModelStates\GameStates\PlayersValidation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Illuminate\Support\Facades\Route;
 
 class PendingGames extends Component
 {
@@ -35,6 +36,10 @@ class PendingGames extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.pending-games');
+         if (str_contains(Route::currentRouteName(), 'darts')) {
+            return view('livewire.darts.dashboard.pending-games');
+        } else {
+            return view('livewire.chess.dashboard.pending-games');
+        }
     }
 }

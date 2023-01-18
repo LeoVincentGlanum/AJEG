@@ -68,13 +68,13 @@ class BetGame extends ModalComponent
                 User::query()->where('id', Auth::id())->decrement('coins', $this->bet);
 
                 session()->flash('message', 'Votre paris a bien été enregistré.');
-                return redirect()->route('game.show', $this->currentGame->id);
+                return redirect()->route('chess.game.show', $this->currentGame->id);
             }
 
         } catch (\Exception $exception) {
             session()->flash('alert-class', 'alert-danger');
             session()->flash('message', 'Une erreur est survenue');
-            return redirect()->route('game.show', $this->currentGame->id);
+            return redirect()->route('chess.game.show', $this->currentGame->id);
         }
     }
 }

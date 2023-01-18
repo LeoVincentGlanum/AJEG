@@ -6,6 +6,7 @@ use App\Models\Game;
 use Livewire\Component;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
 class ListDrafts extends Component
 {
@@ -31,6 +32,11 @@ class ListDrafts extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.list-drafts');
+        if (str_contains(Route::currentRouteName(), 'darts')) {
+            return view('livewire.darts.dashboard.list-drafts');
+        } else {
+            return view('livewire.chess.dashboard.list-drafts');
+        }
+
     }
 }

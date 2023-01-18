@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Http\Livewire\Traits\HasToast;
+use Illuminate\Support\Facades\Route;
 
 class ListGameWaitResult extends Component
 {
@@ -32,6 +33,10 @@ class ListGameWaitResult extends Component
     }
     public function render()
     {
-        return view('livewire.dashboard.list-game-wait-result');
+         if (str_contains(Route::currentRouteName(), 'darts')) {
+            return view('livewire.darts.dashboard.list-game-wait-result');
+        } else {
+            return view('livewire.chess.dashboard.list-game-wait-result');
+        }
     }
 }

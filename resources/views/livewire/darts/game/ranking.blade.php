@@ -71,7 +71,7 @@
                                                                                           <img src="/img/gold.png"
                                                                                                style="max-width: 150%">
                                                                                         </span>
-                                        @elseif((int)$user->elo_darts > 499 && (int)$user->elo_darts < 800)
+                                        @elseif((int)$user->elo_darts > 499 && (int)$user->elo_dartss < 800)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                             <img src="/img/silver.jfif"
