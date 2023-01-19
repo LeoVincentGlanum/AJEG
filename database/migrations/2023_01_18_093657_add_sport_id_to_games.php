@@ -14,7 +14,6 @@ return new class extends Migration {
     {
         Schema::table('games', function (Blueprint $table) {
             $table->integer("sport_id")->default(1);
-
         });
     }
 
@@ -26,8 +25,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('games', function (Blueprint $table) {
-            $table->integer("sport_id");
-
+            $table->dropColumn("sport_id");
         });
     }
 };

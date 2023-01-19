@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Elo;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
@@ -14,7 +16,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(1)->admin()->create();
+        User::factory(1)->admin()->has(Elo::factory()->count(2)->state(new Sequence(
+                    ['sport_id' => '1'],
+                    ['sport_id' => '2'],
+                )))->create();
 
         User::factory()
             ->count(50)
@@ -22,6 +27,10 @@ class UserSeeder extends Seeder
                 Transaction::factory()
                 ->count(4)
             )
+            ->has(Elo::factory()->count(2)->state(new Sequence(
+                    ['sport_id' => '1'],
+                    ['sport_id' => '2'],
+                )))
             ->create();
     }
 }
