@@ -78,7 +78,8 @@ class ListTournamentDarts extends Component
             )
             ->when($this->minElo !== 0 && $this->maxElo === 7000,
                 fn($query) => $query->where('elo_min', '>=', $this->minElo)
-            );
+            )
+            ->where('sport_id', 2);
     }
 
 
