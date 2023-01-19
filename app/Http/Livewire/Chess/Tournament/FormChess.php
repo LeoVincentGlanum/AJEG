@@ -47,6 +47,7 @@ class FormChess extends ModalComponent
         try {
             $this->tournament->organizer_id = Auth::id();
             $this->tournament->status = TournamentStatusEnum::open->value;
+            $this->tournament->sport_id = 1;
             $this->tournament->save();
 
             $this->successToast('The tournament has been created');

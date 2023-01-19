@@ -33,7 +33,8 @@ class FormDarts extends ModalComponent
         return GameType::all();
     }
 
-    public function mount() {
+    public function mount()
+    {
         $this->tournament = new Tournament();
         $user = Auth::user();
         $this->tournament->name = "Tournoi de " . $user->name;
@@ -47,6 +48,7 @@ class FormDarts extends ModalComponent
         try {
             $this->tournament->organizer_id = Auth::id();
             $this->tournament->status = TournamentStatusEnum::open->value;
+            $this->tournament->sport_id = 2;
             $this->tournament->save();
 
             $this->successToast('The tournament has been created');
