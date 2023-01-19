@@ -38,46 +38,46 @@
                                 <tr>
                                     <td class="text-center">{{ $this->rank[$user->id] }}</td>
                                     <td class="text-center">{{ $user->name }}</td>
-                                    <td class="text-center">{{ $user->elo_chess }}</td>
-                                    <td class="text-center">@if((int)$user->elo_chess > 2000 && (int)$user->elo_chess < 2500)
+                                    <td class="text-center">{{ $this->elo_chess[$user->id] }}</td>
+                                    <td class="text-center">@if((int)$elo_chess > 2000 && (int)$elo_chess < 2500)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                         <img
                                                                                             src="/img/King-Transparent-PNG.png"
                                                                                             style="max-width: 150%">
                                                                                     </span>
-                                        @elseif((int)$user->elo_chess > 1750 && (int)$user->elo_chess < 2000)
+                                        @elseif((int)$elo_chess > 1750 && (int)$elo_chess < 2000)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                               <img
                                                                                                   src="/img/grandmaster.png"
                                                                                                   style="max-width: 150%">
                                                                                             </span>
-                                        @elseif((int)$user->elo_chess > 1500 && (int)$user->elo_chess < 1750)
+                                        @elseif((int)$elo_chess > 1500 && (int)$elo_chess < 1750)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                               <img src="/img/diams.png"
                                                                                                    style="max-width: 150%">
                                                                                             </span>
-                                        @elseif((int)$user->elo_chess > 1200 && (int)$user->elo_chess < 1500)
+                                        @elseif((int)$elo_chess > 1200 && (int)$elo_chess < 1500)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                             <img src="/img/rubis.png"
                                                                                                  style="max-width: 150%">
                                                                                         </span>
-                                        @elseif((int)$user->elo_chess > 800 && (int)$user->elo_chess < 1200)
+                                        @elseif((int)$elo_chess > 800 && (int)$elo_chess < 1200)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                           <img src="/img/gold.png"
                                                                                                style="max-width: 150%">
                                                                                         </span>
-                                        @elseif((int)$user->elo_chess > 499 && (int)$user->elo_chess < 800)
+                                        @elseif((int)$elo_chess > 499 && (int)$elo_chess < 800)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                             <img src="/img/silver.jfif"
                                                                                                  style="max-width: 150%">
                                                                                         </span>
-                                        @elseif((int)$user->elo_chess < 499)
+                                        @elseif((int)$elo_chess < 499)
                                             <span
                                                 class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
                                                                                           <img src="/img/charbon.jfif"

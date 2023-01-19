@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Chess\Game;
 
 use App\Models\User;
+use App\Models\Elo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,18 +14,20 @@ class RankingChess extends Component
 
     public string $searchPlayer = '';
     public array $rank;
+    public array $elo_chess;
 
     public array $EloRanks =
         [
-            'Grand Master'=> ['King-Transparent-PNG.png',2000,4000],
-            'Master'=> ['grandmaster.png',1750,2000],
-            'Diamant'=> ['diams.png',1500,1750],
-            'Rubis'=> ['rubis.png',1200,1500],
-            'Gold'=> ['gold.png',800,1200],
-            'Silver'=> ['silver.jfif',499,800],
-            'Charbon'=> ['charbon.jfif',0,499],
+            'Grand Master' => ['King-Transparent-PNG.png', 2000, 4000],
+            'Master' => ['grandmaster.png', 1750, 2000],
+            'Diamant' => ['diams.png', 1500, 1750],
+            'Rubis' => ['rubis.png', 1200, 1500],
+            'Gold' => ['gold.png', 800, 1200],
+            'Silver' => ['silver.jfif', 499, 800],
+            'Charbon' => ['charbon.jfif', 0, 499],
 
         ];
+
     public function mount()
     {
         $usersToRank = User::query()->orderBy('elo_chess', 'desc')->get();
@@ -35,7 +38,10 @@ class RankingChess extends Component
         foreach ($usersToRank as $user) {
             $this->rank[$user->id] = $cpt;
             $cpt++;
+            $this->elo_chess[$user->id] = Elo::query()->where('user_id', $user->id)->where('sport_id', 1)->first()->elo;
         }
+
+
 
     }
 
@@ -58,6 +64,7 @@ class RankingChess extends Component
         return view('livewire.chess.game.ranking-chess', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
+            'elo_chess' => $this->elo_chess,
         ]);
 
     }

@@ -75,8 +75,8 @@ class GamePlayerSeeder extends Seeder
             $ratio1 = null;
             $ratio2 = null;
             if ($game->bet_available) {
-                $ratio1 = (Elo::query()->where('user_id', $game->creator->id)->first()->elo /Elo::query()->where('user_id', $player->id)->first()->elo) +1;
-                $ratio2 = (Elo::query()->where('user_id', $player->id)->first()->elo / Elo::query()->where('user_id', $game->creator->id)->first()->elo) + 1;
+                $ratio1 = (Elo::query()->where('user_id', $game->creator->id)->where('sport_id',1)->first()->elo /Elo::query()->where('user_id', $player->id)->where('sport_id',1)->first()->elo) +1;
+                $ratio2 = (Elo::query()->where('user_id', $player->id)->where('sport_id',1)->first()->elo / Elo::query()->where('user_id', $game->creator->id)->where('sport_id',1)->first()->elo) + 1;
             }
 
             $game->gamePlayers()->createMany([

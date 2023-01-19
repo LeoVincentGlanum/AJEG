@@ -80,15 +80,13 @@ class ShowChess extends Component
                 $looser = $player;
             }
 
-            $eloJ1 = Arr::get($users, 0)->user->elo_chess;
-            $eloJ2 = Arr::get($users, 1)->user->elo_chess;
+            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id',1)->first()->elo;
+            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
 //
-            Arr::get($users, 0)->user->elo_chess = $result[0];
-            Arr::get($users, 0)->user->save();
-            Arr::get($users, 1)->user->elo_chess = $result[1];
-            Arr::get($users, 1)->user->save();
+            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[0]]);
+            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[1]]);
 
             $allCompleted = true;
             foreach ($this->gamePlayer as $player) {
