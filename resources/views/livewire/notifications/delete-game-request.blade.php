@@ -8,11 +8,11 @@
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900" id="modal-title">
 {{--                        Supprimer le type "{{ $gameType->label }}"--}}
-                        Supprimer le type
+                        Supprimer la partie
                     </h3>
                     <div class="mt-2">
                         <p class="text-sm text-gray-500">
-                            Êtes-vous sûr de vouloir supprimer ce type ? Cette action est irréversible et ne pourra pas être annulée.
+                            Êtes-vous sûr de vouloir supprimer cette partie ? Cette action est irréversible et ne pourra pas être annulée.
                         </p>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                        Oups, quelque chose ne s'est pas bien passé.
+                        Oups, quelque chose ne s'est pas bien passé !
                     </h3>
                 </div>
             </div>
