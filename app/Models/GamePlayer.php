@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GameResultEnum;
+use App\ModelStates\GamePlayerResultState;
 use Spatie\ModelStates\HasStates;
 use App\ModelStates\PlayerRecognitionResultState;
 use App\ModelStates\GameStates\PlayersValidation;
@@ -27,7 +28,7 @@ class GamePlayer extends Model
     ];
 
     protected $casts = [
-        'result' => GameResultEnum::class,
+        'result' => GamePlayerResultState::class,
         'player_result_validation' =>  PlayerRecognitionResultState::class,
         'player_participation_validation' => PlayerParticipationState::class
 

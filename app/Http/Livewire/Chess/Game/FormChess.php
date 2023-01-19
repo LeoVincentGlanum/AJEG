@@ -12,12 +12,19 @@ use App\Models\GamePlayer;
 use App\Models\GameType;
 use App\Models\Notification;
 use App\Models\User;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\PendingResult;
+use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
-use App\ModelStates\PlayerParticipationStates\Accepted;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
+use App\ModelStates\PlayerRecognitionResultStates\Pending;
+use App\Notifications\GameInvitationNotification;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
+use App\ModelStates\PlayerParticipationStates\Accepted;
 
 class FormChess extends Component
 {
@@ -95,16 +102,16 @@ class FormChess extends Component
                 $color = "blanc";
             }
 
-            $result = null;
+            $result = PendingResult::$name;
 
             if ($this->type == GameStatusEnum::ended) {
-                $result = GameResultEnum::lose->value;
-                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
+                $result = Loss::$name;
+                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win->value;
+                    $result = Win::$name;
                 }
             }
 
@@ -180,13 +187,13 @@ class FormChess extends Component
             $result = null;
 
             if ($this->type == GameStatusEnum::ended->value) {
-                $result = GameResultEnum::lose->value;
-                if ($this->resultat == GameResultEnum::nul || $this->resultat == GameResultEnum::pat) {
+                $result = Loss::$name;
+                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
                     $result = $this->resultat;
                 }
 
                 if ($this->resultat == $id) {
-                    $result = GameResultEnum::win->value;
+                    $result = Win::$name;
                 }
             }
 
@@ -194,35 +201,34 @@ class FormChess extends Component
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
             $gameplayer->color = $color;
-            if ($id == Auth::id()) {
+            if ($id === Auth::id() || $this->type == GameStatusEnum::ended->value) {
                 $gameplayer->player_participation_validation->transitionTo(Accepted::class);
             }
-            $gameplayer->result = $result;
-
+            if ($result !== null) {
+                $gameplayer->result = $result;
+            }
             $gameplayer->save();
         }
 
         $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo_chess', 'ASC')->get();
-        $this->calcBetRatio($users);
+        $this->calcBetRatio($users->toArray());
 
         if ($this->type == GameStatusEnum::waiting->value) {
             session()->flash('message_url', route('chess.game.show-chess', ['game' => $newGame->id]));
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
-            $creator = Auth::id();
-            $type = 'Création de partie';
-            $message = 'Vous avez été invité a rejoindre une partie';
+            $users
+                ->filter(fn (User $user) => $user->id !== Auth::id())
+                ->each(fn (User $user) => $user->notify(new GameInvitationNotification(
+                    'Vous avez été invité a rejoindre une partie',
+                    $newGame
+                )));
 
 
-            $notification = $createNotificationAction->execute($creator, $type, $message);
-            //dd($notification,$this->>$this->playersId);
-            foreach ($this->playersId as $id) {
-                if ((int)$id != Auth::id()) {
-                    $sendNotificationAction->execute($notification->id, $id);
-                }
-            }
+
             return redirect('chess.dashboard');
         }
+
         session()->flash('message', 'Votre partie a bien été créée.');
         return redirect('chess.dashboard');
     }

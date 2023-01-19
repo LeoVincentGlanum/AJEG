@@ -17,7 +17,7 @@ trait HasBetMapperChess
             });
     }
 
-    protected function calcBetRatio($users): void
+    protected function calcBetRatio(array $users): void
     {
         $player1 = $users[0];
         $player2 = $users[1];
@@ -25,7 +25,7 @@ trait HasBetMapperChess
         $ratioWeaker = ($player1->elo_chess / $player2->elo_chess) + 1;
         $ratioStronger = ($player2->elo_chess / $player1->elo_chess) + 1;
 
-        GamePlayer::query()->where('user_id', $player1->id)->update(['bet_ratio' => $ratioStronger]);
-        GamePlayer::query()->where('user_id', $player2->id)->update(['bet_ratio' => $ratioWeaker]);
+        GamePlayer::query()->where('user_id', $player1["id"])->update(['bet_ratio' => $ratioStronger]);
+        GamePlayer::query()->where('user_id', $player2["id"])->update(['bet_ratio' => $ratioWeaker]);
     }
 }

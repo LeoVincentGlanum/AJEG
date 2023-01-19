@@ -5,38 +5,36 @@
                 $creatorNotification = $creatorNotifications[$notification->id]
             @endphp
             <li>
-                <a href="#" class="block hover:bg-gray-50">
-                    <div class="flex items-center px-4 py-4 sm:px-6">
-                        <div class="flex min-w-0 flex-1 items-center">
-                            <div class="flex-shrink-0">
-                                <img src="{{ asset('public/img/'.$creatorNotification->photo) }}" class="h-12 w-12 rounded-full" alt="Photo de profil de {{$creatorNotification->name}}" >
-                            </div>
-                            <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                                <div>
-                                    <p class="truncate text-sm font-medium text-indigo-600">{{ $creatorNotification->name }}</p>
-                                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                                        <x-heroicon-m-envelope class="w-5 h-5 cursor-pointer"/>
-                                        <span class="truncate">{{ $creatorNotification->email }}</span>
-                                    </p>
-                                </div>
-                                <div class="md:block">
+                @if($notification->type === "App\Notifications\GameInvitationNotification")
+                    <a href="{{route('game.show',['game' => $notification->data["game_id"]])}}"
+                       class="block hover:bg-gray-50">
+                        @elseif($notification->type === "App\Notifications\TournamentStartedNotification")
+                            <a href="{{route('game.show',['game' => $notification->data["tournament_id"]])}}"
+                               class="block hover:bg-gray-50">
+                                @endif
+                                <div class="flex items-center px-4 py-4 sm:px-6">
+                                    <div class="flex min-w-0 flex-1 items-center">
+
+                                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+
+                                            <div class="md:block">
+                                                <div>
+                                                    <p class="text-sm text-gray-900">
+                                                        <time
+                                                            datetime="{{ $notification->created_at }}">{{ $notification->created_at->format('j F, H:i:s') }}</time>
+                                                    </p>
+                                                    <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                        {{$notification->data["message"]}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <p class="text-sm text-gray-900">
-                                            <time
-                                                datetime="{{ $notification->created_at }}">{{ $notification->created_at->format('j F, H:i:s') }}</time>
-                                        </p>
-                                        <p class="mt-2 flex items-center text-sm text-gray-500">
-                                            {{$notification->message}}
-                                        </p>
+                                        <x-heroicon-m-chevron-right class="w-5 h-5 cursor-pointer"/>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <x-heroicon-m-chevron-right class="w-5 h-5 cursor-pointer"/>
-                        </div>
-                    </div>
-                </a>
+                            </a>
             </li>
         @empty
             <div class="min-h-full bg-white px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">

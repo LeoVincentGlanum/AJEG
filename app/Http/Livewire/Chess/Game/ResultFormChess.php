@@ -5,11 +5,20 @@ namespace App\Http\Livewire\Chess\Game;
 use App\Enums\GameResultEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
 use App\Http\Livewire\Chess\Game\Traits\HasGameResultMapperChess;
+use App\Http\Livewire\Game\Traits\HasBetMapper;
+use App\ModelStates\GamePlayerResultStates\Draw;
+use App\ModelStates\GamePlayerResultStates\Loss;
+use App\ModelStates\GamePlayerResultStates\Pat;
+use App\ModelStates\GamePlayerResultStates\Win;
+use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStatus;
+use App\ModelStates\GameStates\GameAccepted;
+use App\ModelStates\PlayerRecognitionResultStates\Accepted;
+use App\ModelStates\GameStates\ResultValidations;
+use App\ModelStates\GameStates\PlayersValidation;
+use App\Http\Livewire\Game\Traits\HasGameResultMapper;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
-use App\ModelStates\GameStates\InProgress;
-use App\ModelStates\GameStates\ResultValidations;
-use App\ModelStates\PlayerRecognitionResultStates\Accepted;
 use Exception;
 use Illuminate\Support\Arr;
 use LivewireUI\Modal\ModalComponent;
@@ -45,7 +54,7 @@ final class ResultFormChess extends ModalComponent
                 throw new Exception('Status is not inProgress');
             }
 
-            if ($this->game->status == InProgress::$name) {
+            if ($this->game->status->equals(InProgress::class)) {
                 $this->game->status->transitionTo(ResultValidations::class);
             }
             foreach ($this->game->gamePlayers as $player) {
@@ -70,10 +79,10 @@ final class ResultFormChess extends ModalComponent
         $lastPlayerSelect = $this->playerSelect[$id];
 
         match ($lastPlayerSelect) {
-            GameResultEnum::win->value => $this->isWinSetResults($id),
-            GameResultEnum::lose->value => $this->isLoseSetResults($id),
-            GameResultEnum::pat->value => $this->isPatSetResults(),
-            GameResultEnum::nul->value => $this->isNulSetResults()
+            Win::$name => $this->isWinSetResults($id),
+            Loss::$name => $this->isLoseSetResults($id),
+            Pat::$name => $this->isPatSetResults(),
+            Draw::$name => $this->isNulSetResults()
         };
     }
 

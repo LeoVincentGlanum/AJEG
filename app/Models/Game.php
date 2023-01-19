@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use App\Enums\GameStatusEnum;
+use App\ModelStates\GameStates\Draft;
+use App\ModelStates\GameStates\GameAccepted;
+use App\ModelStates\GameStates\InProgress;
+use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -43,4 +47,63 @@ class Game extends Model
         return $this->hasOne(User::class,'id','created_by');
     }
 
+    public function bets(): HasMany
+    {
+        return $this->hasMany(Bet::class, 'game_id', 'id');
+    }
+
+    public function isStatusNeedResult(): bool
+    {
+        if ($this->status->equals(Draft::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(PlayersValidation::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(GameAccepted::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(InProgress::class)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isPlayerParticipationValidationNeeded(): bool
+    {
+        if ($this->status->equals(Draft::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(PlayersValidation::class)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isPlayerResultValidationNeeded(): bool
+    {
+        if ($this->status->equals(Draft::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(PlayersValidation::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(GameAccepted::class)) {
+            return false;
+        }
+
+        if ($this->status->equals(InProgress::class)) {
+            return false;
+        }
+
+        return true;
+    }
 }
