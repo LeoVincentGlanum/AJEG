@@ -25,6 +25,7 @@ class PendingGamesDarts extends Component
                     $query->where('status', '=', PlayersValidation::$name)
                         ->orWhere('status', GameAccepted::$name);
                 })
+                ->where('sport_id', 2)
                 ->get();
         } catch (\Throwable $e) {
             report($e);

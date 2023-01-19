@@ -25,6 +25,7 @@ class OpenBetsChess extends Component
                     $query->where('status', '=', PlayersValidation::$name)
                         ->orWhere('status', GameAccepted::$name);
                 })
+                ->where('sport_id', 1)
                 ->get();
         } catch (\Throwable $e) {
             report($e);
