@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    <livewire:actuality/>
-
     <livewire:darts.dashboard.open-bets-darts/>
 
     <livewire:darts.dashboard.list-drafts-darts/>
