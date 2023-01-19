@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\GameResultEnum;
+use App\Models\Elo;
 use App\Models\Game;
 use App\Models\User;
 use App\ModelStates\GamePlayerResultStates\Draw;
@@ -75,8 +76,8 @@ class GamePlayerSeeder extends Seeder
             $ratio1 = null;
             $ratio2 = null;
             if ($game->bet_available) {
-                $ratio1 = ($game->creator->elo / $player->elo) + 1;
-                $ratio2 = ($player->elo / $game->creator->elo) + 1;
+                $ratio1 = (Elo::query()->where('user_id', $game->creator->id)->first()->elo /Elo::query()->where('user_id', $player->id)->first()->elo) +1;
+                $ratio2 = (Elo::query()->where('user_id', $player->id)->first()->elo / Elo::query()->where('user_id', $game->creator->id)->first()->elo) + 1;
             }
 
             $game->gamePlayers()->createMany([

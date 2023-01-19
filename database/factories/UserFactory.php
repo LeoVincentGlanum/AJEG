@@ -31,7 +31,6 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make(Str::random(10)), // password
-            'elo' => fake()->randomNumber(3) + 1,
             'coins' => fake()->randomNumber(),
             'daily_reward' => '2022-10-30 13:23:54',
             'remember_token' => Str::random(10),
@@ -45,7 +44,6 @@ class UserFactory extends Factory
                 'name' => 'Admin',
                 'email' => 'admin@glanum.fr',
                 'password' => Hash::make('glanum'),
-                'elo' => fake()->randomNumber(3),
                 'coins' => fake()->randomNumber(),
                 'daily_reward' => '2022-10-30 13:23:54',
                 'admin' => '1',

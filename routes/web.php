@@ -22,10 +22,7 @@ use App\Http\Controllers\TournoisController;
 Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/chess')->group(function () {
-
         Route::view('/dashboard', 'chess.dashboard')->name('chess.dashboard');
-
-
 
         Route::prefix('/game')->group(function () {
             Route::get('/create/{game?}', [GameChessController::class, 'create'])->name('chess.game.create');
@@ -41,8 +38,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{tournament}', [TournamentChessController::class, 'edit'])->name('chess.tournament.edit-chess');
         });
     });
-    Route::prefix('/darts')->group(function () {
 
+    Route::prefix('/darts')->group(function () {
         Route::view('/dashboard', 'darts.dashboard')->name('darts.dashboard');
 
         Route::prefix('/game')->group(function () {
@@ -52,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/bet/{game}', [GameDartsController::class, 'bet'])->name('darts.game.bet');
             Route::get('/ranking', [GameDartsController::class, 'ranking'])->name('darts.game.ranking');
         });
+
         Route::prefix('/tournament')->group(function () {
             Route::view('/', 'darts.tournament.index-darts')->name('darts.tournament.index-darts');
             Route::get('/show/{tournament}', [TournamentDartsController::class, 'show'])->name('darts.tournament.show-darts');

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             GameSeeder::class,
             GamePlayerSeeder::class,
-            BetSeeder::class
+            BetSeeder::class,
         ]);
 
         DB::table('game_types')->insert([

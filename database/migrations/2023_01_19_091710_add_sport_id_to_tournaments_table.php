@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->integer("sport_id");
+            $table->dropColumn("sport_id");
         });
     }
 };
