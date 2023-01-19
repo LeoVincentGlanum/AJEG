@@ -15,12 +15,16 @@ class ListDraftsDarts extends Component
     public function mount()
     {
         try {
-            $this->games = Game::query()
+           $this->games = Game::query()
                 ->with('users')
-                ->whereHas('gamePlayers', function ($query) {
-                    $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
+                ->where(function ($query) {
+                    $query->
+                    whereHas('gamePlayers', function ($query) {
+                        $query->where('user_id', auth()->user()->id);
+                    })
+                        ->orWhere('created_by', auth()->user()->id);
                 })
-                ->where('status', '=', 'draft')
+                ->where('status', "=", 'draft')
                 ->where('sport_id', 2)
                 ->get();
         } catch (\Throwable $e) {

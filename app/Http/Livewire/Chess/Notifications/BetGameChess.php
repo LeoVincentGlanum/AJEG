@@ -33,7 +33,7 @@ class BetGameChess extends ModalComponent
 
     public function render()
     {
-        return view('livewire.notifications.bet-game');
+        return view('livewire.chess.notifications.bet-game-chess');
     }
 
     public function initBet($ratio, $player)

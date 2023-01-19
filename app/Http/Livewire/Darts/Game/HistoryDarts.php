@@ -27,17 +27,18 @@ class HistoryDarts extends Component
     {
         return Game::query()
             ->with(['users', 'gamePlayers'])
-            ->where('status', 'like', '%'.$this->searchStatus.'%')
+            ->where('status', 'like', '%' . $this->searchStatus . '%')
             ->when(($this->searchPlayer !== '' && $this->searchResult !== ''), function ($query) {
-                $query->whereHas('users', fn($query) => $query->where('users.name', 'like', '%'.$this->searchPlayer.'%')
-                    ->where('game_players.result', 'like', '%'.$this->searchResult.'%'));
+                $query->whereHas('users', fn($query) => $query->where('users.name', 'like', '%' . $this->searchPlayer . '%')
+                    ->where('game_players.result', 'like', '%' . $this->searchResult . '%'));
             })
             ->when(($this->searchPlayer !== '' && $this->searchResult === ''), function ($query) {
-                $query->whereRelation('users', 'name', 'like', '%'.$this->searchPlayer.'%');
+                $query->whereRelation('users', 'name', 'like', '%' . $this->searchPlayer . '%');
             })
             ->when(($this->searchPlayer === '' && $this->searchResult !== ''), function ($query) {
-                $query->whereRelation('users', 'result', 'like', '%'.$this->searchResult.'%');
+                $query->whereRelation('users', 'result', 'like', '%' . $this->searchResult . '%');
             })
+            ->where("sport_id", 2)
             ->paginate(10);
     }
 
@@ -50,7 +51,7 @@ class HistoryDarts extends Component
         $this->goToPage(1);
     }
 
-    public function gameResult($game) : string
+    public function gameResult($game): string
     {
         if ($game->status == Validate::$name) {
             foreach ($game->gamePlayers as $player) {
@@ -59,21 +60,21 @@ class HistoryDarts extends Component
                         continue;
                     }
                     return match ($player->result->value) {
-                        GameResultEnum::win->value => $player->user->name." a gagné",
+                        GameResultEnum::win->value => $player->user->name . " a gagné",
                         GameResultEnum::nul->value => "Match nul",
                         GameResultEnum::pat->value => "Pat",
                     };
                 }
             }
             return "-";
-        } elseif($game->status == ResultValidations::$name) {
+        } elseif ($game->status == ResultValidations::$name) {
             foreach ($game->gamePlayers as $player) {
                 if ($player->result !== null) {
                     if ($player->result->value === GameResultEnum::lose->value) {
                         continue;
                     }
                     return match ($player->result->value) {
-                        GameResultEnum::win->value => "[En attente] ".$player->user->name." a gagné",
+                        GameResultEnum::win->value => "[En attente] " . $player->user->name . " a gagné",
                         GameResultEnum::nul->value => "[En attente] Match nul",
                         GameResultEnum::pat->value => "[En attente] Pat",
                     };
@@ -81,10 +82,9 @@ class HistoryDarts extends Component
             }
 
             return "-";
-        }else{
+        } else {
             return "-";
         }
-
 
 
     }

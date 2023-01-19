@@ -6,6 +6,9 @@
             </div>
             <div class="overflow-hidden bg-white shadow sm:rounded-md">
                 <ul role="list" class="divide-y divide-gray-200">
+                    @php
+                   // dd($games);
+                    @endphp
                     @forelse($games as $game)
                         <li>
                             <a href="{{ route('chess.game.create',['game' => $game->id]) }}" class="block hover:bg-gray-50">

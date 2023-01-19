@@ -33,7 +33,7 @@ class BetGameDarts extends ModalComponent
 
     public function render()
     {
-        return view('livewire.notifications.bet-game');
+        return view('livewire.darts.notifications.bet-game-darts');
     }
 
     public function initBet($ratio, $player)

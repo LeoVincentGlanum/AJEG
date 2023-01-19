@@ -24,7 +24,7 @@
                                 <div class="flex justify-end">
                                     <button
                                         @disabled(!$isBetAvailable)
-                                        wire:click="$emit('openModal', 'notifications.bet-game',{{ json_encode(["game" => $game->id]) }})"
+                                        wire:click="$emit('openModal', 'chess.notifications.bet-game-chess',{{ json_encode(["game" => $game->id]) }})"
                                         class="inline-flex items-center rounded-full border border-transparent bg-indigo-600 p-3 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-ticket-fill" viewBox="0 0 16 16">

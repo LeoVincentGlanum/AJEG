@@ -238,7 +238,7 @@ class ShowChess extends Component
             report($e);
         }
         $this->emitSelf('refreshListPlayer');
-        return view('livewire.chess.game.result-form');
+        return view('livewire.chess.game.result-form-chess');
     }
 
     public function LaunchGame()

@@ -42,6 +42,7 @@ class HistoryChess extends Component
             ->when(($this->searchPlayer === '' && $this->searchResult !== ''), function ($query) {
                 $query->whereRelation('users', 'result', 'like', '%'.$this->searchResult.'%');
             })
+            ->where("sport_id", 1)
             ->paginate(10);
     }
 
