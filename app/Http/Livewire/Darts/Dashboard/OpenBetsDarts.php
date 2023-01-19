@@ -26,6 +26,7 @@ class OpenBetsDarts extends Component
                     $query->where('status', '=', PlayersValidation::$name)
                         ->orWhere('status', GameAccepted::$name);
                 })
+                ->where('sport_id', 2)
                 ->get();
         } catch (\Throwable $e) {
             report($e);
@@ -39,6 +40,6 @@ class OpenBetsDarts extends Component
 
     public function render()
     {
-            return view('livewire.darts.dashboard.open-bets-darts');
+        return view('livewire.darts.dashboard.open-bets-darts');
     }
 }

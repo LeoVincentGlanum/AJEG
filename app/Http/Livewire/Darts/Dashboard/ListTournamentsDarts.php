@@ -23,6 +23,7 @@ class ListTournamentsDarts extends Component
                     $query->where('user_id', Auth::user()->id);
                 })
                 ->where('status', '!=', 'Terminé')
+                ->where('sport_id', 2)
                 ->get();
         } catch (\Throwable $e) {
             report($e);

@@ -23,6 +23,7 @@ class ListGameWaitResultDarts extends Component
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
                 ->where('status', '=', 'resultvalidations')
+                ->where('sport_id', 2)
                 ->get();
         } catch (\Throwable $e) {
             report($e);

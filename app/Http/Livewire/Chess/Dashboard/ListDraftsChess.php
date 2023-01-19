@@ -21,6 +21,7 @@ class ListDraftsChess extends Component
                     $query->where('user_id', auth()->user()->id)->orWhere('created_by', auth()->user()->id);
                 })
                 ->where('status', '=', 'draft')
+                ->where('sport_id', 1)
                 ->get();
         } catch (\Throwable $e) {
             report($e);
