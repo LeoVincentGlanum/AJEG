@@ -31,12 +31,7 @@ class Profile extends Component
     {
         $this->user = $user;
         $this->isTabAvailable = Auth::user()->id === $user->id;
-        $this->numberOfNotifications = Notification::query()
-            ->with(['userNotifications'])
-            ->whereHas('userNotifications', function (Builder $query) {
-                $query->where('user_id',Auth::id())->where('is_done','!=','1');
-            })
-            ->count();
+        $this->numberOfNotifications = Auth::user()->notifications->count();
     }
 
     public function changeTab(string $tab)
