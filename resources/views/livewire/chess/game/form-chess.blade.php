@@ -201,7 +201,7 @@
                                     <div class="ml-3">
                                         <h3 class="text-sm font-medium text-red-800">Attention</h3>
                                         <div class="mt-2 text-sm text-red-700">
-                                            <p> Vous devez renseingner aux moins deux joueurs avant de passer à la
+                                            <p> Vous devez renseigner aux moins deux joueurs avant de passer à la
                                                 suite</p>
                                         </div>
                                     </div>
