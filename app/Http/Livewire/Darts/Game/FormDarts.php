@@ -31,10 +31,6 @@ class FormDarts extends Component
 
     public ?array $playersId = [];
 
-    public ?string $selectBlanc = "nul";
-
-    public ?array $playersIdColors = [];
-
     public ?string $partyName = "";
 
     public ?bool $selectedBets = false;
@@ -49,17 +45,7 @@ class FormDarts extends Component
         if ($game !== null) {
             $this->partyName = $game->label;
             $this->playersId = $game->users->pluck('id')->toArray();
-            if (count($game->gamePlayers) === 2) {
-                foreach ($game->gamePlayers as $player) {
-                    if ($player->color === "blanc") {
-                        $this->selectBlanc = $player->user_id;
-                    }
-                }
-            } elseif (count($game->gamePlayers) > 2) {
-                foreach ($game->gamePlayers as $player) {
-                    $this->playersIdColors[$player->user_id] = $player->color;
-                }
-            }
+
         }
         $this->users = User::all();
         $this->notifications = Notification::all();
@@ -83,15 +69,10 @@ class FormDarts extends Component
         $newGame = new Game();
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
+        $newGame->sport_id = 2;
+        $newGame->bet_available = $this->selectedBets;
         $newGame->save();
         foreach ($this->playersId as $id) {
-            $color = "noir";
-            if (count($this->playersIdColors) > 0) {
-                $color = $this->playersIdColors[$id];
-            }
-            if ($this->selectBlanc == $id) {
-                $color = "blanc";
-            }
 
             $result = null;
 
@@ -109,7 +90,6 @@ class FormDarts extends Component
             $gameplayer = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
-            $gameplayer->color = $color;
             $gameplayer->result = $result;
             $gameplayer->save();
 
@@ -119,25 +99,12 @@ class FormDarts extends Component
         }
     }
 
-    public function updatedPlayers($value)
-    {
-        if (count($this->playersId) > 0) {
-            foreach ($this->playersIdColors as $key => $color) {
-                if (!in_array($key, $this->playersId)) {
-                    unset($this->playersIdColors[$key]);
-                }
-            }
-        }
-    }
-
     public function rules()
     {
         $arrayRules = [];
-        if (count($this->playersId) > 2) {
+        if (count($this->playersId) > 1) {
             return [
-                'selectBlanc' => 'sometimes',
-                'playersColors' => 'required|array|size:' . count($this->playersId),
-                'playersColors.*' => 'required|string',
+                'playersId' => 'required|array|size:' . count($this->playersId),
             ];
         }
 
@@ -145,13 +112,12 @@ class FormDarts extends Component
             $arrayRules['resultat'] = "required|not_in:none";
         }
 
-        $arrayRules['selectBlanc'] = 'required|not_in:nul';
-
         return $arrayRules;
     }
 
     public function submit(CreateNotificationAction $createNotificationAction, SendNotificationAction $sendNotificationAction)
     {
+
         $this->validate();
 
         $newGame = new Game();
@@ -168,14 +134,6 @@ class FormDarts extends Component
 
 
         foreach ($this->playersId as $id) {
-            $color = "noir";
-            if (count($this->playersIdColors) > 0) {
-                $color = $this->playersIdColors[$id];
-            }
-            if ($this->selectBlanc == $id) {
-                $color = "blanc";
-            }
-
             $result = null;
 
             if ($this->type == GameStatusEnum::ended->value) {
@@ -192,7 +150,6 @@ class FormDarts extends Component
             $gameplayer = new GamePlayer();
             $gameplayer->game_id = $newGame->id;
             $gameplayer->user_id = $id;
-            $gameplayer->color = $color;
             if ($id == Auth::id()) {
                 $gameplayer->player_participation_validation->transitionTo(Accepted::class);
             }
@@ -204,7 +161,7 @@ class FormDarts extends Component
         $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo_darts', 'ASC')->get();
         $this->calcBetRatio($users);
         if ($this->type == GameStatusEnum::waiting->value) {
-            session()->flash('message_url', route('game.show', ['game' => $newGame->id]));
+            session()->flash('message_url', route('darts.game.show-darts', ['game' => $newGame->id]));
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
             $creator = Auth::id();
@@ -219,14 +176,14 @@ class FormDarts extends Component
                     $sendNotificationAction->execute($notification->id, $id);
                 }
             }
-            dump(2);
 
-            return redirect('darts.dashboard');
+            return redirect()->route('darts.dashboard');
+
         }
-        dump(3);
 
         session()->flash('message', 'Votre partie a bien été créée.');
-        return redirect('darts.dashboard');
+        return redirect()->route('darts.dashboard');
+
     }
 
     public function render()

@@ -84,6 +84,7 @@ class FormChess extends Component
         $newGame = new Game();
         $newGame->label = $this->partyName;
         $newGame->created_by = Auth::id();
+        $newGame->sport_id = 1;
         $newGame->save();
         foreach ($this->playersId as $id) {
             $color = "noir";
