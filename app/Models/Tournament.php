@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tournament extends Model
 {
@@ -58,6 +59,11 @@ class Tournament extends Model
         return $this->belongsToMany(User::class, 'tournament_participants')
             ->using(TournamentParticipant::class)
             ->withPivot(['wins', 'pats', 'draws', 'losses']);
+    }
+
+    public function scores(): HasMany
+    {
+        return $this->hasMany(TournamentParticipant::class, 'tournament_id', 'id');
     }
 
     public function winner(): BelongsTo
