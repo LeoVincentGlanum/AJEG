@@ -7,6 +7,7 @@ use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
+use App\Models\Elo;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\GameType;
@@ -210,21 +211,29 @@ class FormChess extends Component
             $gameplayer->save();
         }
 
-        $users = User::query()->whereIn('users.id', $this->playersId)->join('elo', function ($join) {
-            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 1);
-        })->orderBy('elo.elo')->get();
+        $users = User::query()
+            ->with(['elos'])
+            ->addSelect([
+                'elo' => Elo::select('elo')
+                    ->whereColumn('user_id', 'users.id')
+                    ->where('sport_id', 1)
+            ])
+            ->whereIn('users.id', $this->playersId)
+            ->get();
+
         $this->calcBetRatio($users->toArray());
 
         if ($this->type == GameStatusEnum::waiting->value) {
             session()->flash('message_url', route('chess.game.show-chess', ['game' => $newGame->id]));
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
-            $users
-                ->filter(fn(User $user) => $user->id !== Auth::id())
-                ->each(fn(User $user) => $user->notify(new GameInvitationNotification(
-                    'Vous avez été invité a rejoindre une partie',
-                    $newGame
-                )));
+            //a decommenter quand on fixera les notifs
+//            $users
+//                ->filter(fn(User $user) => $user->id !== Auth::id())
+//                ->each(fn(User $user) => $user->notify(new GameInvitationNotification(
+//                    'Vous avez été invité a rejoindre une partie',
+//                    $newGame
+//                )));
 
 
             return redirect('chess.dashboard');

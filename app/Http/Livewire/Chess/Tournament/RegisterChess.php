@@ -20,14 +20,14 @@ class RegisterChess extends ModalComponent
 
     public ?User $user;
 
-    public ?Elo $elo;
+    public ?int $elo;
 
     public function mount($id)
     {
         try {
             $this->tournament = Tournament::query()->with(['participants'])->findOrFail($id);
             $this->user = User::query()->findOrFail(Auth::id());
-            $this->elo = Elo::query()->where('user_id', $this->user->id)->where('sport_id',1)->first()->elo;
+            $this->elo = $this->user->elos->where('sport_id', 1)->first()?->elo;
         } catch (\Throwable $e) {
             report($e);
             $this->tournament = null;
@@ -36,6 +36,9 @@ class RegisterChess extends ModalComponent
 
     public function register()
     {
+        $events = [];
+        $events[ListTournamentChess::getName()] =  ['refreshListTournament', []];
+
         $nbParticipants = $this->tournament->participants->count();
 
         if ($nbParticipants >= $this->tournament->number_of_players) {
@@ -53,12 +56,12 @@ class RegisterChess extends ModalComponent
             return;
         }
 
-        if ($this->tournament->elo_max !== null && $this->tournament->elo_max < $this->elo_chess) {
+        if ($this->tournament->elo_max !== null && $this->tournament->elo_max < $this->elo) {
             $this->errorToast('Your elo chess is too high');
             return;
         }
 
-        if ($this->tournament->elo_min > $this->elo_chess) {
+        if ($this->tournament->elo_min > $this->elo) {
             $this->errorToast('Your elo chess isn\'t high enough');
             return;
         }

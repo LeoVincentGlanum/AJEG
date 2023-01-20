@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Chess\Tournament;
 use App\Enums\TournamentStatusEnum;
 use App\Enums\TournamentTypeEnum;
 use App\Http\Livewire\Traits\HasToast;
+use App\Models\Elo;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\GameType;
