@@ -8,6 +8,7 @@ use App\Models\Bet;
 use App\Models\Elo;
 use App\Models\Game;
 use App\Models\GamePlayer;
+use App\Models\TournamentParticipant;
 use App\Models\User;
 use App\ModelStates\BetStates\LooseBet;
 use App\ModelStates\BetStates\WinBet;
@@ -79,19 +80,39 @@ class ShowChess extends Component
                 $looser = $player;
             }
 
-            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id',1)->first()->elo;
-            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->elo;
+            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->first()->elo;
+            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->first()->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
 
-            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[0]]);
-            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[1]]);
+            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->first()->update(['elo' => $result[0]]);
+            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->first()->update(['elo' => $result[1]]);
 
             $allCompleted = true;
             foreach ($this->gamePlayer as $player) {
                 if ($player->user_id === Auth::id()) {
                     $player->player_result_validation->transitionTo(Accepted::class);
                     $player->save();
+                }
+                //Ajout du résultat dans la table tournament_participants au cas où la game fait partie d'un tournoi
+                if ($this->game->tournament_id !== null) {
+                    $tournamentParticipant = TournamentParticipant::query()
+                        ->where('user_id', $player->user_id)
+                        ->where('tournament_id', $this->game->tournament_id)
+                        ->firstOrFail();
+                    if ($player->result->equals(Draw::class)) {
+                        $tournamentParticipant->draws++;
+                    }
+                    if ($player->result->equals(Pat::class)) {
+                        $tournamentParticipant->pats++;
+                    }
+                    if ($player->result->equals(Win::class)) {
+                        $tournamentParticipant->wins++;
+                    }
+                    if ($player->result->equals(Loss::class)) {
+                        $tournamentParticipant->losses++;
+                    }
+                    $tournamentParticipant->save();
                 }
                 if ($player->player_result_validation->equals(PlayerRecognitionResultStatesPending::class)) {
                     $allCompleted = false;
@@ -118,7 +139,6 @@ class ShowChess extends Component
                         }
                     }
                 }
-
             }
 
             $this->dispatchBrowserEvent('toast', ['message' => __("You approved the result !"), 'type' => 'success']);

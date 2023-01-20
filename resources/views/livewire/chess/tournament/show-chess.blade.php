@@ -20,6 +20,10 @@
                             </th>
                             <th scope="col"
                                 class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
+                                {{ __('Draw') }}
+                            </th>
+                            <th scope="col"
+                                class="sticky top-0 bg-gray-50 px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider z-10">
                                 {{ __('Losses') }}
                             </th>
                         </tr>
@@ -34,45 +38,21 @@
                                 @class([
                                 'bg-green-300' => $positif,
                                 'bg-red-300' => $negatif,
-                                ])
-                            >
+                                ])>
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
                                     {{ $participant->name ?? "-" }}
                                 </td>
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                    @php
-                                        $winCounter = 0;
-                                        foreach ($results as $result) {
-//                                            if ($result['user_id'] === $participant->id && $result['result']->value === "win") {
-//                                                dd($result['user_id'] === $participant->id, $result['result']->equals(\App\ModelStates\GamePlayerResultStates\PendingResult::class));
-                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Win::class)) {
-                                                $winCounter++;
-                                            }
-                                        }
-                                    @endphp
-                                    {{ $winCounter ?? "" }}
+                                    {{ $participant->pivot->wins }}
                                 </td>
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                    @php
-                                        $patsCounter = 0;
-                                        foreach ($results as $result) {
-                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Pat::class)) {
-                                                $patsCounter++;
-                                            }
-                                        }
-                                    @endphp
-                                    {{ $patsCounter ?? "" }}
+                                    {{ $participant->pivot->pats }}
                                 </td>
                                 <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
-                                    @php
-                                        $lossesCounter = 0;
-                                        foreach ($results as $result) {
-                                            if ($result['user_id'] === $participant->id && $result['result']->equals(\App\ModelStates\GamePlayerResultStates\Loss::class)) {
-                                                $lossesCounter++;
-                                            }
-                                        }
-                                    @endphp
-                                    {{ $lossesCounter ?? "" }}
+                                    {{ $participant->pivot->draws }}
+                                </td>
+                                <td class="px-4 py-2 text-xs whitespace-nowrap text-center">
+                                    {{ $participant->pivot->losses }}
                                 </td>
                             </tr>
                         @empty
