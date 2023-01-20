@@ -248,7 +248,7 @@
     function test(data) {
         console.log("ça passe !")
         console.log(data)
-        window.livewire.emit('openModal', 'game.result-form', data);
+        window.livewire.emit('openModal', 'chess.game.result-form-chess', data);
     }
 
 

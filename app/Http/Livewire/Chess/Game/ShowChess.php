@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Chess\Game;
 use App\Http\Livewire\Chess\Game\Traits\HasGameResultMapperChess;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Bet;
+use App\Models\Elo;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\User;
