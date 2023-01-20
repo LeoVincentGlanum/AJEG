@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -14,7 +13,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->integer("sport_id")->default(1);
+            $table->foreignId('sport_id')
+                ->default(1)
+                ->after('entrance_fee')
+                ->constrained('sports');
         });
     }
 
@@ -26,7 +28,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->dropColumn("sport_id");
+            $table->dropForeign(['sport_id']);
+            $table->dropColumn('sport_id');
         });
     }
 };

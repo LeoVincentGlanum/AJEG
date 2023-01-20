@@ -22,11 +22,6 @@ return new class extends Migration
             $table->integer('bet_gain');
             $table->string('bet_status');
             $table->timestamps();
-
-//            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-//            $table->foreign('gambler_id')->references('id')->on('users');
-//            $table->foreign('gameplayer_id')->references('id')->on('game_players');
-
             $table->unique(['game_id', 'gambler_id', 'gameplayer_id']);
         });
     }
