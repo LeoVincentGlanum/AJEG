@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\GameType;
-use App\Models\Transaction;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,17 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            UserSeeder::class,
-            GameSeeder::class,
-            GamePlayerSeeder::class,
-            BetSeeder::class,
-        ]);
-
         DB::table('game_types')->insert([
             'label' => 'standard',
             'ratio' => 1.0,
         ]);
+
         DB::table('sports')->insert([
             'label' => 'Échecs',
         ]);
@@ -36,5 +26,13 @@ class DatabaseSeeder extends Seeder
             'label' => 'Fléchettes',
         ]);
 
+        $this->call([
+            UserSeeder::class,
+            GameSeeder::class,
+            GamePlayerSeeder::class,
+            BetSeeder::class,
+            TournamentSeeder::class,
+            TournamentParticipantSeeder::class,
+        ]);
     }
 }

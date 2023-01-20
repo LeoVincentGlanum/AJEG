@@ -3,12 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\ModelStates\GameStates\Archived;
-use App\ModelStates\GameStates\AskAdmin;
-use App\ModelStates\GameStates\Cancel;
-use App\ModelStates\GameStates\Draft;
-use App\ModelStates\GameStates\GameAccepted;
-use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
@@ -30,7 +24,7 @@ class GameSeeder extends Seeder
 
             for ($i = 0; $i < random_int(0, 5); $i++) {
                 $games[] = [
-                    'label' => $player->name.'\'s Game',
+                    'label' => $player->name.'\'s Game '.$i + 1,
                     'status' => Arr::random($gameStatus),
                     'bet_available' => Arr::random([true, false]),
                 ];

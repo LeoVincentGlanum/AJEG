@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\GameResultEnum;
 use App\Models\Elo;
 use App\Models\Game;
 use App\Models\User;

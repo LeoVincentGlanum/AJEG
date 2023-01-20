@@ -22,8 +22,8 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            'coins' => fake()->randomNumber(),
-            'message' => fake()->shuffleString(20),
+            'coins' => fake()->randomNumber(4),
+            'message' => fake()->text(15),
         ];
     }
 }

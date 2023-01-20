@@ -22,7 +22,7 @@ class EloFactory extends Factory
     public function definition()
     {
         return [
-            'elo' => 500,
+            'elo' => $this->faker->randomNumber(3),
         ];
     }
 }

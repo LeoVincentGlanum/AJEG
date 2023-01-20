@@ -6,17 +6,9 @@ use App\Models\Game;
 use App\Models\User;
 use App\ModelStates\BetStates\LooseBet;
 use App\ModelStates\BetStates\WinBet;
-use App\ModelStates\GamePlayerResultStates\Draw;
-use App\ModelStates\GamePlayerResultStates\Loss;
-use App\ModelStates\GamePlayerResultStates\Pat;
 use App\ModelStates\GamePlayerResultStates\Win;
-use App\ModelStates\GameStates\AskAdmin;
 use App\ModelStates\GameStates\Validate;
-use App\ModelStates\PlayerParticipationStates\Accepted as PlayerParticipationAccepted;
-use App\ModelStates\PlayerRecognitionResultStates\Accepted as PlayerResultAccepted;
-use App\ModelStates\PlayerRecognitionResultStates\Refused as PlayerResultRefused;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 
 class BetSeeder extends Seeder
 {
@@ -33,9 +25,9 @@ class BetSeeder extends Seeder
         foreach ($games as $game) {
             $players = $game->gamePlayers;
             $bets = [];
+            $playersId = $players->pluck('id');
 
             for ($i=0; $i < random_int(0, 4); $i++) {
-                $playersId = $players->pluck('id');
                 $gambler = $gamblers->whereNotIn('id', $playersId)->random(1)->first();
                 $playersId[] = $gambler->id;
 
