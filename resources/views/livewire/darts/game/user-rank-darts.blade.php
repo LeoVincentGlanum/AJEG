@@ -10,9 +10,9 @@
                     <div class="flex items-center justify-between">
                         <h3 class="text-sm font-medium"
                             style="width: 200px">{{ $user->name }}</h3>
-                        <p class="text-sm text-gray-500 mx-80">{{ $user->elo_darts }}</p>
+                        <p class="text-sm text-gray-500 mx-80">{{ $elo_darts }}</p>
                     </div>
-                    <p class="text-sm text-gray-500">{{ $user->elo_darts ?? null }}</p>
+                    <p class="text-sm text-gray-500">{{ $elo_darts ?? null }}</p>
                 </div>
             </div>
         </li>

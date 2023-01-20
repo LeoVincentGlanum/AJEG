@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Darts\Tournament;
 
-use App\Enums\TournamentStatusEnum;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Tournament;
 use App\Models\TournamentParticipant;
+use App\Models\Elo;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,11 +19,14 @@ class RegisterDarts extends ModalComponent
 
     public ?User $user;
 
+    public ?Elo $elo;
+
     public function mount($id)
     {
         try {
             $this->tournament = Tournament::query()->with(['participants'])->findOrFail($id);
             $this->user = User::query()->findOrFail(Auth::id());
+            $this->elo = Elo::query()->where('user_id', $this->user->id)->where('sport_id', 2)->first()->elo;
         } catch (\Throwable $e) {
             report($e);
             $this->tournament = null;
@@ -49,12 +52,12 @@ class RegisterDarts extends ModalComponent
             return;
         }
 
-        if ($this->tournament->elo_max !== null && $this->tournament->elo_max < $this->user->elo_darts) {
+        if ($this->tournament->elo_max !== null && $this->tournament->elo_max < $this->elo_darts) {
             $this->errorToast('Your elo darts is too high');
             return;
         }
 
-        if ($this->tournament->elo_min > $this->user->elo_darts) {
+        if ($this->tournament->elo_min > $this->elo_darts) {
             $this->errorToast('Your elo darts isn\'t high enough');
             return;
         }
@@ -70,7 +73,7 @@ class RegisterDarts extends ModalComponent
             $this->user->save();
 
             if ($this->tournament->participants->count() + 1 === $this->tournament->number_of_players) {
-                $this->tournament->status = TournamentStatusEnum::full->value;
+                $this->tournament->status = FullTournament::$name;
                 $this->tournament->save();
             }
 

@@ -210,7 +210,9 @@ class FormChess extends Component
             $gameplayer->save();
         }
 
-        $users = User::query()->whereIn('id', $this->playersId)->orderBy('elo_chess', 'ASC')->get();
+        $users = User::query()->whereIn('users.id', $this->playersId)->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 1);
+        })->orderBy('elo.elo')->get();
         $this->calcBetRatio($users->toArray());
 
         if ($this->type == GameStatusEnum::waiting->value) {
@@ -218,12 +220,11 @@ class FormChess extends Component
             session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
 
             $users
-                ->filter(fn (User $user) => $user->id !== Auth::id())
-                ->each(fn (User $user) => $user->notify(new GameInvitationNotification(
+                ->filter(fn(User $user) => $user->id !== Auth::id())
+                ->each(fn(User $user) => $user->notify(new GameInvitationNotification(
                     'Vous avez été invité a rejoindre une partie',
                     $newGame
                 )));
-
 
 
             return redirect('chess.dashboard');

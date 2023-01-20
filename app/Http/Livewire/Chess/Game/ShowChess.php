@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Chess\Game;
 
-use App\Enums\GameResultEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasGameResultMapperChess;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Bet;
@@ -14,7 +13,6 @@ use App\ModelStates\BetStates\WinBet;
 use App\ModelStates\GamePlayerResultStates\Loss;
 use App\ModelStates\GamePlayerResultStates\Draw;
 use App\ModelStates\GamePlayerResultStates\Pat;
-use App\ModelStates\GamePlayerResultStates\PendingResult;
 use App\ModelStates\GamePlayerResultStates\Win;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
@@ -84,7 +82,7 @@ class ShowChess extends Component
             $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
-//
+
             Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[0]]);
             Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id',1)->first()->update(['elo' => $result[1]]);
 

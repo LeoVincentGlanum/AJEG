@@ -13,21 +13,25 @@ class RankingDarts extends Component
 
     public string $searchPlayer = '';
     public array $rank;
+    public array $elo_darts;
 
     public array $EloRanks =
         [
-            'Grand Master'=> ['King-Transparent-PNG.png',2000,4000],
-            'Master'=> ['grandmaster.png',1750,2000],
-            'Diamant'=> ['diams.png',1500,1750],
-            'Rubis'=> ['rubis.png',1200,1500],
-            'Gold'=> ['gold.png',800,1200],
-            'Silver'=> ['silver.jfif',499,800],
-            'Charbon'=> ['charbon.jfif',0,499],
+            'Grand Master' => ['King-Transparent-PNG.png', 2000, 4000],
+            'Master' => ['grandmaster.png', 1750, 2000],
+            'Diamant' => ['diams.png', 1500, 1750],
+            'Rubis' => ['rubis.png', 1200, 1500],
+            'Gold' => ['gold.png', 800, 1200],
+            'Silver' => ['silver.jfif', 499, 800],
+            'Charbon' => ['charbon.jfif', 0, 499],
 
         ];
+
     public function mount()
     {
-        $usersToRank = User::query()->orderBy('elo_darts', 'desc')->get();
+        $usersToRank = User::query()->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+        })->orderBy('elo.elo', 'desc')->get();
 
         $this->rank = [];
 
@@ -35,6 +39,8 @@ class RankingDarts extends Component
         foreach ($usersToRank as $user) {
             $this->rank[$user->id] = $cpt;
             $cpt++;
+            $this->elo_darts[$user->id] = $user->elo;
+
         }
 
     }
@@ -46,11 +52,17 @@ class RankingDarts extends Component
 
             return User::query()
                 ->where('name', 'like', '%' . $this->searchPlayer . '%')
-                ->orderBy('elo_darts', 'desc')
+                ->join('elo', function ($join) {
+                    $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+                })
+                ->orderBy('elo.elo', 'desc')
                 ->paginate(20);
         }
 
-        return User::query()->orderBy('elo_darts', 'desc')->paginate(20);
+        return User::query()->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+        })
+            ->orderBy('elo.elo', 'desc')->paginate(20);
     }
 
     public function render()
@@ -58,6 +70,7 @@ class RankingDarts extends Component
         return view('livewire.darts.game.ranking-darts', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
+            'elo_darts' => $this->elo_darts,
         ]);
 
     }

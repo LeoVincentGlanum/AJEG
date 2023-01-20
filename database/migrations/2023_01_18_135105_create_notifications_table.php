@@ -17,8 +17,10 @@ return new class extends Migration
         Schema::dropIfExists('notifications');
 
         Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('type');
+            $table->string('message');
+            $table->integer('creator');
             $table->morphs('notifiable');
             $table->text('data');
             $table->timestamp('read_at')->nullable();
@@ -35,24 +37,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('notifications');
 
-         Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('creator')
-                ->constrained('users');
-            $table->string('type');
-            $table->text('message');
-            $table->timestamps();
-        });
-
-          Schema::create('user_notifications', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('notification_id')
-                ->constrained('notifications')
-                ->onDelete('cascade');
-            $table->foreignId('user_id')
-                ->constrained('users');
-            $table->boolean('is_done');
-            $table->timestamps();
-        });
     }
 };

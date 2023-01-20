@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Chess\Game\Traits;
 
 use App\Models\Bet;
 use App\Models\GamePlayer;
+use App\Models\Elo;
 use App\Models\User;
 
 trait HasBetMapperChess
@@ -22,7 +23,6 @@ trait HasBetMapperChess
 
         $ratioWeaker = (Elo::query()->where('user_id', $users[0]["id"])->where('sport_id',1)->first()->elo / Elo::query()->where('user_id', $users[1]["id"])->where('sport_id',1)->first()->elo) + 1;
         $ratioStronger = (Elo::query()->where('user_id', $users[1]["id"])->where('sport_id',1)->first()->elo / Elo::query()->where('user_id', $users[0]["id"])->where('sport_id',1)->first()->elo) + 1;
-
 
         GamePlayer::query()->where('user_id', $users[0]["id"])->update(['bet_ratio' => $ratioStronger]);
         GamePlayer::query()->where('user_id', $users[1]["id"])->update(['bet_ratio' => $ratioWeaker]);

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Chess\Tournament;
 
-use App\Enums\TournamentStatusEnum;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Tournament;
 use App\Models\TournamentParticipant;

@@ -59,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Game::class, 'created_by', 'id');
     }
 
-    public function elo(): HasMany
+    public function elos(): HasMany
     {
         return $this->hasMany(Elo::class, 'user_id', 'id');
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Chess\Game;
 
 use App\Models\User;
-use App\Models\Elo;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -30,7 +29,9 @@ class RankingChess extends Component
 
     public function mount()
     {
-        $usersToRank = User::query()->orderBy('elo_chess', 'desc')->get();
+        $usersToRank = User::query()->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 1);
+        })->orderBy('elo.elo', 'desc')->get();
 
         $this->rank = [];
 
@@ -38,9 +39,8 @@ class RankingChess extends Component
         foreach ($usersToRank as $user) {
             $this->rank[$user->id] = $cpt;
             $cpt++;
-            $this->elo_chess[$user->id] = Elo::query()->where('user_id', $user->id)->where('sport_id', 1)->first()->elo;
+            $this->elo_chess[$user->id] = $user->elo;
         }
-
 
 
     }
@@ -52,11 +52,17 @@ class RankingChess extends Component
 
             return User::query()
                 ->where('name', 'like', '%' . $this->searchPlayer . '%')
-                ->orderBy('elo_chess', 'desc')
+                ->join('elo', function ($join) {
+                    $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 1);
+                })
+                ->orderBy('elo.elo', 'desc')
                 ->paginate(20);
         }
 
-        return User::query()->orderBy('elo_chess', 'desc')->paginate(20);
+        return User::query()->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 1);
+        })
+            ->orderBy('elo.elo', 'desc')->paginate(20);
     }
 
     public function render()

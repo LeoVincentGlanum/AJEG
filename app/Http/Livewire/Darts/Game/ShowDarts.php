@@ -74,15 +74,13 @@ class ShowDarts extends Component
                 $looser = $player;
             }
 
-            $eloJ1 = Arr::get($users, 0)->user->elo_darts;
-            $eloJ2 = Arr::get($users, 1)->user->elo_darts;
+            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 2)->first()->elo;
+            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 2)->first()->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
-//
-            Arr::get($users, 0)->user->elo_darts = $result[0];
-            Arr::get($users, 0)->user->save();
-            Arr::get($users, 1)->user->elo_darts = $result[1];
-            Arr::get($users, 1)->user->save();
+
+            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 2)->first()->update(['elo' => $result[0]]);
+            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 2)->first()->update(['elo' => $result[1]]);
 
             $allCompleted = true;
             foreach ($this->gamePlayer as $player) {
@@ -90,7 +88,7 @@ class ShowDarts extends Component
                     $player->player_result_validation->transitionTo(Accepted::class);
                     $player->save();
                 }
-                if ($player->player_result_validation == "pending") {
+                if ($player->player_result_validation->equals(PlayerRecognitionResultStatesPending::class)) {
                     $allCompleted = false;
                 }
             }
@@ -139,8 +137,8 @@ class ShowDarts extends Component
         $expected2 = $this->expectedScore($rating2, $rating1);
 
 
-        $newRating1 = $rating1 + $K * ($this->getScoreWithResult($score1->result->value) - $expected1);
-        $newRating2 = $rating2 + $K * ($this->getScoreWithResult($score2->result->value) - $expected2);
+        $newRating1 = $rating1 + $K * ($this->getScoreWithResult($score1->result) - $expected1);
+        $newRating2 = $rating2 + $K * ($this->getScoreWithResult($score2->result) - $expected2);
 
         return array($newRating1, $newRating2);
     }
@@ -171,10 +169,13 @@ class ShowDarts extends Component
     public function getScoreWithResult($result)
     {
         return match ($result) {
-            GameResultEnum::win->value => 1.2,
-            GameResultEnum::pat->value => 0.85,
-            GameResultEnum::nul->value => 0.5,
-            GameResultEnum::lose->value => 0,
+//            GameResultEnum::win->value => 1.2,
+//            GameResultEnum::pat->value => 0.85,
+//            GameResultEnum::nul->value => 0.5,
+//            GameResultEnum::lose->value => 0,
+            Win::$name => 1.2,
+            Loss::$name => 0,
+            Pending::$name => 0,
         };
     }
 
@@ -197,7 +198,7 @@ class ShowDarts extends Component
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
-                if ($player->player_participation_validation == Pending::$name) {
+                if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }
@@ -212,7 +213,7 @@ class ShowDarts extends Component
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
-                if ($player->player_participation_validation == Pending::$name) {
+                if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }
