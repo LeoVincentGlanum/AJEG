@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Elo;
+use App\Models\Sport;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -26,7 +28,7 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -46,6 +48,15 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $sports = Sport::all();
+
+        foreach ($sports as $sport) {
+            $eloDefaultUser = new Elo();
+            $eloDefaultUser->user_id = $user->id;
+            $eloDefaultUser->sport_id = $sport->id;
+            $eloDefaultUser->save();
+        }
 
         Auth::login($user);
 
