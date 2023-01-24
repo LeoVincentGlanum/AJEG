@@ -12,20 +12,22 @@ class GameInvitationNotification extends Notification
 {
     use Queueable;
 
+    public string $message;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(
-        public string|null $message = null,
-        public Game|null $game = null
-    ) {}
+    public function __construct(public Game $game)
+    {
+        $this->message = trans('invitation_game');
+    }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -36,7 +38,7 @@ class GameInvitationNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

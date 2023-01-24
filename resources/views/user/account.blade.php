@@ -6,8 +6,8 @@
     </x-slot>
     <div>
         @php
-            $authUser = \Illuminate\Support\Facades\Auth::user()
+            $user = \Illuminate\Support\Facades\Auth::user()
         @endphp
-        <livewire:user.profile :user="$authUser"/>
+        <livewire:user.profile :user="$user"/>
     </div>
 </x-app-layout>
