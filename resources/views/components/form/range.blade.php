@@ -76,12 +76,12 @@
                 maxThumb: 0,
 
                 minTrigger() {
-                    this.minprice = Math.min(this.minProperty, this.maxProperty - 500);
+                    this.minProperty = Math.min(this.minProperty, this.maxProperty - 500);
                     this.minThumb = ((this.minProperty - this.min) / (this.max - this.min)) * 100;
                 },
 
                 maxTrigger() {
-                    this.maxprice = Math.max(this.maxProperty, this.minProperty + 500);
+                    this.maxProperty = Math.max(this.maxProperty, this.minProperty + 500);
                     this.maxThumb = 100 - (((this.maxProperty - this.min) / (this.max - this.min)) * 100);
                 },
             }
