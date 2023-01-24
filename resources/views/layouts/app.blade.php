@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
-{{--        select 2--}}
+        {{--select 2--}}
         <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -19,7 +19,6 @@
         <!-- Scripts -->
         <script>
             window.addEventListener('toast', event => {
-
                 var type = event.detail.type
                 var title = 'Error'
                 var icon =   `<x-heroicon-o-x-circle class="w-5 h-5 text-red-500" />`;
@@ -59,22 +58,6 @@
                 })
             })
         </script>
-        @if (session()->has('success'))
-            <script>
-                window.addEventListener('load', (event) => {
-                    Swal.fire({
-                        icon: false,
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        position: 'top-end',
-                        toast: true,
-                        type='success'
-                        title: "{{ session()->pull('success') }}",
-                        timer: 2000
-                    });
-                });
-            </script>
-        @endif
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
@@ -91,34 +74,14 @@
                     </div>
                 </header>
             @endif
-            <div x-data="{ open: false }" @toast.window="open = false">
-                <!-- Modal with a Livewire name update form -->
-            </div>
-
-            @if (session()->has('message'))
-                <div class="rounded-md bg-green-50 p-4">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <x-heroicon-m-information-circle class="w-5 h-5"/>
-                        </div>
-                        <div class="ml-3 flex-1 md:flex md:justify-between">
-                            <p class="text-sm text-green-700">  {!!  session('message')  !!}</p>
-                            <p class="mt-3 text-sm md:mt-0 md:ml-6">
-                                <a href="@if(session('message_url') != null) {{session('message_url')}} @endif" class="whitespace-nowrap font-medium text-green-700 hover:text-green-600">
-                                    Details
-                                    <span aria-hidden="true"> &rarr;</span>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            @endif
 
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
         </div>
+
+        @stack('modals')
 
         @livewireScripts
         @livewire('livewire-ui-modal')

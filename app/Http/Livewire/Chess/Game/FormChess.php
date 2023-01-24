@@ -7,21 +7,26 @@ use App\Actions\SendNotificationAction;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Elo;
 use App\Models\Game;
 use App\Models\GamePlayer;
 use App\Models\GameType;
 use App\Models\Notification;
 use App\Models\User;
+use App\ModelStates\GamePlayerResultState;
 use App\ModelStates\GamePlayerResultStates\Draw;
 use App\ModelStates\GamePlayerResultStates\Loss;
 use App\ModelStates\GamePlayerResultStates\Pat;
 use App\ModelStates\GamePlayerResultStates\PendingResult;
 use App\ModelStates\GamePlayerResultStates\Win;
+use App\ModelStates\GameStates\Draft;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\PlayerRecognitionResultStates\Pending;
 use App\Notifications\GameInvitationNotification;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,217 +35,167 @@ use App\ModelStates\PlayerParticipationStates\Accepted;
 class FormChess extends Component
 {
     use HasBetMapperChess;
+    use HasToast;
 
-    public Collection $users;
-    public Collection $notifications;
-    public ?Collection $gameTypes;
-    public ?string $type = "waiting";
-    public ?string $resultat = "none";
+    public ?string $partyName = '';
 
-    public ?array $playersId = [];
+    public $status = PlayersValidation::class;
 
-    public ?string $selectBlanc = "nul";
+    public ?array $players = [];
 
-    public ?array $playersIdColors = [];
+    public int $selectedGameTypeId = 1;
 
-    public ?string $partyName = "";
+    public ?bool $betAvailable = false;
 
-    public ?bool $selectedBets = false;
+    public ?Game $game = null;
 
-    protected $messages = [
-        'selectBlanc.not_in' => 'Attention ! Merci de selectionner un joueur blanc',
-        'resultat.required' => 'Merci de saisir le resultat de la partie',
-        'resultat.not_in' => 'Merci de saisir le resultat de la partie'
+    protected array $rules = [
+        'partyName' => 'required',
+        'selectedGameTypeId' => 'required',
+        'players.*.id' => 'required',
+        'players.*.color' => 'required',
+        'players.*.result' => 'sometimes|required',
+        'betAvailable' => 'required',
     ];
+
+    protected array $messages = [
+        'partyName.required' => 'The game name is required',
+        'selectedGameTypeId.required' => 'The game type is required',
+        'players.*.id.required' => 'The players are required',
+        'players.*.color.required' => 'The players color are required',
+        'players.*.result.required' => 'The results are required',
+        'betAvailable.required' => 'The bet availability is required',
+    ];
+
+    public function getUsersProperty(): Collection
+    {
+        return User::all();
+    }
+
+    public function getNotificationsProperty(): Collection
+    {
+        return Notification::all();
+    }
+
+    public function getGameTypesProperty(): Collection
+    {
+        return GameType::all();
+    }
 
     public function mount(?Game $game = null)
     {
+        $this->players[0]['color'] = 'white';
+        $this->players[1]['color'] = 'black';
+
+        $this->game = new Game();
+
         if ($game !== null) {
+            $this->game = $game;
+
             $this->partyName = $game->label;
-            $this->playersId = $game->users->pluck('id')->toArray();
-            if (count($game->gamePlayers) === 2) {
-                foreach ($game->gamePlayers as $player) {
-                    if ($player->color === "blanc") {
-                        $this->selectBlanc = $player->user_id;
-                    }
-                }
-            } elseif (count($game->gamePlayers) > 2) {
-                foreach ($game->gamePlayers as $player) {
-                    $this->playersIdColors[$player->user_id] = $player->color;
-                }
-            }
+            $game->gamePlayers()->each(function ($player, $key) {
+                $this->players[$key]['id'] = $player->user_id;
+                $this->players[$key]['color'] = $player->color;
+            });
         }
-        $this->users = User::all();
-        $this->notifications = Notification::all();
-        $this->gameTypes = GameType::all();
-    }
-
-
-    public function gotto()
-    {
-        return redirect("chess.dashboard");
     }
 
     public function saveDraft()
     {
-        $validated = $this->validate([
-            'partyName' => 'required',
-        ], [
-            'partyName.required' => 'Ce champ est requis'
-        ]);
+        $this->validateOnly('partyName');
 
-        $newGame = new Game();
-        $newGame->label = $this->partyName;
-        $newGame->created_by = Auth::id();
-        $newGame->sport_id = 1;
-        $newGame->save();
-        foreach ($this->playersId as $id) {
-            $color = "noir";
-            if (count($this->playersIdColors) > 0) {
-                $color = $this->playersIdColors[$id];
-            }
-            if ($this->selectBlanc == $id) {
-                $color = "blanc";
-            }
+        try {
+            $this->game->label = $this->partyName;
+            $this->game->created_by = Auth::id();
+            $this->game->sport_id = 1;
+            $this->game->save();
 
-            $result = PendingResult::$name;
+            $this->game->gamePlayers()->delete();
+            foreach ($this->players as $player) {
+                $result = PendingResult::class;
 
-            if ($this->type == GameStatusEnum::ended) {
-                $result = Loss::$name;
-                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
-                    $result = $this->resultat;
+                if ($this->status === ResultValidations::class) {
+                    $result = Arr::get($player, 'result');
                 }
 
-                if ($this->resultat == $id) {
-                    $result = Win::$name;
-                }
+                $gameplayer = new GamePlayer();
+                $gameplayer->game_id = $this->game->id;
+                $gameplayer->user_id = Arr::get($player, 'id');
+                $gameplayer->color = Arr::get($player, 'color');
+                $gameplayer->result = $result;
+                $gameplayer->save();
             }
 
-            $gameplayer = new GamePlayer();
-            $gameplayer->game_id = $newGame->id;
-            $gameplayer->user_id = $id;
-            $gameplayer->color = $color;
-            $gameplayer->result = $result;
-            $gameplayer->save();
+            $this->successToast('Le brouillon à été enregisté');
 
-            $this->dispatchBrowserEvent('toast', ['message' => 'Le brouillon à été enregisté.', 'type' => 'success']);
-
-            redirect()->route('chess.dashboard');
+            return redirect()->route('chess.dashboard');
+        } catch (\Throwable $e) {
+            report($e);
+            $this->errorToast('An error occurred during the drafting of the game');
         }
     }
 
-    public function updatedPlayers($value)
-    {
-        if (count($this->playersId) > 0) {
-            foreach ($this->playersIdColors as $key => $color) {
-                if (!in_array($key, $this->playersId)) {
-                    unset($this->playersIdColors[$key]);
-                }
-            }
-        }
-    }
-
-    public function rules()
-    {
-        $arrayRules = [];
-        if (count($this->playersId) > 2) {
-            return [
-                'selectBlanc' => 'sometimes',
-                'playersColors' => 'required|array|size:' . count($this->playersId),
-                'playersColors.*' => 'required|string',
-            ];
-        }
-
-        if ($this->type === "Terminé") {
-            $arrayRules['resultat'] = "required|not_in:none";
-        }
-
-        $arrayRules['selectBlanc'] = 'required|not_in:nul';
-
-        return $arrayRules;
-    }
-
-    public function submit(CreateNotificationAction $createNotificationAction, SendNotificationAction $sendNotificationAction)
+    public function save()
     {
         $this->validate();
-        $newGame = new Game();
-        $newGame->label = $this->partyName;
-        $newGame->created_by = Auth::id();
-        $newGame->bet_available = $this->selectedBets;
-        $newGame->sport_id = 1;
-        $newGame->save();
 
-        $match = match ($this->type) {
-            GameStatusEnum::waiting->name => $newGame->status->transitionTo(PlayersValidation::class),
-            GameStatusEnum::ended->name => $newGame->status->transitionTo(ResultValidations::class)
-        };
+        try {
+            $this->game->label = $this->partyName;
+            $this->game->created_by = Auth::id();
+            $this->game->bet_available = $this->betAvailable;
+            $this->game->sport_id = 1;
+            $this->game->save();
 
-
-        foreach ($this->playersId as $id) {
-            $color = "noir";
-            if (count($this->playersIdColors) > 0) {
-                $color = $this->playersIdColors[$id];
-            }
-            if ($this->selectBlanc == $id) {
-                $color = "blanc";
+            if ($this->status === PlayersValidation::class) {
+                $this->game->status->transitionTo(PlayersValidation::class);
             }
 
-            $result = null;
+            if ($this->status === ResultValidations::class) {
+                $this->game->status->transitionTo(ResultValidations::class);
+            }
 
-            if ($this->type == GameStatusEnum::ended->value) {
-                $result = Loss::$name;
-                if ($this->resultat === Draw::$name || $this->resultat === Pat::$name) {
-                    $result = $this->resultat;
+            $this->game->gamePlayers()->delete();
+            foreach ($this->players as $player) {
+                $result = null;
+
+                if ($this->status === ResultValidations::class) {
+                    $result = Arr::get($player, 'result');
                 }
 
-                if ($this->resultat == $id) {
-                    $result = Win::$name;
+                $gameplayer = new GamePlayer();
+                $gameplayer->game_id = $this->game->id;
+                $gameplayer->user_id = Arr::get($player, 'id');
+                $gameplayer->color = Arr::get($player, 'color');
+
+                if (Arr::get($player, 'id') === Auth::id() || $this->status === ResultValidations::class) {
+                    $gameplayer->player_participation_validation->transitionTo(Accepted::class);
                 }
+
+                if ($result !== null) {
+                    $gameplayer->result = $result;
+                }
+
+                $gameplayer->save();
             }
 
-            $gameplayer = new GamePlayer();
-            $gameplayer->game_id = $newGame->id;
-            $gameplayer->user_id = $id;
-            $gameplayer->color = $color;
-            if ($id === Auth::id() || $this->type == GameStatusEnum::ended->value) {
-                $gameplayer->player_participation_validation->transitionTo(Accepted::class);
-            }
-            if ($result !== null) {
-                $gameplayer->result = $result;
-            }
-            $gameplayer->save();
+            $users = User::query()
+                ->addSelect([
+                    'elo' => Elo::select('elo')
+                        ->whereColumn('user_id', 'users.id')
+                        ->where('sport_id', 1),
+                ])
+                ->whereIn('users.id', Arr::pluck($this->players, 'id'))
+                ->get();
+
+            $this->calcBetRatio($users->toArray());
+
+            $this->successToast('Votre partie a bien été créée');
+
+            return redirect()->route('chess.dashboard');
+        } catch (\Throwable $e) {
+            report($e);
+            $this->errorToast('An error occurred during the drafting of the game');
         }
-
-        $users = User::query()
-            ->with(['elos'])
-            ->addSelect([
-                'elo' => Elo::select('elo')
-                    ->whereColumn('user_id', 'users.id')
-                    ->where('sport_id', 1)
-            ])
-            ->whereIn('users.id', $this->playersId)
-            ->get();
-
-        $this->calcBetRatio($users->toArray());
-
-        if ($this->type == GameStatusEnum::waiting->value) {
-            session()->flash('message_url', route('chess.game.show-chess', ['game' => $newGame->id]));
-            session()->flash('message', 'Votre partie a bien été créée. Un email a été envoyé au(x) joueur(s) pour les avertir.');
-
-            //a decommenter quand on fixera les notifs
-//            $users
-//                ->filter(fn(User $user) => $user->id !== Auth::id())
-//                ->each(fn(User $user) => $user->notify(new GameInvitationNotification(
-//                    'Vous avez été invité a rejoindre une partie',
-//                    $newGame
-//                )));
-
-
-            return redirect('chess.dashboard');
-        }
-
-        session()->flash('message', 'Votre partie a bien été créée.');
-        return redirect('chess.dashboard');
     }
 
     public function render()

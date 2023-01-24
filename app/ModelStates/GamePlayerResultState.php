@@ -31,5 +31,15 @@ abstract class GamePlayerResultState extends State
             ->registerState(Pat::class)
             ->registerState(Draw::class);
     }
+
+    public static function gameFinishedResults(): array
+    {
+        return [
+            Win::class => Win::$name,
+            Loss::class => Loss::$name,
+            Pat::class => Pat::$name,
+            Draw::class => Draw::$name,
+        ];
+    }
 }
 

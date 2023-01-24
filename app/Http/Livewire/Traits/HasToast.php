@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Traits;
 
+use Illuminate\Http\RedirectResponse;
+
 trait HasToast
 {
     protected function successToast(string $message)
