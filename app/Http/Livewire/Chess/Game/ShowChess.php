@@ -23,6 +23,7 @@ use App\ModelStates\GameStates\Validate;
 use App\ModelStates\PlayerParticipationStates\Pending;
 use App\ModelStates\PlayerRecognitionResultStates\Accepted;
 use App\ModelStates\PlayerRecognitionResultStates\Pending as PlayerRecognitionResultStatesPending;
+use App\Notifications\GameAcceptedNotification;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -219,30 +220,44 @@ class ShowChess extends Component
     {
         try {
             $allCompleted = true;
+
             foreach ($this->gamePlayer as $player) {
                 if ($player->user_id === Auth::id()) {
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
+                } else {
+                    $opponent = $player;
                 }
+
                 if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }
+
             if ($allCompleted) {
                 $this->game->status->transitionTo(GameAccepted::class);
                 $this->game->save();
+
+                if (isset($opponent)) {
+                    $user = User::find($opponent->user_id);
+                    $user->notify(new GameAcceptedNotification($this->game));
+                }
             }
+
             $this->successToast('You accepted the game');
             $allCompleted = true;
+
             foreach ($this->gamePlayer as $player) {
                 if ($player->user_id === Auth::id()) {
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
                 }
+
                 if ($player->player_participation_validation->equals(Pending::class)) {
                     $allCompleted = false;
                 }
             }
+
             if ($allCompleted) {
                 $this->game->status->transitionTo(GameAccepted::class);
                 $this->game->save();
@@ -275,8 +290,21 @@ class ShowChess extends Component
     {
         try {
 
+            foreach ($this->gamePlayer as $player) {
+                if (!$player->user_id === Auth::id()) {
+                    $opponent = $player;
+                }
+
+            }
+
+            if (isset($opponent)) {
+                $user = User::find($opponent->user_id);
+                $user->notify(new GameDeclinedInvitation($this->game));
+            }
+
             $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
             $this->emitSelf('refreshListPlayer');
+
         } catch (Exception $e) {
             report($e);
         }

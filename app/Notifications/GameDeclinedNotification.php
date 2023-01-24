@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class GameInvitationNotification extends Notification
+class GameDeclinedNotification extends Notification
 {
     use Queueable;
 
