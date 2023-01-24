@@ -82,6 +82,11 @@ class FormChess extends Component
         return GameType::all();
     }
 
+    public function getColorsProperty(): Collection
+    {
+        return collect(['black' => 'Black', 'white' => 'White']);
+    }
+
     public function mount(?Game $game = null)
     {
         $this->players[0]['color'] = 'white';
