@@ -2,10 +2,6 @@
 
 namespace App\Http\Livewire\Chess\Game;
 
-use App\Actions\CreateNotificationAction;
-use App\Actions\SendNotificationAction;
-use App\Enums\GameResultEnum;
-use App\Enums\GameStatusEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Elo;
@@ -14,19 +10,11 @@ use App\Models\GamePlayer;
 use App\Models\GameType;
 use App\Models\Notification;
 use App\Models\User;
-use App\ModelStates\GamePlayerResultState;
-use App\ModelStates\GamePlayerResultStates\Draw;
-use App\ModelStates\GamePlayerResultStates\Loss;
-use App\ModelStates\GamePlayerResultStates\Pat;
 use App\ModelStates\GamePlayerResultStates\PendingResult;
-use App\ModelStates\GamePlayerResultStates\Win;
-use App\ModelStates\GameStates\Draft;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
-use App\ModelStates\PlayerRecognitionResultStates\Pending;
 use App\Notifications\GameInvitationNotification;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -188,6 +176,8 @@ class FormChess extends Component
                 ->get();
 
             $this->calcBetRatio($users->toArray());
+
+            $users->each(fn(User $user) => $user->notify(new GameInvitationNotification($this->game)));
 
             $this->successToast('Votre partie a bien été créée');
 

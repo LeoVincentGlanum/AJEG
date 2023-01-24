@@ -21,23 +21,10 @@ class Notifications extends Component
 
     public function mount()
     {
-//        try {
-//            $this->notifications = Notification::query()
-//                ->with(['usersNotifications', 'userNotifications'])
-//                ->whereHas('userNotifications', function (Builder $query) {
-//                    $query->where('user_id', Auth::id());
-//                })
-//                ->get();
-            $this->notifications = Auth::user()->notifications;
-//            dd($this->notifications);
-            foreach ($this->notifications as $notification) {
-                $this->creatorNotifications[$notification->id] = User::query()->where('id', $notification->creator)->first();
-            }
-//        } catch (\Throwable $e) {
-//            report($e);
-//            $this->notifications = [];
-//            $this->errorToast(__('An error occurred while retrieving your games'));
-//        }
+        $this->notifications = Auth::user()->notifications;
+        foreach ($this->notifications as $notification) {
+            $this->creatorNotifications[$notification->id] = User::query()->where('id', $notification->creator)->first();
+        }
     }
 
     public function render()
