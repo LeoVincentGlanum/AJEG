@@ -44,31 +44,32 @@
                                 <div class="col-span-3 sm:col-span-2">
                                     <select id="first-player-id" wire:model="players.0.id" class="form-control">
                                         <option value=""></option>
-                                        @foreach($this->users->whereNotIn('id', \Illuminate\Support\Arr::get($players, '1.id')) as $user)
+                                        @foreach($this->users->whereNotIn('id', Arr::get($players, '1.id')) as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endforeach
                                     </select>
 
                                     <select id="first-player-color" wire:model="players.0.color" class="form-control">
-                                        <option value="black">{{ __('Black') }}</option>
-                                        <option value="white">{{ __('White') }}</option>
+                                        <option value=""></option>
+                                        @foreach(Arr::except($this->colors, Arr::get($players, '1.color')) as $color => $name)
+                                            <option value="{{ $color }}">{{ __($name) }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
                                 <div class="mt-3 col-span-3 sm:col-span-2">
-                                    <label for="second-player"></label>
                                     <select id="second-player" wire:model="players.1.id" class="form-control">
                                         <option value=""></option>
-                                        @foreach($this->users->whereNotIn('id', \Illuminate\Support\Arr::get($players, '0.id')) as $user)
-                                            )
+                                        @foreach($this->users->whereNotIn('id', Arr::get($players, '0.id')) as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endforeach
                                     </select>
 
-                                    <label for="second-player-color"></label>
                                     <select id="second-player-color" wire:model="players.1.color" class="form-control">
-                                        <option value="black">{{ __('Black') }}</option>
-                                        <option value="white">{{ __('White') }}</option>
+                                        <option value=""></option>
+                                        @foreach(Arr::except($this->colors, Arr::get($players, '0.color')) as $color => $name)
+                                            <option value="{{ $color }}">{{ __($name) }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -82,11 +83,8 @@
                         <div class="mt-5">
                             <label for="status" class="form-label">Status</label>
                             <select id="status" wire:model="status" class="block w-full rounded-md border-gray-300 py-2 pr-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                <option value="{{ \App\ModelStates\GameStates\PlayersValidation::class }}">Demande de
-                                    partie
-                                </option>
-                                <option value="{{ \App\ModelStates\GameStates\ResultValidations::class }}">Terminée
-                                </option>
+                                <option value="{{ \App\ModelStates\GameStates\PlayersValidation::class }}">Demande de partie</option>
+                                <option value="{{ \App\ModelStates\GameStates\ResultValidations::class }}">Terminée</option>
                             </select>
                             @error('status')
                             <p class="mt-2 text-sm text-red-600" id="name-error">
@@ -95,7 +93,7 @@
                             @enderror
                         </div>
 
-                        @if($status === \App\ModelStates\GameStates\Draft::class || \App\ModelStates\GameStates\PlayersValidation::class)
+                        @if($status === \App\ModelStates\GameStates\Draft::class || $status === \App\ModelStates\GameStates\PlayersValidation::class)
                             <div class="mt-5">
                                 <label for="exampleInputEmail1">{{__('Activate bet')}}</label>
                                 <input type="checkbox"
@@ -126,8 +124,7 @@
 
                                     <div class="mt-3 col-span-3 sm:col-span-2">
                                         <span>player 2</span>
-                                        <select id="second-player-result" wire:model="players.1.result"
-                                                class="form-control">
+                                        <select id="second-player-result" wire:model="players.1.result" class="form-control">
                                             @foreach(\App\ModelStates\GamePlayerResultState::gameFinishedResults() as $class => $name)
                                                 <option value="{{ $class }}">{{ $name }}</option>
                                             @endforeach
