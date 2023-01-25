@@ -187,12 +187,12 @@ class FormChess extends Component
             $this->calcBetRatio($users->toArray());
 
             foreach ($users as $user) {
-                if($user->id !== Auth::id()){
-                    $user->notify(new GameInvitationNotification($this->game));
-                }
-
                 if($user->id === Auth::id()){
                     $user->notify(new GameInvitationNotificationSended($this->game));
+                }
+
+                if($user->id !== Auth::id()){
+                    $user->notify(new GameInvitationNotification($this->game));
                 }
             }
 
