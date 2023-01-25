@@ -27,7 +27,6 @@ class DeleteDraftChess  extends ModalComponent
             Log::error($e->getMessage() . $e->getTraceAsString());
             $this->errorToast('An error occurred while deleting this game');
         }
-
     }
 
     public function render()

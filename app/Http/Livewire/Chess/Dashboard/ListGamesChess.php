@@ -24,6 +24,7 @@ class ListGamesChess extends Component
                 })
                 ->Where('status', '=', InProgress::$name)
                 ->where('sport_id', 1)
+                ->orderByDesc('id')
                 ->get();
         } catch (\Throwable $e) {
             report($e);

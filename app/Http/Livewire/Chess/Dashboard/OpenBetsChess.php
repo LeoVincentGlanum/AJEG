@@ -2,19 +2,26 @@
 
 namespace App\Http\Livewire\Chess\Dashboard;
 
+use App\Http\Livewire\Admin\ListGameType;
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\PlayersValidation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+
 
 class OpenBetsChess extends Component
 {
+
     public array|Collection $games;
+    public Game $game;
+
+    use HasToast;
 
     public function mount()
     {
-//        dd(auth()->user()->id);
         try {
             $this->games = Game::query()
                 ->with('users')
@@ -26,21 +33,33 @@ class OpenBetsChess extends Component
                         ->orWhere('status', GameAccepted::$name);
                 })
                 ->where('sport_id', 1)
+                ->orderByDesc('id')
                 ->get();
         } catch (\Throwable $e) {
             report($e);
             $this->games = [];
         }
-//        foreach ($this->games as $game){
-//        dd($game);
-//
-//        }
+    }
+
+    public function delete($id)
+    {
+        $game = Game::query()->where('id', $id)->first();
+
+        try {
+            $game->delete();
+            $this->successToast('the game has been deleted');
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage() . $e->getTraceAsString());
+            $this->errorToast('An error occurred while deleting this game');
+        }
+
+        $this->mount();
+
+        return $this->games;
     }
 
     public function render()
     {
-
         return view('livewire.chess.dashboard.open-bets-chess');
-
     }
 }
