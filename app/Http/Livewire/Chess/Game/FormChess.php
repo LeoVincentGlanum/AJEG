@@ -129,9 +129,9 @@ class FormChess extends Component
     public function save()
     {
         if($this->partyName === ""){
-            $lastGameId = Game::query()->get()->sortByDesc('id')->first();
-            $this->partyName = User::find(Auth::id())->name . "'s Game " . $lastGameId->id +1;
-            $this->game->label = User::find(Auth::id())->name . "'s Game " . $lastGameId->id +1;
+            $nbGame = Game::all()->count()+1;
+            $this->partyName = User::find(Auth::id())->name . "'s Game " . $nbGame ;
+            $this->game->label = User::find(Auth::id())->name . "'s Game " . $nbGame ;
         }
 
         $this->validate();
