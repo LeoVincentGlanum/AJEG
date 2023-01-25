@@ -21,7 +21,7 @@ class GameDeclinedNotification extends Notification
      */
     public function __construct(public Game $game)
     {
-        $this->message = trans('invitation_game');
+        $this->message = trans('invitation_game_declined');
     }
 
     /**
@@ -59,7 +59,7 @@ class GameDeclinedNotification extends Notification
     {
         return (new MailMessage)
             ->greeting('Hello!')
-            ->line('Vous avez été invité à jouer une partie!')
+            ->line("L'invitation que vous avez envoyée a été déclinée par votre adversaire !")
             ->action('Voir la partie', route('chess.game.show-chess',['game' => $this->game->id]))
             ->line("Merci d'utiliser notre application!");
     }

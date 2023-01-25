@@ -24,6 +24,11 @@ use App\ModelStates\PlayerParticipationStates\Pending;
 use App\ModelStates\PlayerRecognitionResultStates\Accepted;
 use App\ModelStates\PlayerRecognitionResultStates\Pending as PlayerRecognitionResultStatesPending;
 use App\Notifications\GameAcceptedNotification;
+use App\Notifications\GameAcceptedSendedNotification;
+use App\Notifications\GameDeclinedNotification;
+use App\Notifications\GameLaunchedNotification;
+use App\Notifications\RankingEloUpdateNotification;
+use App\Notifications\RankingEloWinnerUpdateNotification;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -119,6 +124,7 @@ class ShowChess extends Component
                     $allCompleted = false;
                 }
             }
+
             if ($allCompleted) {
                 $this->game->status->transitionTo(Validate::class);
                 if ($looser !== null && $this->game->save()) {
@@ -128,6 +134,9 @@ class ShowChess extends Component
                             $bet->save();
                         }
                     }
+
+                    $userToNotify = User::find($looser->user_id);
+                    $userToNotify->notify(new RankingEloUpdateNotification($userToNotify));
                 }
                 if ($winner !== null && $this->game->save()) {
                     foreach ($gameBets as $bet) {
@@ -139,6 +148,8 @@ class ShowChess extends Component
                             $bet->save();
                         }
                     }
+                    $userToNotify = User::find($winner->user_id);
+                    $userToNotify->notify(new RankingEloWinnerUpdateNotification($userToNotify));
                 }
             }
 
@@ -225,6 +236,8 @@ class ShowChess extends Component
                 if ($player->user_id === Auth::id()) {
                     $player->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Accepted::class);
                     $player->save();
+
+                    User::find($player->user_id)->notify(new GameAcceptedSendedNotification($this->game));
                 } else {
                     $opponent = $player;
                 }
@@ -277,6 +290,9 @@ class ShowChess extends Component
     {
         try {
             $this->game->status->transitionTo(InProgress::class);
+            foreach ($this->gamePlayer as $player) {
+                User::find($player->user_id)->notify(new GameLaunchedNotification($this->game));
+            }
 
             $this->successToast('Game is now launch dont forget close bet');
         } catch (Exception $e) {
@@ -289,17 +305,15 @@ class ShowChess extends Component
     public function refuseInvitation()
     {
         try {
-
             foreach ($this->gamePlayer as $player) {
                 if (!$player->user_id === Auth::id()) {
                     $opponent = $player;
                 }
-
             }
 
             if (isset($opponent)) {
                 $user = User::find($opponent->user_id);
-                $user->notify(new GameDeclinedInvitation($this->game));
+                $user->notify(new GameDeclinedNotification($this->game));
             }
 
             $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);

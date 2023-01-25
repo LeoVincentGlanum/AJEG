@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class GameAcceptedNotification extends Notification
+class GameResultSendedNotification extends Notification
 {
     use Queueable;
 
@@ -21,7 +21,7 @@ class GameAcceptedNotification extends Notification
      */
     public function __construct(public Game $game)
     {
-        $this->message = trans('invitation_game_accepted');
+        $this->message = trans('result_game_sended');
     }
 
     /**
@@ -59,8 +59,8 @@ class GameAcceptedNotification extends Notification
     {
         return (new MailMessage)
             ->greeting('Hello!')
-            ->line('La partie a ' . $this->game->label . ' été acceptée!')
-            ->action('Pensez à lancer la partie pour bloquer les paris !', route('chess.game.show-chess',['game' => $this->game->id]))
+            ->line("Le résultat de la partie " . $this->game->label . " a été envoyé, l'adversaire devra valider le résultat")
+            ->action("Voir la partie", route("chess.game.show-chess",['game' => $this->game->id]))
             ->line("Merci d'utiliser notre application!");
     }
 }

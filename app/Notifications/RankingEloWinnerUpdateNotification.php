@@ -2,13 +2,16 @@
 
 namespace App\Notifications;
 
+use App\Models\Elo;
 use App\Models\Game;
+use App\Models\GamePlayer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class GameAcceptedNotification extends Notification
+class RankingEloWinnerUpdateNotification extends Notification
 {
     use Queueable;
 
@@ -19,9 +22,9 @@ class GameAcceptedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(public Game $game)
+    public function __construct(public User $winner)
     {
-        $this->message = trans('invitation_game_accepted');
+        $this->message = trans('elo_updated');
     }
 
     /**
@@ -45,7 +48,6 @@ class GameAcceptedNotification extends Notification
     {
         return [
             'message' => $this->message,
-            'game_id' => $this->game->id
         ];
     }
 
@@ -57,10 +59,14 @@ class GameAcceptedNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $elo = Elo::query()
+            ->where('user_id', $this->winner->id)
+            ->where('sport_id', 1)->first();
+
         return (new MailMessage)
             ->greeting('Hello!')
-            ->line('La partie a ' . $this->game->label . ' été acceptée!')
-            ->action('Pensez à lancer la partie pour bloquer les paris !', route('chess.game.show-chess',['game' => $this->game->id]))
+            ->line('Votre elo a augmenté suite à votre victoire !')
+            ->line('Nouvel elo : ' . $elo->elo)
             ->line("Merci d'utiliser notre application!");
     }
 }

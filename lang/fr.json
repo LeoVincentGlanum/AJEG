@@ -34,7 +34,7 @@
     "Submit": "Valider",
     "Game": "Partie",
     "Play as": "Joue les",
-    "Give result": "Donnez le résultat",
+    "Give result": "Rentrer le résultat",
     "Create a game": "Création d'une partie",
     "by": "créée par",
     "Game number ": "Partie numéro ",
@@ -128,5 +128,11 @@
     "Sign up for the tournament": "S'inscrire au tournoi",
     "Sign up": "S'inscrire",
     "Oops, something went wrong": "Oups, quelque chose ne s'est pas bien passé",
-    "Daily reward": "Récompense quotidienne"
+    "Daily reward": "Récompense quotidienne",
+    "invitation_game": "Vous avez reçu une invitation à une partie.",
+    "invitation_game_declined": "Votre invitation a été refusée.",
+    "invitation_game_accepted": "Votre invitation a été acceptée.",
+    "game_launched": "La partie est lancée !",
+    "result_game_sended": "Résultat de la partie envoyé.",
+    "result_game_to_accept": "Résultat de la partie à accepter."
 }
