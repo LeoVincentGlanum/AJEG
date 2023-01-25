@@ -41,7 +41,7 @@
                                             <span class="ml-3">Voir</span>
                                         </a>
                                     </div>
-                                    @if(\Illuminate\Support\Facades\Auth::user()->admin !== 1)
+                                    @if(\Illuminate\Support\Facades\Auth::user()->admin === 1)
                                         <div class="-ml-px flex w-0 flex-1 items-center justify-center">
 
                                             @php
