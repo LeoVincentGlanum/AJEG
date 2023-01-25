@@ -14,6 +14,7 @@ use App\ModelStates\GamePlayerResultStates\PendingResult;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
 use App\Notifications\GameInvitationNotification;
+use App\Notifications\GameInvitationNotificationSended;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -125,10 +126,16 @@ class FormChess extends Component
 
     public function save()
     {
+        if($this->partyName === ""){
+            $lastGameId = Game::query()->get()->sortByDesc('id')->first();
+            $this->partyName = User::find(Auth::id())->name . "'s Game " . $lastGameId->id +1;
+            $this->game->label = User::find(Auth::id())->name . "'s Game " . $lastGameId->id +1;
+        }
+
         $this->validate();
 
         try {
-            $this->game->label = $this->partyName;
+            $this->game->label = $this->partyName ?? Auth::getName();
             $this->game->created_by = Auth::id();
             $this->game->bet_available = $this->betAvailable;
             $this->game->sport_id = 1;
@@ -177,7 +184,15 @@ class FormChess extends Component
 
             $this->calcBetRatio($users->toArray());
 
-            $users->each(fn(User $user) => $user->notify(new GameInvitationNotification($this->game)));
+            foreach ($users as $user) {
+                if($user->id !== Auth::id()){
+                    $user->notify(new GameInvitationNotification($this->game));
+                }
+
+                if($user->id === Auth::id()){
+                    $user->notify(new GameInvitationNotificationSended($this->game));
+                }
+            }
 
             $this->successToast('Votre partie a bien été créée');
 
