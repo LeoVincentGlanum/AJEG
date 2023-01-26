@@ -16,10 +16,6 @@ use Spatie\ModelStates\StateConfig;
 
 abstract class GameStatus extends State
 {
-    abstract public function color(): string;
-
-    abstract public function name(): string;
-
     public static function config(): StateConfig
     {
         return parent::config()
@@ -47,5 +43,9 @@ abstract class GameStatus extends State
             ->registerState(Validate::class)
             ->registerState(Cancel::class);
     }
+
+    abstract public function color(): string;
+
+    abstract public function name(): string;
 }
 

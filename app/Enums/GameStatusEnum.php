@@ -2,10 +2,22 @@
 
 namespace App\Enums;
 
-enum GameStatusEnum:string
+use App\ModelStates\GameStates\PlayersValidation;
+use App\ModelStates\GameStates\ResultValidations;
+
+enum GameStatusEnum: string
 {
     case draft = "draft";
-    case waiting = 'waiting';
+    case AskingForGame = 'afg';
     case progress = 'in progress';
-    case ended = 'ended';
+    case Ended = 'ended';
+
+    public static function toStateMachine(GameStatusEnum $enum): string
+    {
+        return match ($enum) {
+            self::AskingForGame => PlayersValidation::class,
+            self::Ended => ResultValidations::class
+        };
+
+    }
 }
