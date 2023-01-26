@@ -8,30 +8,12 @@
                             <label for="partyName" class="text-lg font-medium leading-6 text-gray-900">Nom de la
                                 partie</label>
                             <input
-                                id="partyName"
+                                id="game.label"
                                 type="text"
-                                wire:model="partyName"
+                                wire:model.defer="game.label"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             >
-                            @error('partyName')
-                            <p class="mt-2 text-sm text-red-600" id="name-error">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-
-                        <div class="mt-5">
-                            <label for="selectedGameTypeId" class="form-label">Type de partie </label>
-                            <select
-                                id="selectedGameTypeId"
-                                type="text"
-                                wire:model="selectedGameTypeId"
-                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                @foreach($this->gameTypes as $gameType)
-                                    <option value="{{ $gameType->id }}">{{ $gameType->label }}</option>
-                                @endforeach
-                            </select>
-                            @error('selectedGameTypeId')
+                            @error('game.label')
                             <p class="mt-2 text-sm text-red-600" id="name-error">
                                 {{ $message }}
                             </p>
@@ -83,8 +65,8 @@
                         <div class="mt-5">
                             <label for="status" class="form-label">Status</label>
                             <select id="status" wire:model="status" class="block w-full rounded-md border-gray-300 py-2 pr-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                <option value="{{ \App\ModelStates\GameStates\PlayersValidation::class }}">Demande de partie</option>
-                                <option value="{{ \App\ModelStates\GameStates\ResultValidations::class }}">Terminée</option>
+                                <option value="{{ \App\Enums\GameStatusEnum::AskingForGame->value }}">Demande de partie</option>
+                                <option value="{{ \App\Enums\GameStatusEnum::Ended->value }}">Terminée</option>
                             </select>
                             @error('status')
                             <p class="mt-2 text-sm text-red-600" id="name-error">
@@ -93,7 +75,7 @@
                             @enderror
                         </div>
 
-                        @if($status === \App\ModelStates\GameStates\Draft::class || $status === \App\ModelStates\GameStates\PlayersValidation::class)
+                        @if($status === \App\Enums\GameStatusEnum::draft->value || $status === \App\Enums\GameStatusEnum::AskingForGame->value)
                             <div class="mt-5">
                                 <label for="exampleInputEmail1">{{__('Activate bet')}}</label>
                                 <input type="checkbox"
@@ -102,7 +84,7 @@
                             </div>
                         @endif
 
-                        @if($status === \App\ModelStates\GameStates\ResultValidations::class)
+                        @if($status === \App\Enums\GameStatusEnum::Ended->value)
                             <div class="mt-5">
                                 <label for="date">{{ __('Game date') }}</label>
                                 <input
@@ -116,8 +98,9 @@
                                     <div class="col-span-3 sm:col-span-2">
                                         <span>player 1</span>
                                         <select id="first-player-result" wire:model="players.0.result" class="form-control">
-                                            @foreach(\App\ModelStates\GamePlayerResultState::gameFinishedResults() as $class => $name)
-                                                <option value="{{ $class }}">{{ $name }}</option>
+                                            <option value=""></option>
+                                            @foreach(\App\Enums\GameResultEnum::cases() as $name)
+                                                <option value="{{ $name }}">{{ $name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -125,8 +108,9 @@
                                     <div class="mt-3 col-span-3 sm:col-span-2">
                                         <span>player 2</span>
                                         <select id="second-player-result" wire:model="players.1.result" class="form-control">
-                                            @foreach(\App\ModelStates\GamePlayerResultState::gameFinishedResults() as $class => $name)
-                                                <option value="{{ $class }}">{{ $name }}</option>
+                                            <option value=""></option>
+                                            @foreach(\App\Enums\GameResultEnum::cases() as $name)
+                                                <option value="{{ $name }}">{{ $name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -306,7 +306,7 @@ class ShowChess extends Component
     {
         try {
             foreach ($this->gamePlayer as $player) {
-                if (!$player->user_id === Auth::id()) {
+                if ($player->user_id !== Auth::id()) {
                     $opponent = $player;
                 }
             }
@@ -316,7 +316,9 @@ class ShowChess extends Component
                 $user->notify(new GameDeclinedNotification($this->game));
             }
 
-            $this->CurrentUserGame->player_participation_validation->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
+            dd($this->game);
+            $this->gamePlayer->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
+
             $this->emitSelf('refreshListPlayer');
 
         } catch (Exception $e) {
