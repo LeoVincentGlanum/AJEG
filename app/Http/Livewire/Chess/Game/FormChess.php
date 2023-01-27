@@ -217,7 +217,7 @@ class FormChess extends Component
                 $gameplayer->user_id = Arr::get($player, 'id');
                 $gameplayer->color = Arr::get($player, 'color');
 
-                if ($this->status === ResultValidations::class ||(int)Arr::get($player, 'id') === Auth::id()) {
+                if ($this->status === ResultValidations::class || (int)Arr::get($player, 'id') === Auth::id()) {
                     $gameplayer->player_participation_validation->transitionTo(Accepted::class);
                 }
 
@@ -266,47 +266,52 @@ class FormChess extends Component
 
     public function giveResult($player_id)
     {
-        match ($player_id){
+        match ($player_id) {
             1 => $opponent_id = 0,
             0 => $opponent_id = 1
         };
 
-        foreach ($this->players[$player_id] as $result){
-            if($result === 'win'){
-                $this->players[$opponent_id]['result'] =  'loss';
+        foreach ($this->players[$player_id] as $result) {
+            if ($result === 'win') {
+                $this->players[$opponent_id]['result'] = 'loss';
             }
-            if($result === 'loss'){
-                $this->players[$opponent_id]['result'] =  'win';
+            if ($result === 'loss') {
+                $this->players[$opponent_id]['result'] = 'win';
             }
-            if($result === 'pat'){
-                $this->players[$opponent_id]['result'] =  'pat';
+            if ($result === 'pat') {
+                $this->players[$opponent_id]['result'] = 'pat';
             }
-            if($result === 'draw'){
-                $this->players[$opponent_id]['result'] =  'draw';
+            if ($result === 'draw') {
+                $this->players[$opponent_id]['result'] = 'draw';
             }
         }
     }
 
     public function giveColor($player_id)
     {
-        match ($player_id){
+        match ($player_id) {
             1 => $opponent_id = 0,
             0 => $opponent_id = 1
         };
 
-        foreach ($this->players[$player_id] as $result){
-            if($result === 'white'){
-                $this->players[$opponent_id]['color'] =  'black';
+        foreach ($this->players[$player_id] as $result) {
+            if ($result === 'white') {
+                $this->players[$opponent_id]['color'] = 'black';
             }
 
-            if($result === 'black'){
-                $this->players[$opponent_id]['color'] =  'white';
+            if ($result === 'black') {
+                $this->players[$opponent_id]['color'] = 'white';
             }
 
-            if($result === 'Choisissez une couleur'){
-                $this->players[$opponent_id]['color'] =  'Choisissez une couleur';
+            if ($result === 'Choisissez une couleur') {
+                $this->players[$opponent_id]['color'] = 'Choisissez une couleur';
             }
         }
+    }
+
+    public function actualizePlayer($player_id)
+    {
+        $this->players[$player_id]['name'] = $this->users->where('id', $this->players[$player_id]['id'])->first()->name;
     }
 
     public function render()
