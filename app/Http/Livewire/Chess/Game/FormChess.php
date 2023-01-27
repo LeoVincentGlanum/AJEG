@@ -235,7 +235,7 @@ class FormChess extends Component
             $users = User::query()
                 ->addSelect([
                     'elo' => Elo::select('elo')
-                        ->whereColumn('user_id', 'users.id')
+                        ->whereColumn('user_id', 'ajeg_users.id')
                         ->where('sport_id', 1),
                 ])
                 ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))

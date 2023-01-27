@@ -30,8 +30,8 @@ class RankingDarts extends Component
     public function mount()
     {
         $usersToRank = User::query()->join('elo', function ($join) {
-            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
-        })->orderBy('elo.elo', 'desc')->get();
+            $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 2);
+        })->orderBy('ajeg_elo.elo', 'desc')->get();
 
         $this->rank = [];
 
@@ -52,17 +52,17 @@ class RankingDarts extends Component
 
             return User::query()
                 ->where('name', 'like', '%' . $this->searchPlayer . '%')
-                ->join('elo', function ($join) {
-                    $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+                ->join('ajeg_elo', function ($join) {
+                    $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 2);
                 })
-                ->orderBy('elo.elo', 'desc')
+                ->orderBy('ajeg_elo.elo', 'desc')
                 ->paginate(20);
         }
 
-        return User::query()->join('elo', function ($join) {
-            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+        return User::query()->join('ajeg_elo', function ($join) {
+            $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 2);
         })
-            ->orderBy('elo.elo', 'desc')->paginate(20);
+            ->orderBy('ajeg_elo.elo', 'desc')->paginate(20);
     }
 
     public function render()
