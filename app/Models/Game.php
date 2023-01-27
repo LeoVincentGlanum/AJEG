@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GameStatusEnum;
+use App\Enums\SportEnum;
 use App\ModelStates\GameStates\Draft;
 use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\GameStates\InProgress;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 use Spatie\ModelStates\HasStates;
 
 class Game extends Model
@@ -44,7 +46,7 @@ class Game extends Model
 
     public function creator(): HasOne
     {
-        return $this->hasOne(User::class,'id','created_by');
+        return $this->hasOne(User::class, 'id', 'created_by');
     }
 
     public function bets(): HasMany
