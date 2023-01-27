@@ -31,9 +31,9 @@
                                         @endforeach
                                     </select>
 
-                                    <select id="first-player-color" wire:model="players.0.color" class="form-control">
-                                        <option value=""></option>
-                                        @foreach(Arr::except($this->colors, Arr::get($players, '1.color')) as $color => $name)
+                                    <select id="first-player-color" wire:model="players.0.color" wire:change="giveColor(0)" class="form-control">
+                                        <option value="Choisissez une couleur">Choisissez une couleur</option>
+                                        @foreach($this->colors as $color => $name)
                                             <option value="{{ $color }}">{{ __($name) }}</option>
                                         @endforeach
                                     </select>
@@ -47,9 +47,9 @@
                                         @endforeach
                                     </select>
 
-                                    <select id="second-player-color" wire:model="players.1.color" class="form-control">
-                                        <option value=""></option>
-                                        @foreach(Arr::except($this->colors, Arr::get($players, '0.color')) as $color => $name)
+                                    <select id="second-player-color" wire:model="players.1.color" wire:change="giveColor(1)" class="form-control">
+                                        <option value="Choisissez une couleur">Choisissez une couleur</option>
+                                        @foreach($this->colors as $color => $name)
                                             <option value="{{ $color }}">{{ __($name) }}</option>
                                         @endforeach
                                     </select>
@@ -97,7 +97,7 @@
                                 <div class="grid grid-cols-3">
                                     <div class="col-span-3 sm:col-span-2">
                                         <span>player 1</span>
-                                        <select id="first-player-result" wire:model="players.0.result" class="form-control">
+                                        <select id="resultPlayer1" wire:model="players.0.result" class="form-control" wire:change="giveResult(0)" name="resultPlayer1">
                                             <option value=""></option>
                                             @foreach(\App\Enums\GameResultEnum::cases() as $name)
                                                 <option value="{{ $name }}">{{ $name }}</option>
@@ -107,11 +107,11 @@
 
                                     <div class="mt-3 col-span-3 sm:col-span-2">
                                         <span>player 2</span>
-                                        <select id="second-player-result" wire:model="players.1.result" class="form-control">
-                                            <option value=""></option>
-                                            @foreach(\App\Enums\GameResultEnum::cases() as $name)
-                                                <option value="{{ $name }}">{{ $name }}</option>
-                                            @endforeach
+                                        <select id="second-player-result" wire:model="players.1.result" wire:change="giveResult(1)" class="form-control">
+                                                <option value=""></option>
+                                                @foreach(\App\Enums\GameResultEnum::cases() as $name)
+                                                    <option value="{{ $name }}">{{ $name }}</option>
+                                                @endforeach
                                         </select>
                                     </div>
                                 </div>

@@ -10,7 +10,7 @@ use App\ModelStates\GamePlayerResultStates\Win;
 enum GameResultEnum:string
 {
     case Win = 'win';
-    case Lose = 'lose';
+    case Loss = 'loss';
     case Pat = 'pat';
     case Draw = 'draw';
 
@@ -22,7 +22,7 @@ enum GameResultEnum:string
     public static function getTournamentPoint(self $value): int
     {
         return match ($value) {
-            GameResultEnum::Win, GameResultEnum::Lose => 3,
+            GameResultEnum::Win, GameResultEnum::Loss => 3,
             GameResultEnum::Pat => 1,
             GameResultEnum::Draw => 0,
         };
@@ -32,7 +32,7 @@ enum GameResultEnum:string
     {
         return match ($enum) {
             self::Win => Win::class,
-            self::Lose => Loss::class,
+            self::Loss => Loss::class,
             self::Pat => Pat::class,
             self::Draw => Draw::class
         };

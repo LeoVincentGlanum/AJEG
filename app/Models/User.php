@@ -78,9 +78,9 @@ class User extends Authenticatable
 
     public function getParticipationScore(): float|int
     {
-        $winsScore = $this->pivot->wins * GameResultEnum::win->tournamentPoint();
-        $patsScore = $this->pivot->pats * GameResultEnum::pat->tournamentPoint();
-        $lossesScore = $this->pivot->losses * GameResultEnum::lose->tournamentPoint();
+        $winsScore = $this->pivot->wins * GameResultEnum::Win->tournamentPoint();
+        $patsScore = $this->pivot->pats * GameResultEnum::Pat->tournamentPoint();
+        $lossesScore = $this->pivot->losses * GameResultEnum::Loss->tournamentPoint();
 
         return $winsScore + $patsScore - $lossesScore;
     }
