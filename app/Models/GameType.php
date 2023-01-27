@@ -9,7 +9,7 @@ class GameType extends Model
 {
     use HasFactory;
 
-    protected $table = 'game_types';
+    protected $table = 'ajeg_game_types';
 
     protected $fillable = [
         'label',

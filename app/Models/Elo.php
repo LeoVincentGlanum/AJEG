@@ -10,7 +10,7 @@ class Elo extends Model
 {
     use HasFactory;
 
-    protected $table = 'elo';
+    protected $table = 'ajeg_elo';
 
     protected $fillable = [
         'user_id',

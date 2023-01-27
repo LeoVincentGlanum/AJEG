@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('ajeg_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('creator')
-                ->constrained('users');
+                ->constrained('ajeg_users');
             $table->string('type');
             $table->text('message');
             $table->timestamps();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('ajeg_notifications');
     }
 };

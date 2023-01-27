@@ -11,7 +11,7 @@ class TournamentParticipant extends Pivot
 {
     public $incrementing = true;
 
-    protected $table = 'tournament_participants';
+    protected $table = 'ajeg_tournament_participants';
 
     protected $fillable = [
         'tournament_id',

@@ -17,7 +17,7 @@ class GamePlayer extends Model
     use HasFactory;
     use HasStates;
 
-    protected $table = 'game_players';
+    protected $table = 'ajeg_game_players';
 
     protected $fillable = [
         'game_id',

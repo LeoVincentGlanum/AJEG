@@ -19,6 +19,14 @@ use App\Http\Controllers\TournoisController;
 |
 */
 
+
+Route::get('/test', function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+   echo "ok ";
+});
+
+
+
 Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/chess')->group(function () {

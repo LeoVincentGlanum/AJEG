@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_notifications', function (Blueprint $table) {
+        Schema::create('ajeg_user_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('notification_id')
-                ->constrained('notifications')
+                ->constrained('ajeg_notifications')
                 ->onDelete('cascade');
             $table->foreignId('user_id')
-                ->constrained('users');
+                ->constrained('ajeg_users');
             $table->boolean('is_done');
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_notifications');
+        Schema::dropIfExists('ajeg_user_notifications');
     }
 };

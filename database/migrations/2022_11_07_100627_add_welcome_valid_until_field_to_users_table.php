@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('ajeg_users', function (Blueprint $table) {
             $table->timestamp('welcome_valid_until')->nullable()->after('admin');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('ajeg_users', function (Blueprint $table) {
             $table->dropColumn('welcome_valid_until');
         });
     }

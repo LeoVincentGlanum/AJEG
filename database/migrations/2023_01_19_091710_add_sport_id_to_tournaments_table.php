@@ -12,11 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('tournaments', function (Blueprint $table) {
+        Schema::table('ajeg_tournaments', function (Blueprint $table) {
             $table->foreignId('sport_id')
                 ->default(1)
                 ->after('entrance_fee')
-                ->constrained('sports');
+                ->constrained('ajeg_sports');
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('tournaments', function (Blueprint $table) {
+        Schema::table('ajeg_tournaments', function (Blueprint $table) {
             $table->dropForeign(['sport_id']);
             $table->dropColumn('sport_id');
         });

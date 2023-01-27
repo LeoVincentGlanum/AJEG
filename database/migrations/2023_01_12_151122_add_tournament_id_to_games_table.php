@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('games', function (Blueprint $table) {
+        Schema::table('ajeg_games', function (Blueprint $table) {
             $table->integer('tournament_id')->nullable()->after('created_by');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('games', function (Blueprint $table) {
+        Schema::table('ajeg_games', function (Blueprint $table) {
             $table->dropColumn('tournament_id');
         });
     }

@@ -16,7 +16,7 @@ class Tournament extends Model
 {
     use HasFactory;
 
-    protected $table = 'tournaments';
+    protected $table = 'ajeg_tournaments';
 
     protected $fillable = [
         'organizer_id',

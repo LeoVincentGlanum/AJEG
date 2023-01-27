@@ -1,5 +1,5 @@
 <div >
-    <div wire:poll="sync">
+    <div wire:poll.15s="sync">
         @if($visible)
             <div class=" grid grid-cols-10  overflow-hidden rounded-md border border-gray-300   bg-grey-500">
                 <x-heroicon-o-exclamation-triangle class="text-amber-500 self-center col-span-1 ml-5 w-10 "/>

@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bets', function (Blueprint $table) {
+        Schema::create('ajeg_bets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id')->constrained('games')->references('id')->onDelete('cascade');
-            $table->foreignId('gambler_id')->constrained('users')->references('id');
-            $table->foreignId('gameplayer_id')->constrained('game_players')->references('id');
+            $table->foreignId('game_id')->constrained('ajeg_games')->references('id')->onDelete('cascade');
+            $table->foreignId('gambler_id')->constrained('ajeg_users')->references('id');
+            $table->foreignId('gameplayer_id')->constrained('ajeg_game_players')->references('id');
             $table->integer('bet_deposit');
             $table->integer('bet_gain');
             $table->string('bet_status');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bets');
+        Schema::dropIfExists('ajeg_bets');
     }
 };

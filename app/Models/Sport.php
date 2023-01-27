@@ -17,6 +17,8 @@ class Sport extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = "ajeg_sports";
+
     /**
      * The attributes that are mass assignable.
      *

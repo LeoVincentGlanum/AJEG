@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('game_players', function (Blueprint $table) {
+        Schema::table('ajeg_game_players', function (Blueprint $table) {
             $table->string('player_participation_validation')->nullable()->after('points');
             $table->string('player_result_validation')->nullable()->after('player_participation_validation');
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('game_players', function (Blueprint $table) {
+        Schema::table('ajeg_game_players', function (Blueprint $table) {
             $table->dropColumn('player_participation_validation');
             $table->dropColumn('player_result_validation');
         });

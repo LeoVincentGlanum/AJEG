@@ -21,7 +21,7 @@ class Game extends Model
     use HasFactory;
     use HasStates;
 
-    protected $table = 'games';
+    protected $table = 'ajeg_games';
 
     protected $fillable = [
         'status',

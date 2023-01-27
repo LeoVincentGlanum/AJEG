@@ -57,7 +57,7 @@
                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     <form wire:submit.prevent="savePicture" class="flex items-center space-x-6">
                         <div class="shrink-0">
-                            <img class="h-16 w-16 object-cover rounded-full" src="{{ asset('public/img/'.$user->photo) }}"  onerror="this.onerror=null; this.src='/img/user-default.png'" alt="Photo de profil de {{$user->name}}" />
+                            <img class="h-16 w-16 object-cover rounded-full" src="{{ asset('img/'.$user->photo) }}"  onerror="this.onerror=null; this.src='/img/user-default.png'" alt="Photo de profil de {{$user->name}}" />
                         </div>
                         <label class="block">
                             <span class="sr-only">Choose profile photo</span>

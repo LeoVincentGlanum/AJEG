@@ -14,7 +14,7 @@ class Notification extends Model
     /**
      * @var int|mixed
      */
-    protected $table = 'notifications';
+    protected $table = 'ajeg_notifications';
 
     protected $fillable = [
         'creator',

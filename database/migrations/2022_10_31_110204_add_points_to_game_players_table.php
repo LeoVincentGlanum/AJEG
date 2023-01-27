@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('game_players', function (Blueprint $table) {
+        Schema::table('ajeg_game_players', function (Blueprint $table) {
             $table->integer('points')->default(0)->after('result');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('game_players', function (Blueprint $table) {
+        Schema::table('ajeg_game_players', function (Blueprint $table) {
             $table->dropColumn('points');
         });
     }
