@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ChessGame extends Game
 {
@@ -11,7 +12,12 @@ class ChessGame extends Game
     protected static function booted()
     {
         static::creating(function (ChessGame $game) {
-            $this->game->sport_id = 1;
+            $game->sport_id = 1;
+
+             if ($game->label === "" || $game->label === null) {
+                $nbGame = Game::all()->count() + 1;
+                $game->label = Auth::user()->name . "'s Game " . $nbGame;
+            }
         });
     }
 }
