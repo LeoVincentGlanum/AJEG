@@ -63,7 +63,7 @@ class User extends Authenticatable
 
     public function elos(): HasMany
     {
-        return $this->hasMany(Elo::class, 'user_id', 'id');
+        return $this->hasMany(Elo::class, 'ajeg_user_id', 'id');
     }
 
     public function organize(): HasMany

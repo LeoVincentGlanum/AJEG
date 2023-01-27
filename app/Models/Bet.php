@@ -10,7 +10,7 @@ class Bet extends Model
 {
     use HasStates;
 
-    protected $table = "ajeg_bet";
+    protected $table = "ajeg_bets";
 
     protected $casts = [
         'bet_status' => BetState::class

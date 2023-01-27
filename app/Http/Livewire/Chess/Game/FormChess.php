@@ -181,7 +181,7 @@ class FormChess extends Component
                         ->whereColumn('user_id', 'users.id')
                         ->where('sport_id', 1),
                 ])
-                ->whereIn('users.id', Arr::pluck($this->players, 'id'))
+                ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
                 ->get();
 
             $this->calcBetRatio($users->toArray());

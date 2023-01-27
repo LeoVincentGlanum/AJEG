@@ -29,6 +29,6 @@ class Notification extends Model
 
     public function usersNotifications() : BelongsToMany
     {
-        return $this->belongsToMany(Notification::class,'user_notifications', 'notification_id', 'user_id', 'id', 'id')->withPivot('is_done');
+        return $this->belongsToMany(Notification::class,'ajeg_user_notifications', 'notification_id', 'user_id', 'id', 'id')->withPivot('is_done');
     }
 }

@@ -59,11 +59,13 @@
 
         @if($bets->isNotEmpty())
 {{--            @dd($bets->isEmpty())--}}
+
             <div class="table center">
                 <div class="monitor-wrapper center">
                     <div class="monitor center">
                         <p>Une partie va bientôt commencer, les paris sont ouverts :
                             @foreach($bets as $bet)
+
                                 {{
                                     str('')
                                        ->append(
