@@ -3,13 +3,19 @@
         <div class="py-6 px-4 space-y-6 sm:p-6">
             <div>
                 <h3 class="font-custom-title text-lg leading-6 font-medium text-gray-900">
-                    {{ __('Inscription au service SuperBet') }}
+                    @if(!$this->bet_notif)
+                        {{ __('Inscription au service SuperBet') }}
+                    @else
+                        {{ __('Désabonnement au service SuperBet') }}
+                    @endif
                 </h3>
             </div>
 
-
+            @if(!$this->bet_notif)
                 <p>En vous inscrivant à ce service, devenez le meilleur parieur parmi vos amis et ne ratez plus aucun match ! Recevez un e-mail chaque fois qu'un pari est disponible.</p>
-
+            @else
+                <p>En cliquant sur valider, vous ne recevrez plus d'e-mail à chaque fois qu'un pari est disponible.</p>
+            @endif
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button

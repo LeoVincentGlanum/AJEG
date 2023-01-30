@@ -20,7 +20,7 @@ class OpenBetsChess extends Component
     public Game $game;
 
     use HasToast;
-
+   protected $listeners = ['subBetClose'];
 
     public $bet_notif = false;
 
@@ -46,6 +46,12 @@ class OpenBetsChess extends Component
             $this->games = [];
         }
     }
+
+
+     public function subBetClose($bet_notif){
+        $this->bet_notif = $bet_notif;
+    }
+
 
     public function delete($id)
     {

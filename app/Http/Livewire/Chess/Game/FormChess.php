@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Chess\Game;
 use App\Enums\GameResultEnum;
 use App\Enums\GameStatusEnum;
 use App\Enums\SportEnum;
+use App\Notifications\NewBetNotification;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\ChessGame;
@@ -190,10 +191,17 @@ class FormChess extends Component
         $this->validate();
 
         try {
+            $array_user_id = [];
+            foreach ($this->players as $player){
+                $array_user_id[] = (int) Arr::get($player,'id');
+            }
+
+
+
+
             $this->game->created_by = Auth::id();
             $this->game->bet_available = $this->betAvailable;
             $this->game->sport_id = SportEnum::Chess->value;
-
             $this->game->save();
 
             if ($this->status === GameStatusEnum::AskingForGame->value) {
@@ -248,7 +256,13 @@ class FormChess extends Component
                 ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
                 ->get();
 
-            $this->calcBetRatio($users->toArray());
+             $this->calcBetRatio($users->toArray());
+
+             $usersBetNotif = User::query()->whereNotIn('id',$array_user_id)->where('bet_notif','=',true)->get();
+             foreach ($usersBetNotif as $user){
+                $user->notify(new NewBetNotification($this->game));
+            }
+
 
             foreach ($users as $user) {
                 if ($user->id === Auth::id()) {
