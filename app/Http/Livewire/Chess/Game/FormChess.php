@@ -208,6 +208,7 @@ class FormChess extends Component
             foreach ($this->players as $player) {
                 $result = null;
 
+
                 if ($this->status === GameStatusEnum::Ended->value) {
                     $result = Arr::get($player, 'result');
                 }
@@ -219,6 +220,12 @@ class FormChess extends Component
 
                 if ($this->status === ResultValidations::class || (int)Arr::get($player, 'id') === Auth::id()) {
                     $gameplayer->player_participation_validation->transitionTo(Accepted::class);
+
+                    if (Auth::id() === (int) $gameplayer->user_id){
+
+                        $gameplayer->player_result_validation->transitionTo(\App\ModelStates\PlayerRecognitionResultStates\Accepted::class);
+                    }
+
                 }
 
                 if ($result !== null) {

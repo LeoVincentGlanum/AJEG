@@ -69,7 +69,7 @@
                                 {{
                                     str('')
                                        ->append(
-                                            Arr::join($bet->gamePlayers->map(fn ($player) => $player->user->name . ' ' . $player->bet_ratio)->toArray(), ' CONTRE ')
+                                            Arr::join($bet->gamePlayers->map(fn ($player) => $player->user->name . ' ' . $player->bet_ratio.'x')->toArray(), ' CONTRE ')
                                        )
                                        ->when(!$loop->last, fn ($str) => $str->append(' | '))
                                        ->toString()

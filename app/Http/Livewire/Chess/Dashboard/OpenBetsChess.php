@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Chess\Dashboard;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Admin\ListGameType;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
@@ -20,9 +21,14 @@ class OpenBetsChess extends Component
 
     use HasToast;
 
+
+    public $bet_notif = false;
+
     public function mount()
     {
         try {
+            $user = Auth::user();
+            $this->bet_notif = $user->bet_notif;
             $this->games = Game::query()
                 ->with('users')
                 ->whereDoesntHave('gamePlayers', function ($query) {

@@ -14,6 +14,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\ModelStates\GamePlayerResultStates\PendingResult;
 
 class HistoryChess extends Component
 {
@@ -82,6 +83,7 @@ class HistoryChess extends Component
                     return match ($player->result::$name) {
                         Win::$name => "[En attente] ".$player->user->name." a gagné",
                         Draw::$name => "[En attente] Match nul",
+                        PendingResult::$name => "En attente de saisi des resultat",
                         Pat::$name => "[En attente] Pat",
                     };
                 }
