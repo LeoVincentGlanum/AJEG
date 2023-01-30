@@ -217,11 +217,11 @@ class FormChess extends Component
                 $gameplayer->game_id = $this->game->id;
                 $gameplayer->user_id = Arr::get($player, 'id');
                 $gameplayer->color = Arr::get($player, 'color');
-
-                if ($this->status === ResultValidations::class || (int)Arr::get($player, 'id') === Auth::id()) {
+//dd($this->status == ResultValidations::$name, $this->status);
+                if ($this->status === GameStatusEnum::Ended->value || (int)Arr::get($player, 'id') === Auth::id()) {
                     $gameplayer->player_participation_validation->transitionTo(Accepted::class);
 
-                    if (Auth::id() === (int) $gameplayer->user_id){
+                    if (Auth::id() === (int) $gameplayer->user_id && $this->status === GameStatusEnum::Ended->value){
 
                         $gameplayer->player_result_validation->transitionTo(\App\ModelStates\PlayerRecognitionResultStates\Accepted::class);
                     }
