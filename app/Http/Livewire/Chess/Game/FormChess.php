@@ -258,11 +258,12 @@ class FormChess extends Component
 
              $this->calcBetRatio($users->toArray());
 
-             $usersBetNotif = User::query()->whereNotIn('id',$array_user_id)->where('bet_notif','=',true)->get();
-             foreach ($usersBetNotif as $user){
-                $user->notify(new NewBetNotification($this->game));
-            }
-
+             if ($this->betAvailable){
+                 $usersBetNotif = User::query()->whereNotIn('id',$array_user_id)->where('bet_notif','=',true)->get();
+                 foreach ($usersBetNotif as $user){
+                     $user->notify(new NewBetNotification($this->game));
+                 }
+             }
 
             foreach ($users as $user) {
                 if ($user->id === Auth::id()) {
