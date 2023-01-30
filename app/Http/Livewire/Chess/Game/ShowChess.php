@@ -67,6 +67,7 @@ class ShowChess extends Component
             && in_array($game->status, [PlayersValidation::$name, GameAccepted::$name]);
     }
 
+    //accept() permet d'accepter les résultats d'une partie
     public function accept()
     {
         try {
