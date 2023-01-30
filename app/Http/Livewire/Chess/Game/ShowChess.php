@@ -316,7 +316,6 @@ class ShowChess extends Component
                 $user->notify(new GameDeclinedNotification($this->game));
             }
 
-            dd($this->game);
             $this->gamePlayer->transitionTo(\App\ModelStates\PlayerParticipationStates\Declined::class);
 
             $this->emitSelf('refreshListPlayer');
