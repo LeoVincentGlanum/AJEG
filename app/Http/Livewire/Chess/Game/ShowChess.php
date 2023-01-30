@@ -48,6 +48,8 @@ class ShowChess extends Component
 
     public ?GamePlayer $currentUserGame = null;
 
+    public bool $canBeBet = false;
+
     public string $CurrentState;
     protected $listeners = [
         'refresh' => '$refresh',
@@ -65,6 +67,9 @@ class ShowChess extends Component
         $this->isBetAvailable = $game->bet_available
             && empty(Bet::query()->where('game_id', $game->id)->where('gambler_id', Auth::id())->first())
             && in_array($game->status, [PlayersValidation::$name, GameAccepted::$name]);
+
+        $this->canBeBet = !in_array(Auth::user()->id, $this->game->users->pluck('id')->toArray());
+
     }
 
     public function accept()
