@@ -14,12 +14,10 @@ class Notification extends Model
     /**
      * @var int|mixed
      */
-    protected $table = 'ajeg_notifications';
+    protected $table = 'notifications';
 
     protected $fillable = [
-        'creator',
-        'type',
-        'message',
+        '*',
     ];
 
     public function userNotifications() : HasMany
