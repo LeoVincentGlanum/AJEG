@@ -14,15 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('game_types')->insert([
+        DB::table('ajeg_game_types')->insert([
             'label' => 'standard',
             'ratio' => 1.0,
         ]);
 
-        DB::table('sports')->insert([
+        DB::table('ajeg_sports')->insert([
             'label' => 'Échecs',
         ]);
-        DB::table('sports')->insert([
+        DB::table('ajeg_sports')->insert([
             'label' => 'Fléchettes',
         ]);
 
