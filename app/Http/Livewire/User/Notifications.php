@@ -23,16 +23,10 @@ class Notifications extends Component
     public function mount()
     {
         $this->notifications = Auth::user()->notifications;
-//        dd($this->notifications);
-        foreach ($this->notifications as $notification) {
-//            $this->updateReadAt($notification->id);
-//            $this->creatorNotifications[$notification->id] = User::query()->where('id', $notification->creator)->first();
-        }
     }
 
     public function updateReadAt($id)
     {
-//        dd('ici');
         $notification = Notification::query()->where('id', $id)->firstOrFail();
         $notification->read_at = Carbon::now();
         $notification->save();

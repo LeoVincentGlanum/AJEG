@@ -3,9 +3,8 @@
         @forelse($notifications as $notification)
             <li>
                 {{--                @dd($notification->type)--}}
-                @if($notification->type === "App\Notifications\GameInvitationNotificationSended")
-                    <a href="{{route('chess.game.show-chess',['game' => $notification->data["game_id"]])}}"
-{{--                    <a href="#"--}}
+                @if($notification->type === "App\Notifications\TournamentStartedNotification")
+                    <a href="{{route('chess.game.show-tournament',['game' => $notification->data["tournament_id"]])}}"
                        class="block hover:bg-gray-50
                                      @switch($notification->read_at)
                                         @case(NULL)
@@ -16,9 +15,17 @@
                                     @endswitch
                        "
                        wire:click="updateReadAt('{{$notification->id}}')">
-                        @elseif($notification->type === "App\Notifications\TournamentStartedNotification")
-                            <a href="{{route('chess.game.show-tournament',['game' => $notification->data["tournament_id"]])}}"
-                               class="block hover:bg-gray-50">
+                        @else
+                            <a href="{{route('chess.game.show-chess',['game' => $notification->data["game_id"]])}}"
+                               class="block hover:bg-gray-50 @switch($notification->read_at)
+                                        @case(NULL)
+                                            bg-gray-100
+                                            @break
+                                        @default
+                                        bg-green-100
+                                    @endswitch
+                       "
+                               wire:click="updateReadAt('{{$notification->id}}')">
                                 @endif
                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                     <div class="flex min-w-0 flex-1 items-center">
