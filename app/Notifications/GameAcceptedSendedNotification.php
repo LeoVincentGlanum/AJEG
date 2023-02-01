@@ -21,7 +21,7 @@ class GameAcceptedSendedNotification extends Notification
      */
     public function __construct(public Game $game)
     {
-        $this->message = trans('invitation_game_accepted');
+        $this->message = trans('invitation_game_accepted_sended');
     }
 
     /**

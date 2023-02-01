@@ -130,8 +130,10 @@
     "Oops, something went wrong": "Oups, quelque chose ne s'est pas bien passé",
     "Daily reward": "Récompense quotidienne",
     "invitation_game": "Vous avez reçu une invitation à une partie.",
+    "invitation_game_sended": "Vous avez envoyé une invitation à une partie.",
     "invitation_game_declined": "Votre invitation a été refusée.",
     "invitation_game_accepted": "Votre invitation a été acceptée.",
+    "invitation_game_accepted_sended": "Vous avez accepté de rejoindre cette partie.",
     "game_launched": "La partie est lancée !",
     "result_game_sended": "Résultat de la partie envoyé.",
     "result_game_to_accept": "Résultat de la partie à accepter."
