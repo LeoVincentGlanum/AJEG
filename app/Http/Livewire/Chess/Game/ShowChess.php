@@ -72,6 +72,7 @@ class ShowChess extends Component
 
     }
 
+    //accept() permet d'accepter les résultats d'une partie
     public function accept()
     {
         try {

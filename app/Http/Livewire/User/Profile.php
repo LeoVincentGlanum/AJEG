@@ -31,7 +31,7 @@ class Profile extends Component
     {
         $this->user = $user;
         $this->isTabAvailable = Auth::user()->id === $user->id;
-        $this->numberOfNotifications = Auth::user()->notifications->count();
+        $this->numberOfNotifications = Auth::user()->unreadNotifications->count();
     }
 
     public function changeTab(string $tab)

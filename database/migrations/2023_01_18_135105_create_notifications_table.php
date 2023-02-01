@@ -12,10 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::dropIfExists('ajeg_user_notifications');
-        Schema::dropIfExists('ajeg_notifications');
-
-        Schema::create('ajeg_notifications', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');
             $table->morphs('notifiable');
@@ -32,7 +29,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('ajeg_notifications');
+        Schema::dropIfExists('notifications');
 
     }
 };
