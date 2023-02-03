@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('game_players', function (Blueprint $table) {
+        Schema::create('ajeg_game_players', function (Blueprint $table) {
             $table->id();
             $table->foreignId('game_id')
-                ->constrained('games')
-                ->deleteOnCascade();
-            $table->foreignId('user_id')
-                ->constrained('users');
+                ->constrained('ajeg_games')
+                ->onDelete('cascade');
+            $table->foreignId('user_id');
+
             $table->string('color', 30)
                 ->nullable();
-            $table->string('result', 30)
-                ->nullable();
+            $table->string('result', 30);
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_players');
+        Schema::dropIfExists('ajeg_game_players');
     }
 };

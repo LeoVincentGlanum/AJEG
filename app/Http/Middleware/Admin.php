@@ -19,7 +19,7 @@ class Admin
     {
 
         if (Auth::user()->admin === 0) {
-            return redirect('dashboard');
+            return redirect('chess.dashboard');
         }
 
         return $next($request);

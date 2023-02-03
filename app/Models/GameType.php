@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class GameType extends Model
 {
     use HasFactory;
+
+    protected $table = 'ajeg_game_types';
+
+    protected $fillable = [
+        'label',
+        'ratio',
+    ];
 }

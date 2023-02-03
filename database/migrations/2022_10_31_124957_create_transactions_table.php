@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('ajeg_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                ->constrained('users')
-                ->deleteOnCascade();
+                ->constrained('ajeg_users')
+                ->onDelete('cascade');
             $table->integer('coins');
             $table->text('message');
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('ajeg_transactions');
     }
 };

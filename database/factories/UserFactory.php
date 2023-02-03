@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -8,38 +9,45 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory
  */
 class UserFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password' => Hash::make(Str::random(10)), // password
             'coins' => fake()->randomNumber(),
             'daily_reward' => '2022-10-30 13:23:54',
+            'remember_token' => Str::random(10),
         ];
     }
 
-    public function testUser()
+    public function admin(): UserFactory
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
-                'name' => 'Test',
-                'email' => 'test@glanum.com',
+                'name' => 'Admin',
+                'email' => 'admin@glanum.fr',
                 'password' => Hash::make('glanum'),
-                'remember_token' => Str::random(10),
                 'coins' => fake()->randomNumber(),
                 'daily_reward' => '2022-10-30 13:23:54',
                 'admin' => '1',
+                'remember_token' => Str::random(10),
             ];
         });
     }
@@ -47,12 +55,14 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return static
+     * @return Factory
      */
-    public function unverified()
+    public function unverified(): Factory
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
     }
 }

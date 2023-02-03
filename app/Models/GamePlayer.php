@@ -3,6 +3,11 @@
 namespace App\Models;
 
 use App\Enums\GameResultEnum;
+use App\ModelStates\GamePlayerResultState;
+use Spatie\ModelStates\HasStates;
+use App\ModelStates\PlayerRecognitionResultState;
+use App\ModelStates\GameStates\PlayersValidation;
+use App\ModelStates\PlayerParticipationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,17 +15,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GamePlayer extends Model
 {
     use HasFactory;
+    use HasStates;
 
-    protected $table = 'game_players';
+    protected $table = 'ajeg_game_players';
 
     protected $fillable = [
         'game_id',
         'user_id',
         'result',
+        'player_result_validation',
+        'player_participation_validation'
     ];
 
     protected $casts = [
-        'result' => GameResultEnum::class
+        'result' => GamePlayerResultState::class,
+        'player_result_validation' =>  PlayerRecognitionResultState::class,
+        'player_participation_validation' => PlayerParticipationState::class
+
     ];
 
     public function game(): BelongsTo

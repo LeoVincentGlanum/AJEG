@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('games', function (Blueprint $table) {
-            $table->string('label')->nullable();
+        Schema::table('ajeg_games', function (Blueprint $table) {
+            $table->string('label')->nullable()->first();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('games', function (Blueprint $table) {
+        Schema::table('ajeg_games', function (Blueprint $table) {
             $table->dropColumn('label');
         });
     }
