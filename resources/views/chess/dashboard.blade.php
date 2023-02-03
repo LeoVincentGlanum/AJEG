@@ -19,5 +19,5 @@
 
     <livewire:chess.dashboard.list-tournaments-chess/>
 
-
 </x-app-layout>
+

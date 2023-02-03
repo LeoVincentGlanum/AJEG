@@ -85,5 +85,7 @@
 
         @livewireScripts
         @livewire('livewire-ui-modal')
+
+    @include('layouts.footer')
     </body>
 </html>
