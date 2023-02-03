@@ -36,6 +36,12 @@ return [
             'throw' => false,
         ],
 
+        'img_profil' => [
+            'driver' => 'local',
+            'root' => public_path('img_profil'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

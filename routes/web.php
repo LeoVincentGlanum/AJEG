@@ -21,8 +21,19 @@ use App\Http\Controllers\TournoisController;
 
 
 Route::get('/test', function (){
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-   echo "ok ";
+     $last_line_2 = system('ln -s /home/leovincevi/ajeg/storage/app/public/ storage', $retval_2);
+     var_dump($last_line_2);
+     exec("php artisan cache:clear");
+    exec("ls -l", $o1);
+    var_dump($o1);
+    exec("cd public && ls -l", $output);
+    var_dump($output);
+    die();
+//    \Illuminate\Support\Facades\Artisan::call('storage:link');
+//   echo "ok ";
+
+    return view('test');
+
 });
 
 
