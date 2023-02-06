@@ -136,5 +136,6 @@
     "invitation_game_accepted_sended": "Vous avez accepté de rejoindre cette partie.",
     "game_launched": "La partie est lancée !",
     "result_game_sended": "Résultat de la partie envoyé.",
+    "elo_updated": "Votre ELO a été mis à jour.",
     "result_game_to_accept": "Résultat de la partie à accepter."
 }
