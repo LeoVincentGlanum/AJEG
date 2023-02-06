@@ -49,6 +49,7 @@ class ShowChess extends Component
     public ?GamePlayer $currentUserGame = null;
 
     public bool $canBeBet = false;
+    public bool $canBeDelete = true;
 
     public string $CurrentState;
     protected $listeners = [
@@ -70,6 +71,9 @@ class ShowChess extends Component
 
         $this->canBeBet = !in_array(Auth::user()->id, $this->game->users->pluck('id')->toArray());
 
+        if($game->status::$name === 'validate'){
+            $this->canBeDelete = false;
+        }
     }
 
     //accept() permet d'accepter les résultats d'une partie
