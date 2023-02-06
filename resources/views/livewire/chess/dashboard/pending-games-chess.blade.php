@@ -21,7 +21,7 @@
 
                                 @foreach($game->users as $user)
                                     <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
-                                         src="{{ asset('public/img/'.$user->photo) }}"
+                                         src="{{ asset('/img_profil/'.$user->photo) }}"
                                          alt="Photo de profil de {{$user->name}}"
                                          onerror="this.onerror=null; this.src='/img/user-default.png'">
                                 @endforeach

@@ -87,8 +87,9 @@
                                  px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                                     <div class="flex-shrink-0">
                                         <img class="h-10 w-10 rounded-full"
-                                             src="{{ asset('public/img/'.$player->user->photo) }}"
-                                             alt="Photo de profil de {{$player->user->name}}">
+                                             src="{{ asset('/img_profil/'.$player->user->photo) }}"
+                                             alt="Photo de profil de {{$player->user->name}}"
+                                        onerror="this.onerror=null; this.src='/img/user-default.png'">
                                     </div>
                                     <div class="min-w-0 flex-1">
                                         <a href={{ route('user.profile', ['user' => $player->user->id]) }} class="focus:outline-none">
@@ -112,8 +113,9 @@
                                             <div class="flex items-start">
                                                 <div class="flex-shrink-0 pt-0.5">
                                                     <img class="h-10 w-10 rounded-full"
-                                                         src="{{ asset('public/img/'.$winner->user->photo) }}"
-                                                         alt="Photo de profil de {{$winner->user->name}}">
+                                                         src="{{ asset('/img_profil/'.$winner->user->photo) }}"
+                                                         alt="Photo de profil de {{$winner->user->name}}"
+                                                    onerror="this.onerror=null; this.src='/img/user-default.png'">
                                                 </div>
                                                 <div class="ml-3 w-0 flex-1">
                                                     <p class="text-sm font-medium text-gray-900">{{$winner->user->name}}
