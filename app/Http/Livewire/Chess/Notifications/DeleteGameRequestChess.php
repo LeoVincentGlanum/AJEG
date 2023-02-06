@@ -23,7 +23,7 @@ class DeleteGameRequestChess extends ModalComponent
 //
 //        Mail::to('florian@glanum.com')->send(new DeleteGameNotification());
 
-        if ($this->currentGame->status::$name  === 'validate') {
+        if ($this->currentGame->status->equals(\App\ModelStates\GameStates\Validate::class)) {
             $this->dispatchBrowserEvent('toast', ['message' => 'Vous ne pouvez pas supprimer une partie terminée', 'type' => 'error']);
             return;
         }

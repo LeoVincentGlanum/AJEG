@@ -71,7 +71,7 @@ class ShowChess extends Component
 
         $this->canBeBet = !in_array(Auth::user()->id, $this->game->users->pluck('id')->toArray());
 
-        if($game->status::$name === 'validate'){
+        if($game->status->equals(\App\ModelStates\GameStates\Validate::class)){
             $this->canBeDelete = false;
         }
     }
