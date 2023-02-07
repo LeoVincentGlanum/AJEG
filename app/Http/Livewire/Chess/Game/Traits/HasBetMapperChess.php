@@ -22,9 +22,11 @@ trait HasBetMapperChess
     {
         $player1 = $users[0];
         $player2 = $users[1];
+        $player1LastElo = Elo::query()->where('user_id', $player1['id'])->where('sport_id', 1)->latest('updated_at')->first()->elo;
+        $player2LastElo = Elo::query()->where('user_id', $player2['id'])->where('sport_id', 1)->latest('updated_at')->first()->elo;
 
-        $ratioWeaker = ($player1["elo"] / $player2["elo"]) + 1;
-        $ratioStronger = ($player2["elo"] / $player1["elo"]) + 1;
+        $ratioWeaker = ($player1LastElo / $player2LastElo) + 1;
+        $ratioStronger = ($player2LastElo / $player1LastElo) + 1;
 
         GamePlayer::query()->where('user_id', $player1["id"])->update(['bet_ratio' => $ratioStronger]);
         GamePlayer::query()->where('user_id', $player2["id"])->update(['bet_ratio' => $ratioWeaker]);

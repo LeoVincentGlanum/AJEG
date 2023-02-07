@@ -60,8 +60,8 @@ class Dashboard extends Component
     }
     public function getEloHistory()
     {
-        $this->eloHistoryValues = Elo::query()->where('user_id', $this->user->id)->get()->pluck('elo')->toArray();
-        $this->eloHistoryLabels = Elo::query()->where('user_id', $this->user->id)->get()->pluck('created_at')->toArray();
+        $this->eloHistoryValues = Elo::query()->where('user_id', $this->user->id)->where('sport_id', 1)->get()->pluck('elo')->toArray();
+        $this->eloHistoryLabels = Elo::query()->where('user_id', $this->user->id)->where('sport_id', 1)->get()->pluck('created_at')->toArray();
 
         $tempArray = [];
         foreach ($this->eloHistoryLabels as $convertArray ) {
