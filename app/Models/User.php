@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function participating(): BelongsToMany
     {
-        return $this->belongsToMany(Tournament::class, 'tournament_participants')
+        return $this->belongsToMany(Tournament::class, 'ajeg_tournament_participants')
             ->using(TournamentParticipant::class)
             ->withPivot(['wins', 'paths', 'draws', 'losses']);
     }
