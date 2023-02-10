@@ -1,16 +1,15 @@
 <div class="overflow-hidden bg-white shadow sm:rounded-lg p-3">
     <div class="container">
         <div class="card">
-            <canvas id="totalGames"></canvas>
+            <canvas  id="totalGames"></canvas>
+            <canvas id="totalElo"></canvas>
         </div>
     </div>
 </div>
 
-
-
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 <script type="text/javascript">
-    window.onload = setTimeout(
+    let doughnut = window.onload = setTimeout(
         () => {
             const data = {
                 labels: [
@@ -18,7 +17,7 @@
                     'Défaites',
                     'Pats',
                     'Nuls',
-                    'En cour',
+                    'En cours',
                 ],
                 datasets: [
                     {
@@ -36,6 +35,7 @@
                 type: 'doughnut',
                 data: data,
                 options: {
+                    maintainAspectRatio: false,
                     responsive: true,
                     legend: {
                         labels: {
@@ -50,20 +50,59 @@
                     },
                 },
             });
-            Chart.pluginService.register({
-                beforeDraw: function(chart) {
-                    const width = chart.chart.width,
-                        height = chart.chart.height,
-                        ctx = chart.chart.ctx;
-                    ctx.restore();
-                    const fontSize = (height / 114).toFixed(2);
-                    ctx.font = fontSize + 'em sans-serif';
-                    ctx.textBaseline = 'middle';
-                    const text = {{$totalGames}},
-                        textX = Math.round((width - ctx.measureText(text).width) / 2),
-                        textY = height / 1.8;
-                    ctx.fillText(text, textX, textY);
-                    ctx.save();
+            {{--Chart.pluginService.register({--}}
+            {{--    beforeDraw: function(chart) {--}}
+            {{--        const width = chart.chart.width,--}}
+            {{--            height = chart.chart.height,--}}
+            {{--            ctx = chart.chart.ctx;--}}
+            {{--        ctx.restore();--}}
+            {{--        const fontSize = (height / 114).toFixed(2);--}}
+            {{--        ctx.font = fontSize + 'em sans-serif';--}}
+            {{--        ctx.textBaseline = 'middle';--}}
+            {{--        const text = {{$totalGames}},--}}
+            {{--            textX = Math.round((width - ctx.measureText(text).width) / 2),--}}
+            {{--            textY = height / 1.8;--}}
+            {{--        ctx.fillText(text, textX, textY);--}}
+            {{--        ctx.save();--}}
+            {{--    },--}}
+            {{--});--}}
+        }, 100);
+</script>
+
+<script type="text/javascript">
+    window.onload = setTimeout(
+        () => {
+            const data = {
+                labels: [@foreach($eloHistoryLabels as $test) '{{$test}}', @endforeach],
+                    // ['ada','aze','ar',"aze"],
+                datasets: [
+                    {
+                        data: {{json_encode(array_values($eloHistoryValues))}},
+                        backgroundColor: [
+                        ],
+                    }],
+            };
+            new Chart(document.getElementById('totalElo'), {
+                type: 'line',
+                data: data,
+                options: {
+                    maintainAspectRatio: false,
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    responsive: true,
+                    legend: {
+                        labels: {
+                            generateLabels: (chart) => {
+                                const datasets = chart.data.datasets;
+                                return datasets[0].data.map((data, i) => ({
+                                    text: `${chart.data.labels[i]}: ${data}`,
+                                    fillStyle: datasets[0].backgroundColor[i],
+                                }));
+                            },
+                        },
+                    },
                 },
             });
         }, 100);
