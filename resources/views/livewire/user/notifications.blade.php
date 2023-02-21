@@ -14,6 +14,18 @@
                        @endswitch
                        "
                        wire:click="updateReadAt('{{$notification->id}}')">
+                        @elseif($notification->type === "App\Notifications\RankingEloUpdateNotification" || $notification->type === "App\Notifications\RankingEloWinnerUpdateNotification")
+                            <a href="{{route('user.profile',['user' => \Illuminate\Support\Facades\Auth::user()])}}"
+                            class="block hover:bg-gray-50
+                            @switch($notification->read_at)
+                            @case(NULL)
+                                bg-gray-100
+                                @break
+                            @default
+                                bg-green-100
+                       @endswitch
+                       "
+                       wire:click="updateReadAt('{{$notification->id}}')">
                         @else
                             @if(isset($notification->data["game_id"]))
                                 <a href="{{route('chess.game.show-chess',['game' => $notification->data["game_id"]])}}"
