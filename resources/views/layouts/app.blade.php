@@ -62,8 +62,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
-    <body class="font-sans antialiased h-full">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased h-full bg-custom-background text-custom-text">
+        <div class="min-h-screen">
+            <x-navigation-layout>
+                {{ $slot }}
+            </x-navigation-layout>
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -74,11 +77,6 @@
                     </div>
                 </header>
             @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
         </div>
 
         @stack('modals')

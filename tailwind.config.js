@@ -19,6 +19,7 @@ module.exports = {
             'custom-button': '#D1D5DB',
             'custom-text': '#374151',
             'custom-card': '#E5E7EB',
+            'custom-nav': '#FFFFFF',
         }
     },
 
