@@ -20,6 +20,7 @@ module.exports = {
             'custom-text': '#374151',
             'custom-card': '#E5E7EB',
             'custom-nav': '#FFFFFF',
+            'custom-light-text': '#9CA3AF',
         }
     },
 
