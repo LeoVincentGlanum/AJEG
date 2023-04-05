@@ -27,18 +27,10 @@
                         </div>
                     @endforeach
                 </div>
-{{--                <div class="mt-[20px] flex flex-wrap">--}}
-{{--                    <div>--}}
-{{--                        <span class="text-base text-custom-light-text">{{ __('Points en jeu') }}</span>--}}
-{{--                        <span class="text-base font-semibold">{{ $game->bets()->sum('bet_deposit') }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div>--}}
-{{--                        <button class="py-[9px] px-[12px] rounded-[5px] bg-custom-text text-custom-nav text-base">--}}
-{{--                            <span class="text-base font-semibold">PARIER</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
             </div>
         @endforeach
+    </div>
+    <div class="mt-[18px]">
+        <span class="text-base text-custom-light-text">{{ __('Voir toutes les parties en cours') }}</span>
     </div>
 </div>
