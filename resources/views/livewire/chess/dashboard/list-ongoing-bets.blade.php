@@ -11,7 +11,7 @@
                     </div>
                     @foreach($bet->game->gamePlayers as $player)
                         @if($bet->gameplayer_id === $player->id)
-                            <div class="p-[7px] bg-custom-nav rounded-[20px]">
+                            <div class="p-[7px] bg-custom-white rounded-[20px]">
                                 <span class="text-lg font-semibold break-words">{{ $player->user->name ?? '-' }}</span>
                             </div>
                         @else

@@ -15,12 +15,13 @@ module.exports = {
             },
         },
         colors: {
+            'custom-white': '#FFFFFF',
             'custom-background': '#F3F4F6',
-            'custom-button': '#D1D5DB',
-            'custom-text': '#374151',
             'custom-card': '#E5E7EB',
-            'custom-nav': '#FFFFFF',
+            'custom-button': '#D1D5DB',
             'custom-light-text': '#9CA3AF',
+            'custom-darker-button': '#6B7280',
+            'custom-text': '#374151'
         }
     },
 

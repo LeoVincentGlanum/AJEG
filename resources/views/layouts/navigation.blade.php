@@ -30,7 +30,7 @@
                 </div>
 
                 <!-- Sidebar component, swap this element with another sidebar if you like -->
-                <div class="flex flex-col overflow-y-auto bg-custom-nav px-[19px] py-[16px]">
+                <div class="flex flex-col overflow-y-auto bg-custom-white px-[19px] py-[16px]">
                     <nav class="flex flex-1 flex-col">
                         <ul role="list" class="flex flex-1 flex-col">
                             <li>
@@ -207,7 +207,7 @@
     </div>
 
     <!-- Static sidebar for desktop -->
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col bg-custom-nav">
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col bg-custom-white">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col overflow-y-auto px-[19px] py-[16px]">
             <nav class="flex flex-1 flex-col">
@@ -383,7 +383,7 @@
         </div>
     </div>
 
-    <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-custom-nav px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+    <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-custom-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <button type="button" class="-m-2.5 p-2.5 text-custom-text lg:hidden">
             <span class="sr-only">Open sidebar</span>
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
