@@ -7,8 +7,9 @@
         </div>
     </header>
     <hr class="text-custom-button"/>
-    <div class="max-w-[100rem] mx-auto sm:px-6 lg:px-8 py-6 flex flex-row">
+    <div class="max-w-[100rem] mx-auto sm:px-6 lg:px-8 py-6 flex flex-row gap-x-[190px]">
         <livewire:chess.dashboard.list-ongoing-games/>
+        <livewire:chess.dashboard.list-ongoing-bets/>
     </div>
 
     <livewire:chess.dashboard.open-bets-chess/>
