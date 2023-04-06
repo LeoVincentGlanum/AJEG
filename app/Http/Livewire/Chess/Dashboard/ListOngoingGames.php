@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class ListOngoingGames extends Component
 {
+    protected $listeners = ['refreshList' => '$refresh'];
+
     public function getGamesProperty(): Collection|array
     {
         return Game::query()

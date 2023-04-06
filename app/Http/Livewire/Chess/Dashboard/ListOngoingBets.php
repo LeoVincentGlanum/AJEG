@@ -9,6 +9,8 @@ use Livewire\Component;
 
 class ListOngoingBets extends Component
 {
+    protected $listeners = ['refreshList' => '$refresh'];
+
     public function getBetsProperty(): Collection|array
     {
         return Bet::query()

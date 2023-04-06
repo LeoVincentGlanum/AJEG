@@ -12,6 +12,15 @@ class Bet extends Model
 
     protected $table = "ajeg_bets";
 
+    protected $fillable = [
+        'game_id',
+        'gambler_id',
+        'gameplayer_id',
+        'bet_deposit',
+        'bet_gain',
+        'bet_status',
+    ];
+
     protected $casts = [
         'bet_status' => BetState::class
     ];

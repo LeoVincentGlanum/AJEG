@@ -14,7 +14,7 @@
 
 <div>
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-    <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div class="relative lg:hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-900/80"></div>
 
         <div class="fixed inset-0 flex">
@@ -207,7 +207,7 @@
     </div>
 
     <!-- Static sidebar for desktop -->
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col bg-custom-white">
+    <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:flex-col bg-custom-white">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col overflow-y-auto px-[19px] py-[16px]">
             <nav class="flex flex-1 flex-col">
