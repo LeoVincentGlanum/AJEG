@@ -22,6 +22,13 @@ class ListOngoingGames extends Component
             ->get();
     }
 
+    public function getGamesCountProperty(): int
+    {
+        return Game::query()
+            ->where('status', '=', 'inprogress')
+            ->count();
+    }
+
     public function render()
     {
         return view('livewire.chess.dashboard.list-ongoing-games');

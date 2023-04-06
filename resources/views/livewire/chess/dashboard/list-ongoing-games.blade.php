@@ -1,6 +1,6 @@
 <div>
     <div class="mb-[20px]">
-        <span class="text-xl font-semibold">{{ __('Parties en cours') }}</span>
+        <span class="text-xl font-semibold">{{ __('Parties en cours') }} ({{ $this->gamesCount }})</span>
     </div>
     <div class="flex grid grid-cols-2 gap-x-[20px] gap-y-[20px]">
         @foreach($this->games as $game)
