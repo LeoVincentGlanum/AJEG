@@ -1,6 +1,6 @@
 <div>
     <div class="mb-[20px]">
-        <span class="text-xl font-semibold">{{ __('Vos paris en cours') }}</span>
+        <span class="text-xl font-semibold">{{ __('Vos paris en cours') }} ({{ $this->betsCount }})</span>
     </div>
     <div class="flex flex-col gap-y-[20px]">
         @foreach($this->bets as $bet)

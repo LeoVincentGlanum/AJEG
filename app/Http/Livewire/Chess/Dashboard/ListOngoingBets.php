@@ -22,6 +22,14 @@ class ListOngoingBets extends Component
             ->get();
     }
 
+    public function getBetsCountProperty(): int
+    {
+        return Bet::query()
+            ->where('gambler_id', '=', Auth::id())
+            ->where('bet_status', '=', 'Pending')
+            ->count();
+    }
+
     public function render()
     {
         return view('livewire.chess.dashboard.list-ongoing-bets');
