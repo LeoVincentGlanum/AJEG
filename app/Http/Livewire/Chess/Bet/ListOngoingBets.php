@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Chess\Dashboard;
+namespace App\Http\Livewire\Chess\Bet;
 
 use App\Models\Bet;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,6 +32,6 @@ class ListOngoingBets extends Component
 
     public function render()
     {
-        return view('livewire.chess.dashboard.list-ongoing-bets');
+        return view('livewire.chess.bet.list-ongoing-bets');
     }
 }

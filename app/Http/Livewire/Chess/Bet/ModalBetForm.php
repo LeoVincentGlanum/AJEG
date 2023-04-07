@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Chess\Dashboard;
+namespace App\Http\Livewire\Chess\Bet;
 
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Bet;
@@ -78,6 +78,6 @@ class ModalBetForm extends ModalComponent
 
     public function render()
     {
-        return view('livewire.chess.dashboard.modal-bet-form');
+        return view('livewire.chess.bet.modal-bet-form');
     }
 }

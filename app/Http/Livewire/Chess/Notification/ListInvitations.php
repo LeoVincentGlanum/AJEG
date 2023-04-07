@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Chess\Dashboard;
+namespace App\Http\Livewire\Chess\Notification;
 
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\GamePlayer;
@@ -44,6 +44,6 @@ class ListInvitations extends Component
 
     public function render()
     {
-        return view('livewire.chess.dashboard.list-invitations');
+        return view('livewire.chess.notification.list-invitations');
     }
 }

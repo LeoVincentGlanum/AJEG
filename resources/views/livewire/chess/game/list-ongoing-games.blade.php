@@ -41,7 +41,7 @@
                         $data = json_encode(['gameId' => $game->id]);
                     @endphp
                     <button
-                        wire:click="$emit('openModal', 'chess.dashboard.modal-bet-form', {{ $data }})"
+                        wire:click="$emit('openModal', 'chess.bet.modal-bet-form', {{ $data }})"
                         class="self-center text-sm font-semibold bg-custom-darker-button text-custom-white px-[12px] py-[5px] rounded-[5px]"
                     >
                         {{ __('PARIER') }}

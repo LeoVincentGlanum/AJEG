@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Chess\Dashboard;
+namespace App\Http\Livewire\Chess\Game;
 
 use App\Models\Game;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,6 +31,6 @@ class ListOngoingGames extends Component
 
     public function render()
     {
-        return view('livewire.chess.dashboard.list-ongoing-games');
+        return view('livewire.chess.game.list-ongoing-games');
     }
 }
