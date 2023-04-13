@@ -63,11 +63,11 @@
         @livewireStyles
     </head>
     <body class="font-sans antialiased h-full bg-custom-background text-custom-text">
-        <div class="min-h-screen">
-            <x-navigation-layout>
-                {{ $slot }}
-            </x-navigation-layout>
-        </div>
+        <main>
+            <x-navigation-layout />
+
+            {{ $slot }}
+        </main>
 
         @stack('modals')
 
