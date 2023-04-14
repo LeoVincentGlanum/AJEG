@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Chess\Bet;
 
+use App\Http\Livewire\Chess\Game\ListOngoingGames;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Bet;
 use App\Models\Game;
 use App\Models\User;
-use App\ModelStates\BetStates\PendingBet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;

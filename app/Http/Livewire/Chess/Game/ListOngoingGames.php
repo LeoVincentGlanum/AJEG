@@ -8,7 +8,14 @@ use Livewire\Component;
 
 class ListOngoingGames extends Component
 {
+    public bool $isLimited = false;
+
     protected $listeners = ['refreshList' => '$refresh'];
+
+    public function mount($isLimited = false)
+    {
+        $this->isLimited = $isLimited;
+    }
 
     public function getGamesProperty(): Collection|array
     {
@@ -18,7 +25,9 @@ class ListOngoingGames extends Component
             }])
             ->where('status', '=', 'inprogress')
             ->orderByDesc('updated_at')
-            ->limit(4)
+            ->when($this->isLimited, function ($query) {
+                $query->limit(4);
+            })
             ->get();
     }
 

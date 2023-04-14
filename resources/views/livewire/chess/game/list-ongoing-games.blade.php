@@ -50,7 +50,10 @@
             </div>
         @endforeach
     </div>
-    <div class="mt-[18px]">
-        <span class="text-base text-custom-light-text">{{ __('Voir toutes les parties en cours') }}</span>
-    </div>
+
+    @if($isLimited === true)
+        <div class="mt-[18px]">
+            <span class="text-base text-custom-light-text">{{ __('Voir toutes les parties en cours') }}</span>
+        </div>
+    @endif
 </div>
