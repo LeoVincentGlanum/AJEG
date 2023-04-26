@@ -238,12 +238,28 @@ class FormChess extends Component
                     $gameplayer->result = $result;
                 }
 
+
                 $gameplayer->save();
             }
 
             $this->game->save();
 
-             $this->calcBetRatio($this->players);
+            $lastElo =  Elo::select('elo')
+                ->where('user_id', Arr::pluck($this->players, 'id'))
+                ->where('sport_id', 1)
+                ->orderByDesc('updated_at')
+                ->first()
+                ->elo;
+
+            $users = User::query()
+                ->addSelect([
+                    'elo' => $lastElo
+                ])
+                ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
+                ->get();
+
+
+             $this->calcBetRatio($users->toArray());
 
              if ($this->betAvailable){
                  $usersBetNotif = User::query()->whereNotIn('id',$array_user_id)->where('bet_notif','=',true)->get();
