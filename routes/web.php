@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/darts')->group(function () {
         Route::view('/dashboard', 'darts.dashboard')->name('darts.dashboard');
+        Route::view('/online-game', 'darts.online-game')->name('darts.online-game');
 
         Route::prefix('/game')->group(function () {
             Route::get('/create/{game?}', [GameDartsController::class, 'create'])->name('darts.game.create');

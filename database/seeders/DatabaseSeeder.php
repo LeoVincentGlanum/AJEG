@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             BetSeeder::class,
             TournamentSeeder::class,
             TournamentParticipantSeeder::class,
+            RecordsTableSeeder::class,
         ]);
     }
 }
