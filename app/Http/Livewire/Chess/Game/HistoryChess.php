@@ -44,6 +44,7 @@ class HistoryChess extends Component
                 $query->whereRelation('users', 'result', 'like', '%'.$this->searchResult.'%');
             })
             ->where("sport_id", 1)
+            ->orderByDesc('updated_at')
             ->paginate(10);
     }
 

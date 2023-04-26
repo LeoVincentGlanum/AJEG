@@ -35,7 +35,6 @@
                 type: 'doughnut',
                 data: data,
                 options: {
-                    maintainAspectRatio: false,
                     responsive: true,
                     legend: {
                         labels: {
@@ -86,7 +85,6 @@
                 type: 'line',
                 data: data,
                 options: {
-                    maintainAspectRatio: false,
                     hover: {
                         mode: 'nearest',
                         intersect: true

@@ -92,13 +92,13 @@ class ShowChess extends Component
                 $looser = $player;
             }
 
-            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->first()->elo;
-            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->first()->elo;
+            $eloJ1 = Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->latest()->elo;
+            $eloJ2 = Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->latest()->elo;
 
             $result = $this->newRatings($eloJ1, $eloJ2, Arr::get($users, 0), Arr::get($users, 1));
 
-            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->first()->update(['elo' => $result[0]]);
-            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->first()->update(['elo' => $result[1]]);
+            Elo::query()->where('user_id', Arr::get($users, 0)->user->id)->where('sport_id', 1)->first()->insert(['elo' => $result[0]]);
+            Elo::query()->where('user_id', Arr::get($users, 1)->user->id)->where('sport_id', 1)->first()->insert(['elo' => $result[1]]);
 
             $allCompleted = true;
             foreach ($this->gamePlayer as $player) {

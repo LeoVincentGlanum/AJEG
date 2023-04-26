@@ -190,14 +190,11 @@ class FormChess extends Component
 
         $this->validate();
 
-        try {
+//        try {
             $array_user_id = [];
             foreach ($this->players as $player){
                 $array_user_id[] = (int) Arr::get($player,'id');
             }
-
-
-
 
             $this->game->created_by = Auth::id();
             $this->game->bet_available = $this->betAvailable;
@@ -225,7 +222,7 @@ class FormChess extends Component
                 $gameplayer->game_id = $this->game->id;
                 $gameplayer->user_id = Arr::get($player, 'id');
                 $gameplayer->color = Arr::get($player, 'color');
-//dd($this->status == ResultValidations::$name, $this->status);
+
                 if ($this->status === GameStatusEnum::Ended->value || (int)Arr::get($player, 'id') === Auth::id()) {
                     $gameplayer->player_participation_validation->transitionTo(Accepted::class);
 
@@ -247,14 +244,20 @@ class FormChess extends Component
 
             $this->game->save();
 
+            $lastElo =  Elo::select('elo')
+                ->where('user_id', Arr::pluck($this->players, 'id'))
+                ->where('sport_id', 1)
+                ->orderByDesc('updated_at')
+                ->first()
+                ->elo;
+
             $users = User::query()
                 ->addSelect([
-                    'elo' => Elo::select('elo')
-                        ->whereColumn('user_id', 'ajeg_users.id')
-                        ->where('sport_id', 1),
+                    'elo' => $lastElo
                 ])
                 ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
                 ->get();
+
 
              $this->calcBetRatio($users->toArray());
 
@@ -280,10 +283,10 @@ class FormChess extends Component
             return redirect()->route('chess.dashboard');
 
 
-        } catch (\Throwable $e) {
-            report($e);
-            $this->errorToast('An error occurred during the drafting of the game');
-        }
+//        } catch (\Throwable $e) {
+//            report($e);
+//            $this->errorToast('An error occurred during the drafting of the game');
+//        }
     }
 
     public function giveResult($player_id)
