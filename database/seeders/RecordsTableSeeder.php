@@ -12,6 +12,6 @@ class RecordsTableSeeder extends Seeder
         Record::create(['name' => 'Ella', 'type' => 'TopGame', 'score' =>297]);
         Record::create(['name' => 'Pierre', 'type' => 'WorstGame', 'score' =>-128]);
         Record::create(['name' => 'Tomo', 'type' => 'TopRound', 'score' =>142]);
-        Record::create(['name' => 'Inconnu', 'type' => 'WorstRound', 'score' =>0]);
+        Record::create(['name' => 'Ella', 'type' => 'WorstRound', 'score' =>-30]);
     }
 }
