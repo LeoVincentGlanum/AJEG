@@ -21,6 +21,7 @@ class Scores extends Component
         'round4',
         'round5',
     ];
+
     public function mount()
     {
         $this->scores = [
@@ -34,6 +35,12 @@ class Scores extends Component
                 'score' => '',
             ]
         ];
+    }
+
+    public function removeRow($index)
+    {
+//        dd($this->scores, $index);
+        unset($this->scores[$index]);
     }
 
     public function addRow()
@@ -55,7 +62,7 @@ class Scores extends Component
         $indexScore = $matches1[0];
 
         $partyPerPlayer = $this->scores[$indexScore];
-        $totalScorePlayer = (int)$partyPerPlayer['round1']+(int)$partyPerPlayer['round2']+(int)$partyPerPlayer['round3']+(int)$partyPerPlayer['round4']+(int)$partyPerPlayer['round5'];
+        $totalScorePlayer = (int)$partyPerPlayer['round1'] + (int)$partyPerPlayer['round2'] + (int)$partyPerPlayer['round3'] + (int)$partyPerPlayer['round4'] + (int)$partyPerPlayer['round5'];
         $partyPerPlayer['score'] = $totalScorePlayer;
 
         $this->scores[$indexScore] = $partyPerPlayer;
@@ -72,7 +79,7 @@ class Scores extends Component
                 $topGame->name = $input['name'];
                 $topGame->save();
 
-                $this->recordToast($input['name'].' a battu le record de la meilleure partie avec :'.$input['score'], $delay);
+                $this->recordToast($input['name'] . ' a battu le record de la meilleure partie avec :' . $input['score'], $delay);
                 $delay += 500;
             }
 
@@ -82,7 +89,7 @@ class Scores extends Component
                 $worstGame->name = $input['name'];
                 $worstGame->save();
 
-                $this->recordToast($input['name'].' a battu le record de la pire partie avec :'.$input['score'], $delay);
+                $this->recordToast($input['name'] . ' a battu le record de la pire partie avec :' . $input['score'], $delay);
                 $delay += 500;
             }
 
@@ -94,7 +101,7 @@ class Scores extends Component
                     $topRound->name = $input['name'];
                     $topRound->save();
 
-                    $this->recordToast($input['name'].' a battu le record de la meilleure manche avec :'.$input['score'], $delay);
+                    $this->recordToast($input['name'] . ' a battu le record de la meilleure manche avec :' . $input['score'], $delay);
                     $delay += 500;
                 }
 
@@ -103,7 +110,7 @@ class Scores extends Component
                     $worstRound->name = $input['name'];
                     $worstRound->save();
 
-                    $this->recordToast($input['name'].' a battu le record de la pire manche avec :'.$input['score'], $delay);
+                    $this->recordToast($input['name'] . ' a battu le record de la pire manche avec :' . $input['score'], $delay);
                     $delay += 500;
                 }
             }
