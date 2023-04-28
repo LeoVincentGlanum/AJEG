@@ -150,8 +150,8 @@ const log = (string) => { logContainer.prepend(`${string}<br/>`) }
 
 $("#svg").on('click', onHandleClick)
 
-let value = 501;
-$("#value").html(value);
+// let value = 501;
+// $("#value").html(value);
 
 function subtract(diff) {
   console.log('subtract', diff);

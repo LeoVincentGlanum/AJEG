@@ -68,14 +68,11 @@
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                             </tr>
-
                         @endforeach
                         </tbody>
                     </table>
                     <div class="flex justify-end mt-4">
                         <div class="flex items-center">
-                            <input type="text" name="newNom" id="newNom" wire:model="newNom"
-                                   class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md mr-2">
                             <button type="button"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     wire:click="addRow">Ajouter une ligne

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Darts\OnlineGame;
 
+use App\Http\Livewire\Traits\HasToast;
 use App\Models\Record;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,10 @@ use Livewire\Component;
 
 class Scores extends Component
 {
+    use HasToast;
+
     public array $scores;
+
     public array $rounds = [
         'round1',
         'round2',
@@ -60,13 +64,16 @@ class Scores extends Component
     public function save(Request $request)
     {
         $allInputs = $request->input('serverMemo.data.scores');
-
+        $delay = 0;
         foreach ($allInputs as $input) {
             $topGame = Record::query()->where('type', 'TopGame')->firstOrFail();
             if ($input['score'] > $topGame->score) {
                 $topGame->score = $input['score'];
                 $topGame->name = $input['name'];
                 $topGame->save();
+
+                $this->recordToast($input['name'].' a battu le record de la meilleure partie avec :'.$input['score'], $delay);
+                $delay += 500;
             }
 
             $worstGame = Record::query()->where('type', 'WorstGame')->firstOrFail();
@@ -74,6 +81,9 @@ class Scores extends Component
                 $worstGame->score = $input['score'];
                 $worstGame->name = $input['name'];
                 $worstGame->save();
+
+                $this->recordToast($input['name'].' a battu le record de la pire partie avec :'.$input['score'], $delay);
+                $delay += 500;
             }
 
             $topRound = Record::query()->where('type', 'TopRound')->firstOrFail();
@@ -83,12 +93,18 @@ class Scores extends Component
                     $topRound->score = $input[$round];
                     $topRound->name = $input['name'];
                     $topRound->save();
+
+                    $this->recordToast($input['name'].' a battu le record de la meilleure manche avec :'.$input['score'], $delay);
+                    $delay += 500;
                 }
 
                 if ($input[$round] < $worstRound->score) {
                     $worstRound->score = $input[$round];
                     $worstRound->name = $input['name'];
                     $worstRound->save();
+
+                    $this->recordToast($input['name'].' a battu le record de la pire manche avec :'.$input['score'], $delay);
+                    $delay += 500;
                 }
             }
         }
