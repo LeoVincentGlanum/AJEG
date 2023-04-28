@@ -13,12 +13,18 @@ use Livewire\Component;
 
 class Records extends Component
 {
-        public $records;
+    public $records;
     public $score = 0;
+
+    protected $listeners = ['recordsChanged' => 'refreshRecords'];
 
     public function hit($value)
     {
         $this->score += $value;
+    }
+
+    public function refreshRecords() {
+        $this->records = Record::query()->get();
     }
 
     public function mount()

@@ -39,36 +39,31 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round1" id="round1-{{ $index }}"
-                                           onchange="updateTotal({{$index}})"
-                                           wire:model="scores.{{ $index }}.round1"
+                                           wire:model.debounce.500ms="scores.{{ $index }}.round1"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round2" id="round2-{{ $index }}"
-                                           onchange="updateTotal({{$index}})"
-                                           wire:model="scores.{{ $index }}.round2"
+                                           wire:model.debounce.500ms="scores.{{ $index }}.round2"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round3" id="round3-{{ $index }}"
-                                           onchange="updateTotal({{$index}})"
-                                           wire:model="scores.{{ $index }}.round3"
+                                           wire:model.debounce.500ms="scores.{{ $index }}.round3"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round4" id="round4-{{ $index }}"
-                                           onchange="updateTotal({{$index}})"
-                                           wire:model="scores.{{ $index }}.round4"
+                                           wire:model.debounce.500ms="scores.{{ $index }}.round4"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round5" id="round5-{{ $index }}"
-                                           onchange="updateTotal({{$index}})"
-                                           wire:model="scores.{{ $index }}.round5"
+                                           wire:model.debounce.500ms="scores.{{ $index }}.round5"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="score" id="score-{{ $index }}"
+                                    <input type="number" name="score" id="score-{{ $index }}" disabled
                                            wire:model="scores.{{ $index }}.score"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
@@ -99,19 +94,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function updateTotal(index) {
-        console.log(index)
-        let total_input = document.getElementById(`score-${index}`)
-
-        let input1 = Number(document.getElementById(`round1-${index}`).value)
-        let input2 = Number(document.getElementById(`round2-${index}`).value)
-        let input3 = Number(document.getElementById(`round3-${index}`).value)
-        let input4 = Number(document.getElementById(`round4-${index}`).value)
-        let input5 = Number(document.getElementById(`round5-${index}`).value)
-
-        let sum = input1+input2+input3+input4+input5
-        total_input.value = sum
-    }
-</script>
