@@ -38,11 +38,15 @@
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 @foreach($rounds as $round)
-                                    <td x-data class="px-6 py-4 whitespace-nowrap" >
+                                    <td x-data class="px-6 py-4 whitespace-nowrap">
                                         <input type="number" name="{{$round}}" id="{{$round}}-{{ $index }}"
                                                wire:model.debounce.500ms="scores.{{ $index }}.{{$round}}"
-                                               wire:focus="roundScore({{$index}}, '{{$round}}', $event)"
-                                               class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                               wire:focus="init_count()"
+                                               wire:input="decrement_count()"
+                                               data-count="3"
+                                               data-player="{{$index}}"
+                                               onfocus="focusEvent(this)"
+                                               class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         >
                                     </td>
                                 @endforeach
@@ -85,13 +89,43 @@
     </div>
 </div>
 <script>
-    document.addEventListener('livewire:load', function(dartScore) {
+
+
+    let toto = '';
+
+    function focusEvent(element) {
+        toto = element.id
+        console.log(element.id)
+    }
+
+    document.addEventListener('livewire:load', function (dartScore) {
 
         var dartboard = new Dartboard('#dartboard')
         dartboard.render()
 
-        document.querySelector('#dartboard').addEventListener('throw', function(d) {
-            @this.updateScore(d.detail)
+
+        document.querySelector('#dartboard').addEventListener('throw', function (d) {
+            var titi = document.getElementById(toto)
+            console.log(toto, titi)
+
+            if (@this.count == 0) {
+                alert('Passe ton tour !')
+                return
+            }
+
+            var score = 0;
+
+            if (titi.value != '') {
+                score = parseInt(titi.value);
+            }
+
+            score += d.detail.score
+            titi.value = score
+            titi.dataset.count = titi.dataset.count - 1
+
+            titi.dispatchEvent(new Event("input"));
+
+        @this.roundScore(titi.dataset.player, titi.name, titi.value);
         })
 
     })

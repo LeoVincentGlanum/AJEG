@@ -17,6 +17,7 @@ class Scores extends Component
 //    protected $listeners = ['updateScore'];
 
     public int $score;
+    public int $count;
 
     public array $rounds;
 
@@ -42,23 +43,30 @@ class Scores extends Component
         ];
     }
 
+    public function init_count()
+    {
+        $this->count = 3;
+    }
+
+    public function decrement_count()
+    {
+        $this->count--;
+    }
+
     public function removeRow($index)
     {
         unset($this->scores[$index]);
     }
 
-    public function updateScore($data) {
-//        dd($data['score']);
-//        $this->addThrowToRound($data['score']);
+    public function updateScore($data)
+    {
     }
 
     public function addThrowToRound($score)
     {
-//$total
-
     }
 
-    public function roundScore($index, $round, $event)
+    public function roundScore($player, $round, $score = 0)
     {
     }
 
