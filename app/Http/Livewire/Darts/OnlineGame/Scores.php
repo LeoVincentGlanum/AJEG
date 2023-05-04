@@ -37,9 +37,25 @@ class Scores extends Component
         ];
     }
 
+    protected function rules(): array
+    {
+        $array = [];
+
+        foreach ($this->scores as $index => $score) {
+            $array['scores.' . $index . '.name'] = 'required';
+            $array['scores.' . $index . '.round1'] = 'required';
+            $array['scores.' . $index . '.round2'] = 'required';
+            $array['scores.' . $index . '.round3'] = 'required';
+            $array['scores.' . $index . '.round4'] = 'required';
+            $array['scores.' . $index . '.round5'] = 'required';
+            $array['scores.' . $index . '.score'] = 'required';
+        }
+
+        return $array;
+    }
+
     public function removeRow($index)
     {
-//        dd($this->scores, $index);
         unset($this->scores[$index]);
     }
 
@@ -70,64 +86,72 @@ class Scores extends Component
 
     public function save(Request $request)
     {
-        $allInputs = $request->input('serverMemo.data.scores');
-        $delay = 0;
-        foreach ($allInputs as $input) {
-            $topGame = Record::query()->where('type', 'TopGame')->firstOrFail();
-            if ($input['score'] > $topGame->score) {
-                $topGame->score = $input['score'];
-                $topGame->name = $input['name'];
-                $topGame->save();
+        $this->validate();
 
-                $this->recordToast($input['name'] . ' a battu le record de la meilleure partie avec :' . $input['score'], $delay);
-                $delay += 500;
-            }
+        try {
+            $this->validate();
 
-            $worstGame = Record::query()->where('type', 'WorstGame')->firstOrFail();
-            if ($input['score'] < $worstGame->score) {
-                $worstGame->score = $input['score'];
-                $worstGame->name = $input['name'];
-                $worstGame->save();
+            $allInputs = $request->input('serverMemo.data.scores');
+            $delay = 0;
+            foreach ($allInputs as $input) {
+                $topGame = Record::query()->where('type', 'TopGame')->firstOrFail();
+                if ($input['score'] > $topGame->score) {
+                    $topGame->score = $input['score'];
+                    $topGame->name = $input['name'];
+                    $topGame->save();
 
-                $this->recordToast($input['name'] . ' a battu le record de la pire partie avec :' . $input['score'], $delay);
-                $delay += 500;
-            }
-
-            $topRound = Record::query()->where('type', 'TopRound')->firstOrFail();
-            $worstRound = Record::query()->where('type', 'WorstRound')->firstOrFail();
-            foreach ($this->rounds as $round) {
-                if ((int)$input[$round] > $topRound->score) {
-                    $topRound->score = $input[$round];
-                    $topRound->name = $input['name'];
-                    $topRound->save();
-
-                    $this->recordToast($input['name'] . ' a battu le record de la meilleure manche avec :' . $input['score'], $delay);
+                    $this->recordToast($input['name'] . ' a battu le record de la meilleure partie avec :' . $input['score'], $delay);
                     $delay += 500;
                 }
 
-                if ($input[$round] < $worstRound->score) {
-                    $worstRound->score = $input[$round];
-                    $worstRound->name = $input['name'];
-                    $worstRound->save();
+                $worstGame = Record::query()->where('type', 'WorstGame')->firstOrFail();
+                if ($input['score'] < $worstGame->score) {
+                    $worstGame->score = $input['score'];
+                    $worstGame->name = $input['name'];
+                    $worstGame->save();
 
-                    $this->recordToast($input['name'] . ' a battu le record de la pire manche avec :' . $input['score'], $delay);
+                    $this->recordToast($input['name'] . ' a battu le record de la pire partie avec :' . $input['score'], $delay);
                     $delay += 500;
                 }
+
+                $topRound = Record::query()->where('type', 'TopRound')->firstOrFail();
+                $worstRound = Record::query()->where('type', 'WorstRound')->firstOrFail();
+                foreach ($this->rounds as $round) {
+                    if ((int)$input[$round] > $topRound->score) {
+                        $topRound->score = $input[$round];
+                        $topRound->name = $input['name'];
+                        $topRound->save();
+
+                        $this->recordToast($input['name'] . ' a battu le record de la meilleure manche avec :' . $input['score'], $delay);
+                        $delay += 500;
+                    }
+
+                    if ($input[$round] < $worstRound->score) {
+                        $worstRound->score = $input[$round];
+                        $worstRound->name = $input['name'];
+                        $worstRound->save();
+
+                        $this->recordToast($input['name'] . ' a battu le record de la pire manche avec :' . $input['score'], $delay);
+                        $delay += 500;
+                    }
+                }
             }
+            $this->emit('recordsChanged');
+
+            $this->scores = [
+                [
+                    'name' => '',
+                    'round1' => '',
+                    'round2' => '',
+                    'round3' => '',
+                    'round4' => '',
+                    'round5' => '',
+                    'score' => '',
+                ]
+            ];
+        } catch (\Exception $e) {
+            $this->errorToast($e);
         }
-        $this->emit('recordsChanged');
-
-        $this->scores = [
-            [
-                'name' => '',
-                'round1' => '',
-                'round2' => '',
-                'round3' => '',
-                'round4' => '',
-                'round5' => '',
-                'score' => '',
-            ]
-        ];
     }
 
     public function render()

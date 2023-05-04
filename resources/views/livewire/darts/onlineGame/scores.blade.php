@@ -36,36 +36,44 @@
                                     <input type="text" name="name" id="name-{{ $index }}"
                                            wire:model="scores.{{ $index }}.name"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
+
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round1" id="round1-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round1"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".round1") <span class="error" style="color: red">Manche 1 requise</span> @enderror
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round2" id="round2-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round2"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".round2") <span class="error" style="color: red">Manche 2 requise</span> @enderror
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round3" id="round3-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round3"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".round3") <span class="error" style="color: red">Manche 3 requise</span> @enderror
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round4" id="round4-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round4"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".round4") <span class="error" style="color: red">Manche 4 requise</span> @enderror
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round5" id="round5-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round5"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".round5") <span class="error" style="color: red">Manche 5 requise</span> @enderror
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="score" id="score-{{ $index }}" disabled
                                            wire:model="scores.{{ $index }}.score"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    @error("scores.".$index.".score") <span class="error" style="color: red">Total requis</span> @enderror
                                 </td>
                                 <td>
                                     <a wire:click="removeRow({{$index}})">
