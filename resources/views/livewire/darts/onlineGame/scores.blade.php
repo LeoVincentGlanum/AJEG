@@ -33,12 +33,17 @@
                         @foreach ($scores as $index => $score)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="text" name="name" id="name-{{ $index }}"
-                                           wire:model="scores.{{ $index }}.name"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
-
+                                    <div class="flex flex-col">
+                                        <select wire:model="scores.{{ $index }}.name">
+                                            <option value="">Sélectionner un joueur</option>
+                                            @foreach($this->users as $user)
+                                                <option value="{{$user['id']}}">{{$user['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
+                                    </div>
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round1" id="round1-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round1"
