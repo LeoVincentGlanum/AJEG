@@ -14,16 +14,21 @@ class Scores extends Component
 
     public array $scores;
 
-    public array $rounds = [
-        'round1',
-        'round2',
-        'round3',
-        'round4',
-        'round5',
-    ];
+//    protected $listeners = ['updateScore'];
+
+    public int $score;
+
+    public array $rounds;
 
     public function mount()
     {
+        $this->rounds = [
+            'round1',
+            'round2',
+            'round3',
+            'round4',
+            'round5',
+        ];
         $this->scores = [
             [
                 'name' => '',
@@ -42,9 +47,19 @@ class Scores extends Component
         unset($this->scores[$index]);
     }
 
-    public function round1Score($index)
+    public function updateScore($data) {
+//        dd($data['score']);
+//        $this->addThrowToRound($data['score']);
+    }
+
+    public function addThrowToRound($score)
     {
-        dd($this->scores[$index]);
+//$total
+
+    }
+
+    public function roundScore($index, $round, $event)
+    {
     }
 
     public function addRow()
