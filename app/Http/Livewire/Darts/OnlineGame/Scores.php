@@ -39,8 +39,12 @@ class Scores extends Component
 
     public function removeRow($index)
     {
-//        dd($this->scores, $index);
         unset($this->scores[$index]);
+    }
+
+    public function round1Score($index)
+    {
+        dd($this->scores[$index]);
     }
 
     public function addRow()

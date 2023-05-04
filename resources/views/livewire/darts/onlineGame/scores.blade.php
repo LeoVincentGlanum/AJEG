@@ -40,6 +40,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="round1" id="round1-{{ $index }}"
                                            wire:model.debounce.500ms="scores.{{ $index }}.round1"
+                                           wire:click="round1Score({{$index}})"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
