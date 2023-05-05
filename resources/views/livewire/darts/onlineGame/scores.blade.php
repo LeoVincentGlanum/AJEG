@@ -39,36 +39,20 @@
                                     @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
 
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="round1" id="round1-{{ $index }}"
-                                           wire:model.debounce.500ms="scores.{{ $index }}.round1"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".round1") <span class="error" style="color: red">Manche 1 requise</span> @enderror
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="round2" id="round2-{{ $index }}"
-                                           wire:model.debounce.500ms="scores.{{ $index }}.round2"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".round2") <span class="error" style="color: red">Manche 2 requise</span> @enderror
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="round3" id="round3-{{ $index }}"
-                                           wire:model.debounce.500ms="scores.{{ $index }}.round3"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".round3") <span class="error" style="color: red">Manche 3 requise</span> @enderror
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="round4" id="round4-{{ $index }}"
-                                           wire:model.debounce.500ms="scores.{{ $index }}.round4"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".round4") <span class="error" style="color: red">Manche 4 requise</span> @enderror
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" name="round5" id="round5-{{ $index }}"
-                                           wire:model.debounce.500ms="scores.{{ $index }}.round5"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    @error("scores.".$index.".round5") <span class="error" style="color: red">Manche 5 requise</span> @enderror
-                                </td>
+                                @foreach($rounds as $round)
+                                    <td x-data class="px-6 py-4 whitespace-nowrap">
+                                        <input type="number" name="{{$round}}" id="{{$round}}-{{ $index }}"
+                                               wire:model.debounce.500ms="scores.{{ $index }}.{{$round}}"
+                                               wire:focus="init_count()"
+                                               wire:input="decrement_count()"
+                                               data-count="3"
+                                               data-player="{{$index}}"
+                                               onfocus="focusEvent(this)"
+                                               class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        >
+                                         @error("scores.".$index.".round2") <span class="error" style="color: red">Manche requise</span> @enderror
+                                    </td>
+                                @endforeach
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <input type="number" name="score" id="score-{{ $index }}" disabled
                                            wire:model="scores.{{ $index }}.score"
@@ -77,8 +61,10 @@
                                 </td>
                                 <td>
                                     <a wire:click="removeRow({{$index}})">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                         </svg>
                                     </a>
                                 </td>
@@ -106,3 +92,45 @@
         </div>
     </div>
 </div>
+<script>
+
+
+    let toto = '';
+
+    function focusEvent(element) {
+        toto = element.id
+        console.log(element.id)
+    }
+
+    document.addEventListener('livewire:load', function (dartScore) {
+
+        var dartboard = new Dartboard('#dartboard')
+        dartboard.render()
+
+
+        document.querySelector('#dartboard').addEventListener('throw', function (d) {
+            var titi = document.getElementById(toto)
+            console.log(toto, titi)
+
+            if (@this.count == 0) {
+                alert('Passe ton tour !')
+                return
+            }
+
+            var score = 0;
+
+            if (titi.value != '') {
+                score = parseInt(titi.value);
+            }
+
+            score += d.detail.score
+            titi.value = score
+            titi.dataset.count = titi.dataset.count - 1
+
+            titi.dispatchEvent(new Event("input"));
+
+        @this.roundScore(titi.dataset.player, titi.name, titi.value);
+        })
+
+    })
+</script>

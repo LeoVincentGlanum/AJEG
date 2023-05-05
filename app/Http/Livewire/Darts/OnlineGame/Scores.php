@@ -14,16 +14,22 @@ class Scores extends Component
 
     public array $scores;
 
-    public array $rounds = [
-        'round1',
-        'round2',
-        'round3',
-        'round4',
-        'round5',
-    ];
+//    protected $listeners = ['updateScore'];
+
+    public int $score;
+    public int $count;
+
+    public array $rounds;
 
     public function mount()
     {
+        $this->rounds = [
+            'round1',
+            'round2',
+            'round3',
+            'round4',
+            'round5',
+        ];
         $this->scores = [
             [
                 'name' => '',
@@ -54,9 +60,31 @@ class Scores extends Component
         return $array;
     }
 
+    public function init_count()
+    {
+        $this->count = 3;
+    }
+
+    public function decrement_count()
+    {
+        $this->count--;
+    }
+
     public function removeRow($index)
     {
         unset($this->scores[$index]);
+    }
+
+    public function updateScore($data)
+    {
+    }
+
+    public function addThrowToRound($score)
+    {
+    }
+
+    public function roundScore($player, $round, $score = 0)
+    {
     }
 
     public function addRow()
