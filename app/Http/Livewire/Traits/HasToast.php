@@ -10,7 +10,7 @@ trait HasToast
     {
         $this->dispatchBrowserEvent('toast', [
             'message' => __($message),
-            'type' => 'success'
+            'type' => 'success',
         ]);
     }
 
@@ -20,5 +20,15 @@ trait HasToast
             'message' => __($message),
             'type' => 'error'
         ]);
+    }
+
+    protected function recordToast(string $message,int $delay)
+    {
+        $this->dispatchBrowserEvent('toast', [
+            'message' => __($message),
+            'type' => 'Record',
+            'delay' => $delay
+        ]);
+
     }
 }

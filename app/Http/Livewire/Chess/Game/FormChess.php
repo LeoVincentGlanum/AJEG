@@ -189,19 +189,16 @@ class FormChess extends Component
         }
 
         $this->validate();
-
         try {
             $array_user_id = [];
             foreach ($this->players as $player){
                 $array_user_id[] = (int) Arr::get($player,'id');
             }
 
-
-
-
             $this->game->created_by = Auth::id();
             $this->game->bet_available = $this->betAvailable;
             $this->game->sport_id = SportEnum::Chess->value;
+
             $this->game->save();
 
             if ($this->status === GameStatusEnum::AskingForGame->value) {
@@ -225,7 +222,7 @@ class FormChess extends Component
                 $gameplayer->game_id = $this->game->id;
                 $gameplayer->user_id = Arr::get($player, 'id');
                 $gameplayer->color = Arr::get($player, 'color');
-//dd($this->status == ResultValidations::$name, $this->status);
+
                 if ($this->status === GameStatusEnum::Ended->value || (int)Arr::get($player, 'id') === Auth::id()) {
                     $gameplayer->player_participation_validation->transitionTo(Accepted::class);
 
@@ -247,14 +244,20 @@ class FormChess extends Component
 
             $this->game->save();
 
+            $lastElo =  Elo::select('elo')
+                ->where('user_id', Arr::pluck($this->players, 'id'))
+                ->where('sport_id', 1)
+                ->orderByDesc('updated_at')
+                ->first()
+                ->elo;
+
             $users = User::query()
                 ->addSelect([
-                    'elo' => Elo::select('elo')
-                        ->whereColumn('user_id', 'ajeg_users.id')
-                        ->where('sport_id', 1),
+                    'elo' => $lastElo
                 ])
                 ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
                 ->get();
+
 
              $this->calcBetRatio($users->toArray());
 
@@ -265,12 +268,14 @@ class FormChess extends Component
                  }
              }
 
-            foreach ($users as $user) {
-                if ($user->id === Auth::id()) {
+            foreach ($this->players as $user) {
+                if ($user['id'] === Auth::id()) {
+                    $user = User::query()->where('id', $user['id'])->first();
                     $user->notify(new GameInvitationNotificationSended($this->game));
                 }
 
-                if ($user->id !== Auth::id()) {
+                if ($user['id'] !== Auth::id()) {
+                    $user = User::query()->where('id', $user['id'])->first();
                     $user->notify(new GameInvitationNotification($this->game));
                 }
             }

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class Detail extends Component
 {
@@ -71,6 +72,7 @@ class Detail extends Component
         ]);
 
         try {
+            Storage::disk('img_profil')->put('/', $this->photo);
             $namePhoto = $this->photo->store('public/photos');
 
             $this->user->photo = str_replace("public/photos/","", $namePhoto);

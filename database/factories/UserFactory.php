@@ -37,6 +37,138 @@ class UserFactory extends Factory
         ];
     }
 
+    public function gaelGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                    'name' => 'Gael',
+                    'email' => 'gael@glanum.com',
+                    'password' => Hash::make('glanum'),
+                    'coins' => 0,
+                    'daily_reward' => '2022-10-30 13:23:54',
+                    'admin' => '1',
+                    'remember_token' => Str::random(10),
+                ];
+        });
+    }
+
+    public function adrienGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Adrien',
+                'email' => 'adrien@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function matthiasGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Matthias',
+                'email' => 'matthias@glanum.fr',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function cyrilGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Cyril',
+                'email' => 'cyril@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+
+    public function ellaGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Ella',
+                'email' => 'ella@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function tomoGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Tomo',
+                'email' => 'tomo@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function thibaultGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Thibault',
+                'email' => 'thibault@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function pierreGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Pierre',
+                'email' => 'pierre@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function thomasGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Thomas',
+                'email' => 'thomas@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
+    public function leoGlanum(): UserFactory{
+        return $this->state(function () {
+            return [
+                'name' => 'Leo',
+                'email' => 'leo@glanum.com',
+                'password' => Hash::make('glanum'),
+                'coins' => 0,
+                'daily_reward' => '2022-10-30 13:23:54',
+                'admin' => '1',
+                'remember_token' => Str::random(10),
+            ];
+        });
+    }
     public function admin(): UserFactory
     {
         return $this->state(function () {
@@ -44,7 +176,7 @@ class UserFactory extends Factory
                 'name' => 'Admin',
                 'email' => 'admin@glanum.fr',
                 'password' => Hash::make('glanum'),
-                'coins' => fake()->randomNumber(),
+                'coins' => 0,
                 'daily_reward' => '2022-10-30 13:23:54',
                 'admin' => '1',
                 'remember_token' => Str::random(10),

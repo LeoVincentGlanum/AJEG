@@ -56,7 +56,7 @@ class Tournament extends Model
 
     public function participants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'tournament_participants')
+        return $this->belongsToMany(User::class, 'ajeg_tournament_participants')
             ->using(TournamentParticipant::class)
             ->withPivot(['wins', 'pats', 'draws', 'losses']);
     }

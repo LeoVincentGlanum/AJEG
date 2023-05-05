@@ -28,10 +28,8 @@ class UserSeeder extends Seeder
             )
             ->create();
 
-        User::factory(50)
-            ->has(
-                Transaction::factory(4)
-            )
+        User::factory(1)
+            ->gaelGlanum()
             ->has(
                 Elo::factory(2)
                     ->state(new Sequence(
@@ -40,5 +38,117 @@ class UserSeeder extends Seeder
                     ))
             )
             ->create();
+
+        User::factory(1)
+            ->adrienGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->matthiasGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->cyrilGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->ellaGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->tomoGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->thibaultGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->pierreGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->thomasGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+        User::factory(1)
+            ->leoGlanum()
+            ->has(
+                Elo::factory(2)
+                    ->state(new Sequence(
+                        ['sport_id' => '1'],
+                        ['sport_id' => '2'],
+                    ))
+            )
+            ->create();
+
+//        User::factory(50)
+//            ->has(
+//                Transaction::factory(4)
+//            )
+//            ->has(
+//                Elo::factory(2)
+//                    ->state(new Sequence(
+//                        ['sport_id' => '1'],
+//                        ['sport_id' => '2'],
+//                    ))
+//            )
+//            ->create();
     }
 }

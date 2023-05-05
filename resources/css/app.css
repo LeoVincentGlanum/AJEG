@@ -9,3 +9,16 @@
         margin: 0;
     }
 }
+
+.tippy-box[data-theme~='default'] {
+    background-color: #D1D5DB;
+    color: #374151;
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}

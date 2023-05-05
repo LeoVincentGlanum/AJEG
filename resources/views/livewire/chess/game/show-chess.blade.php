@@ -34,15 +34,17 @@
                                             </svg>
                                         </button>
                                     @endif
-                                    <a wire:click="$emit('openModal', 'chess.notifications.delete-game-request-chess',{{ json_encode(["game" => $game->id]) }})"
-                                       class="inline-flex items-center rounded-full border border-transparent bg-indigo-600 p-3 ml-2 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor"
-                                             class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                        </svg>
-                                    </a>
+                                    @if($canBeDelete)
+                                        <a wire:click="$emit('openModal', 'chess.notifications.delete-game-request-chess',{{ json_encode(["game" => $game->id]) }})"
+                                           class="inline-flex items-center rounded-full border border-transparent bg-indigo-600 p-3 ml-2 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                            </svg>
+                                        </a>
+                                    @endif
                                 </div>
 
                             </div>
@@ -87,8 +89,9 @@
                                  px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
                                     <div class="flex-shrink-0">
                                         <img class="h-10 w-10 rounded-full"
-                                             src="{{ asset('public/img/'.$player->user->photo) }}"
-                                             alt="Photo de profil de {{$player->user->name}}">
+                                             src="{{ asset('/img_profil/'.$player->user->photo) }}"
+                                             alt="Photo de profil de {{$player->user->name}}"
+                                        onerror="this.onerror=null; this.src='/img/user-default.png'">
                                     </div>
                                     <div class="min-w-0 flex-1">
                                         <a href={{ route('user.profile', ['user' => $player->user->id]) }} class="focus:outline-none">
@@ -112,8 +115,9 @@
                                             <div class="flex items-start">
                                                 <div class="flex-shrink-0 pt-0.5">
                                                     <img class="h-10 w-10 rounded-full"
-                                                         src="{{ asset('public/img/'.$winner->user->photo) }}"
-                                                         alt="Photo de profil de {{$winner->user->name}}">
+                                                         src="{{ asset('/img_profil/'.$winner->user->photo) }}"
+                                                         alt="Photo de profil de {{$winner->user->name}}"
+                                                    onerror="this.onerror=null; this.src='/img/user-default.png'">
                                                 </div>
                                                 <div class="ml-3 w-0 flex-1">
                                                     <p class="text-sm font-medium text-gray-900">{{$winner->user->name}}
