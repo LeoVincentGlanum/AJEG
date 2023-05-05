@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('records', function (Blueprint $table) {
-            $table->id();
-            $table->string('type');
-            $table->integer('score');
-            $table->foreignId('user_id')
-                ->constrained('ajeg_users');
+        Schema::create('ajeg_dart_games', function (Blueprint $table) {
+            $table->id()
+                ->autoIncrement();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('records');
+        Schema::dropIfExists('ajeg_dart_games');
     }
 };
