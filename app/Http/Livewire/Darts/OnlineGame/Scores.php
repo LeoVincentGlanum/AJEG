@@ -25,23 +25,96 @@ class Scores extends Component
     {
         $this->users = User::query()->get()->toArray();
         $this->rounds = [
-            'round1',
-            'round2',
-            'round3',
-            'round4',
-            'round5',
+                'round1' => [
+                    'name' => "round1",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+                'round2' => [
+                    'name' => "round2",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+//                'round3' => [
+//                    'name' => "round3",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round4' => [
+//                    'name' => "round4",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round5' => [
+//                    'name' => "round5",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
         ];
         $this->scores = [
             [
                 'name' => '',
-                'round1' => '',
-                'round2' => '',
-                'round3' => '',
-                'round4' => '',
-                'round5' => '',
+                'round1' => [
+                    'name' => "round1",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+                'round2' => [
+                    'name' => "round2",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+//                'round3' => [
+//                    'name' => "round3",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round4' => [
+//                    'name' => "round4",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round5' => [
+//                    'name' => "round5",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
                 'score' => '',
             ]
         ];
+//                dd($this->scores);
+
+//        dd($this->rounds);
     }
 
     protected function rules(): array
@@ -52,9 +125,9 @@ class Scores extends Component
             $array['scores.' . $index . '.name'] = 'required';
             $array['scores.' . $index . '.round1'] = 'required';
             $array['scores.' . $index . '.round2'] = 'required';
-            $array['scores.' . $index . '.round3'] = 'required';
-            $array['scores.' . $index . '.round4'] = 'required';
-            $array['scores.' . $index . '.round5'] = 'required';
+//            $array['scores.' . $index . '.round3'] = 'required';
+//            $array['scores.' . $index . '.round4'] = 'required';
+//            $array['scores.' . $index . '.round5'] = 'required';
             $array['scores.' . $index . '.score'] = 'required';
         }
 
@@ -79,23 +152,69 @@ class Scores extends Component
     public function addRow()
     {
         $this->scores[] = [
-            'name' => '',
-            'round1' => '',
-            'round2' => '',
-            'round3' => '',
-            'round4' => '',
-            'round5' => '',
-            'score' => '',
+                'name' => '',
+                'round1' => [
+                    'name' => "round1",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+                'round2' => [
+                    'name' => "round2",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+//                'round3' => [
+//                    'name' => "round3",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round4' => [
+//                    'name' => "round4",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round5' => [
+//                    'name' => "round5",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+                'score' => '',
         ];
+//        dd($this->scores);
     }
 
-    public function updated($index)
+    public function updated($index,$round)
     {
         preg_match('/\d+/', $index, $matches1);
         $indexScore = $matches1[0];
 
+
+
+        $this->scores[$indexScore]['round1']['name'] ='round1';
+        dd($this->scores);
         $partyPerPlayer = $this->scores[$indexScore];
-        $totalScorePlayer = (int)$partyPerPlayer['round1'] + (int)$partyPerPlayer['round2'] + (int)$partyPerPlayer['round3'] + (int)$partyPerPlayer['round4'] + (int)$partyPerPlayer['round5'];
+//        dd($this->scores, $partyPerPlayer);
+        $totalScorePlayer = (int)$partyPerPlayer['round1']
+            + (int)$partyPerPlayer['round2']
+//            + (int)$partyPerPlayer['round3']
+//            + (int)$partyPerPlayer['round4']
+//            + (int)$partyPerPlayer['round5']
+        ;
         $partyPerPlayer['score'] = $totalScorePlayer;
 
         $this->scores[$indexScore] = $partyPerPlayer;
@@ -113,9 +232,9 @@ class Scores extends Component
                 DartScore::query()->create([
                     'round_1' => $input['round1'],
                     'round_2' => $input['round2'],
-                    'round_3' => $input['round3'],
-                    'round_4' => $input['round4'],
-                    'round_5' => $input['round5'],
+//                    'round_3' => $input['round3'],
+//                    'round_4' => $input['round4'],
+//                    'round_5' => $input['round5'],
                     'score' => $input['score'],
                     'dart_game_id' => $dartGame->id,
                     'user_id' =>  $input['name'],
@@ -155,13 +274,48 @@ class Scores extends Component
 
             $this->scores = [
                 [
-                    'name' => '',
-                    'round1' => '',
-                    'round2' => '',
-                    'round3' => '',
-                    'round4' => '',
-                    'round5' => '',
-                    'score' => '',
+                 'name' => '',
+                'round1' => [
+                    'name' => "round1",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+                'round2' => [
+                    'name' => "round2",
+                    'throw_count' => 3,
+                    'throw_1' => "",
+                    'throw_2' => "",
+                    'throw_3' => "",
+                    'round_score' => "",
+                ],
+//                'round3' => [
+//                    'name' => "round3",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round4' => [
+//                    'name' => "round4",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+//                'round5' => [
+//                    'name' => "round5",
+//                    'throw_count' => 3,
+//                    'throw_1' => "",
+//                    'throw_2' => "",
+//                    'throw_3' => "",
+//                    'round_score' => "",
+//                ],
+                'score' => '',
                 ]
             ];
         } catch (\Exception $e) {

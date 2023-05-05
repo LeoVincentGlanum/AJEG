@@ -15,15 +15,15 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Manche 2
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Manche 3
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Manche 4
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Manche 5
-                            </th>
+{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
+{{--                                Manche 3--}}
+{{--                            </th>--}}
+{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
+{{--                                Manche 4--}}
+{{--                            </th>--}}
+{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
+{{--                                Manche 5--}}
+{{--                            </th>--}}
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Total
                             </th>
@@ -43,17 +43,18 @@
                                         @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
                                     </div>
                                 </td>
-                                @foreach($rounds as $round)
+                                @foreach($rounds as $round_index => $round)
                                     <td x-data class="px-6 py-4 whitespace-nowrap">
-                                        <input type="number" name="{{$round}}" id="{{$round}}-{{ $index }}"
-                                               wire:model="scores.{{ $index }}.{{$round}}"
+                                        <input type="number" name="{{($round_index)}}" id="{{$round_index}}-{{ $index }}"
+                                               wire:model="scores.{{ $index }}.{{$round_index}}"
                                                wire:focus="init_count()"
                                                wire:input="decrement_count()"
                                                data-player="{{$index}}"
                                                onfocus="focusEvent(this)"
+                                               @if($round['throw_count'] == 0) disabled @endif
                                                class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         >
-                                         @error("scores.$index.$round") <span class="error" style="color: red">Manche requise</span> @enderror
+                                         @error("scores.$index.$round_index") <span class="error" style="color: red">Manche requise</span> @enderror
                                     </td>
                                 @endforeach
                                 <td class="px-6 py-4 whitespace-nowrap">
