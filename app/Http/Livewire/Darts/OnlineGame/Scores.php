@@ -17,12 +17,8 @@ class Scores extends Component
 
     public array $scores;
     public array $users;
-
-//    protected $listeners = ['updateScore'];
-
     public int $score;
     public int $count;
-
     public array $rounds;
 
     public function mount()
@@ -130,9 +126,6 @@ class Scores extends Component
                     $topGame->score = $input['score'];
                     $topGame->user_id = $input['name'];
                     $topGame->save();
-
-//                    $this->recordToast($input['name'] . ' a battu le record de la meilleure partie avec :' . $input['score'], $delay);
-//                    $delay += 500;
                 }
 
                 $worstGame = Record::query()->where('type', 'WorstGame')->firstOrFail();
@@ -140,9 +133,6 @@ class Scores extends Component
                     $worstGame->score = $input['score'];
                     $worstGame->user_id = $input['name'];
                     $worstGame->save();
-
-//                    $this->recordToast($input['name'] . ' a battu le record de la pire partie avec :' . $input['score'], $delay);
-//                    $delay += 500;
                 }
 
                 $topRound = Record::query()->where('type', 'TopRound')->firstOrFail();
@@ -152,18 +142,12 @@ class Scores extends Component
                         $topRound->score = $input[$round];
                         $topRound->user_id = $input['name'];
                         $topRound->save();
-
-//                        $this->recordToast($input['name'] . ' a battu le record de la meilleure manche avec :' . $input['score'], $delay);
-//                        $delay += 500;
                     }
 
                     if ($input[$round] < $worstRound->score) {
                         $worstRound->score = $input[$round];
                         $worstRound->user_id = $input['name'];
                         $worstRound->save();
-
-//                        $this->recordToast($input['name'] . ' a battu le record de la pire manche avec :' . $input['score'], $delay);
-//                        $delay += 500;
                     }
                 }
             }

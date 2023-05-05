@@ -46,15 +46,14 @@
                                 @foreach($rounds as $round)
                                     <td x-data class="px-6 py-4 whitespace-nowrap">
                                         <input type="number" name="{{$round}}" id="{{$round}}-{{ $index }}"
-                                               wire:model.debounce.500ms="scores.{{ $index }}.{{$round}}"
+                                               wire:model="scores.{{ $index }}.{{$round}}"
                                                wire:focus="init_count()"
                                                wire:input="decrement_count()"
-                                               data-count="3"
                                                data-player="{{$index}}"
                                                onfocus="focusEvent(this)"
                                                class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         >
-                                         @error("scores.".$index.".round2") <span class="error" style="color: red">Manche requise</span> @enderror
+                                         @error("scores.$index.$round") <span class="error" style="color: red">Manche requise</span> @enderror
                                     </td>
                                 @endforeach
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -99,10 +98,10 @@
 <script>
 
 
-    let toto = '';
+    let inputId = '';
 
     function focusEvent(element) {
-        toto = element.id
+        inputId = element.id
         console.log(element.id)
     }
 
@@ -113,8 +112,8 @@
 
 
         document.querySelector('#dartboard').addEventListener('throw', function (d) {
-            var titi = document.getElementById(toto)
-            console.log(toto, titi)
+            var input = document.getElementById(inputId)
+            console.log(inputId, input)
 
             if (@this.count == 0) {
                 alert('Passe ton tour !')
@@ -123,17 +122,14 @@
 
             var score = 0;
 
-            if (titi.value != '') {
-                score = parseInt(titi.value);
+            if (input.value != '') {
+                score = parseInt(input.value);
             }
 
             score += d.detail.score
-            titi.value = score
-            titi.dataset.count = titi.dataset.count - 1
+            input.value = score
 
-            titi.dispatchEvent(new Event("input"));
-
-        @this.roundScore(titi.dataset.player, titi.name, titi.value);
+            input.dispatchEvent(new Event("input"));
         })
 
     })

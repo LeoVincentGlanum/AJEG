@@ -11,6 +11,6 @@ class Board extends Component
 {
     public function render()
     {
-        return view('livewire.darts.onlineGame.board2');
+        return view('livewire.darts.onlineGame.board');
     }
 }
