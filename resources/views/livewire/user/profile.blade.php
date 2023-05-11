@@ -43,6 +43,27 @@
                     </span>
                 </a>
 
+                <a
+                    wire:click="changeTab('dashboard-dart')"
+                    @class([
+                        'group rounded-md px-3 py-2 flex items-center text-sm font-medium cursor-pointer',
+                        'text-gray-900 hover:text-gray-900 hover:bg-gray-50' => $tab !== 'dashboard-dart',
+                        'bg-gray-50 text-custom-primary hover:bg-white' => $tab === 'dashboard-dart'
+                    ])
+                >
+                    @php
+                        $icon = Arr::toCssClasses([
+                            'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
+                            'text-gray-400 group-custom-hover:text-gray-500', $tab !== 'dashboard-dart',
+                            'text-custom-primary' => $tab === 'dashboard-dart'
+                        ])
+                    @endphp
+                    <x-heroicon-o-chart-pie :class="$icon"/>
+                    <span class="truncate">
+                        {{ __('Statistics Darts') }}
+                    </span>
+                </a>
+
                 @if($isTabAvailable)
                     <a
                         wire:click="changeTab('detail')"
@@ -93,6 +114,8 @@
                 <livewire:user.bets :user="$user"/>
             @elseif($tab === 'dashboard')
                 <livewire:user.dashboard :user="$user"/>
+            @elseif($tab === 'dashboard-dart')
+                <livewire:user.dashboard-dart :user="$user"/>
             @elseif($tab === 'detail')
                 <livewire:user.detail :user="$user"/>
             @elseif($tab === 'notifications')

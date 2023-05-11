@@ -73,7 +73,7 @@
     window.onload = setTimeout(
         () => {
             const data = {
-                labels: [@foreach($eloHistoryLabels as $test) '{{$test}}', @endforeach],
+                labels: [@foreach($eloHistoryLabels as $date) '{{$date}}', @endforeach],
                     // ['ada','aze','ar',"aze"],
                 datasets: [
                     {
