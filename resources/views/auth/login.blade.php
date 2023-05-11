@@ -12,13 +12,13 @@
             <div class="mt-[60px]">
                 <x-input-label for="email" :value="__('Email')" />
 
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-text-input id="email" class="block mt-2 w-full" type="email" name="email" :value="old('email')" required autofocus />
 
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <!-- Password -->
-            <div class="mt-[38px]">
+            <div class="mt-[20px]">
                 <x-input-label for="password" :value="__('Password')" />
 
                 <x-text-input id="password" class="block mt-1 w-full"
@@ -29,25 +29,30 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-start mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                    <a class="underline hover:no-underline text-sm text-[#443F37] hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Mot de passe oublié') }}
                     </a>
                 @endif
 
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
+                
+            </div>
+
+            <!-- Remember Me -->
+            <div class="block mt-8">
+                <label for="remember_me" class="inline-flex items-center cursor-pointer select-none">
+                    <input id="remember_me" type="checkbox" class="rounded border-[#E8E8E8] text-[#EEBC42] shadow-sm cursor-pointer focus:border-[#EEBC42] focus:ring focus:ring-[#EEBC42] focus:ring-opacity-60 checked:bg-[#EEBC42]" name="remember">
+                    <span class="ml-3 text-[16px] text-[#443F37] ">{{ __('Se souvenir de moi') }}</span>
+                </label>
+            </div>
+            
+            <div class="block mt-16">
+                <x-primary-button class="normal-case w-full text-[20px]">
+                    {{ __('Valider') }}
                 </x-primary-button>
             </div>
+            
         </form>
     </x-auth-card>
 </x-guest-layout>

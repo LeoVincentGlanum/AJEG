@@ -8,9 +8,11 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-
+            <div class="text-center flex flex-col items-center">
+                <span class="text-3xl font-bold">{{ __('Création du compte') }}</span>
+            </div>
             <!-- Name -->
-            <div>
+            <div class="mt-[60px]">
                 <x-input-label for="name" :value="__('Name')" />
 
                 <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
@@ -50,13 +52,14 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-start mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
+                    {{ __('Déjà inscrit ?') }}
                 </a>
-
-                <x-primary-button class="ml-4">
-                    {{ __('Register') }}
+            </div>
+            <div class="block mt-16">
+                <x-primary-button class="normal-case w-full text-[20px]">
+                    {{ __('S\'inscrire') }}
                 </x-primary-button>
             </div>
         </form>

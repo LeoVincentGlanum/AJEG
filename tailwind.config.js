@@ -12,13 +12,13 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                sans: ['Merriweather Sans', ...defaultTheme.fontFamily.sans],
             },
         },
         colors: {
             'custom-white': '#FFFFFF',
-            'custom-background': '#F3F4F6',
-            'custom-card': '#E5E7EB',
+            'custom-background': '#f9f9f9',
+            'custom-card': '#ffffff',
             'custom-button': '#D1D5DB',
             'custom-light-text': '#9CA3AF',
             'custom-darker-button': '#6B7280',
