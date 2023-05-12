@@ -32,15 +32,20 @@ class Scores extends Component
             'round5',
         ];
         $this->scores = [
-            [
-                'name' => '',
-                'round1' => '',
-                'round2' => '',
-                'round3' => '',
-                'round4' => '',
-                'round5' => '',
-                'score' => '',
-            ]
+            $this->addScoreEmpty()
+        ];
+    }
+
+    public function addScoreEmpty(): array
+    {
+        return [
+            'name' => '',
+            'round1' => '',
+            'round2' => '',
+            'round3' => '',
+            'round4' => '',
+            'round5' => '',
+            'score' => '',
         ];
     }
 
@@ -78,15 +83,7 @@ class Scores extends Component
 
     public function addRow()
     {
-        $this->scores[] = [
-            'name' => '',
-            'round1' => '',
-            'round2' => '',
-            'round3' => '',
-            'round4' => '',
-            'round5' => '',
-            'score' => '',
-        ];
+        $this->scores[] = $this->addScoreEmpty();
     }
 
     public function updated($index)
@@ -154,15 +151,7 @@ class Scores extends Component
             $this->emit('recordsChanged');
 
             $this->scores = [
-                [
-                    'name' => '',
-                    'round1' => '',
-                    'round2' => '',
-                    'round3' => '',
-                    'round4' => '',
-                    'round5' => '',
-                    'score' => '',
-                ]
+                $this->addScoreEmpty()
             ];
         } catch (\Exception $e) {
             $this->errorToast($e);
