@@ -55,7 +55,7 @@
                         </li>
                         <li>
                             <x-nav-link
-                                :href="route($type === 'chess' ? 'chess.game.dashboard' : 'darts.dashboard')"
+                                :href="route('chess.game.dashboard')"
                                 :active="request()->routeIs($type === 'chess' ? 'chess.game.dashboard' : 'darts.dashboard')"
                                 x-init="
                                         tippy('#games-link', {
@@ -74,7 +74,7 @@
                         </li>
                         <li>
                             <x-nav-link
-                                :href="route($type === 'chess' ? 'chess.dashboard' : 'darts.dashboard')"
+                                :href="route('chess.game.ranking')"
                                 :active="request()->routeIs($type === 'chess' ? 'chess.dashboard' : 'darts.dashboard')"
                                 x-init="
                                         tippy('#ranks-link', {

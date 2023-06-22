@@ -7,6 +7,9 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        {{--icon--}}
+        <script src="https://kit.fontawesome.com/e2decc866e.js" crossorigin="anonymous"></script>
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 

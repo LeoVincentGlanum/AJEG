@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Livewire\Chess\Game;
+namespace App\Http\Livewire\Chess\Rank;
 
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class RankingChess extends Component
+class TableRank extends Component
 {
     use WithPagination;
 
     public string $searchPlayer = '';
     public array $rank;
     public array $elo_chess;
-
-    public array $EloRanks =
-        [
+    public array $EloRanks = [
             'Grand Master' => ['King-Transparent-PNG.png', 2000, 4000],
             'Master' => ['grandmaster.png', 1750, 2000],
             'Diamant' => ['diams.png', 1500, 1750],
@@ -41,8 +39,6 @@ class RankingChess extends Component
             $cpt++;
             $this->elo_chess[$user->id] = $user->elo;
         }
-
-
     }
 
     public function makeQueryFilter(): LengthAwarePaginator
@@ -56,22 +52,21 @@ class RankingChess extends Component
                     $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 1);
                 })
                 ->orderBy('ajeg_elo.elo', 'desc')
-                ->paginate(20);
+                ->paginate(10);
         }
 
         return User::query()->join('ajeg_elo', function ($join) {
             $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 1);
         })
-            ->orderBy('ajeg_elo.elo', 'desc')->paginate(20);
+            ->orderBy('ajeg_elo.elo', 'desc')->paginate(10);
     }
 
     public function render()
     {
-        return view('livewire.chess.game.ranking-chess', [
+        return view('livewire.chess.rank.table-rank', [
             'users' => $this->makeQueryFilter(),
             'user_rank' => $this->rank,
             'elo_chess' => $this->elo_chess,
         ]);
-
     }
 }
