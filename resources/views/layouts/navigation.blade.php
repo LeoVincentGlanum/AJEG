@@ -162,7 +162,7 @@
                         </li>
                         <li>
                             <x-nav-link
-                                :href="route($type === 'chess' ? 'chess.dashboard' : 'darts.dashboard')"
+                                :href="route('chess.game.bet')"
                                 :active="request()->routeIs($type === 'chess' ? 'chess.dashboard' : 'darts.dashboard')"
                                 x-init="
                                         tippy('#bets-link', {

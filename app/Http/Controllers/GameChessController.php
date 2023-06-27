@@ -22,10 +22,14 @@ class GameChessController extends Controller
 
     }
 
-    public function bet(Game $game)
+//    public function bet(Game $game)
+//    {
+//        return view('chess.game.bet-chess', ['game' => $game]);
+//
+//    }
+    public function bet(Collection $users)
     {
-        return view('chess.game.bet-chess', ['game' => $game]);
-
+        return view('chess.game.bet-chess', ['users' => $users, 'page' => request()->get('page')]);
     }
 
     public function ranking(Collection $users)
