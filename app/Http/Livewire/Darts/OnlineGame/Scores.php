@@ -153,22 +153,22 @@ class Scores extends Component
         ];
     }
 
-public function updated($index, $userId)
-{
-    preg_match('/\d+/', $index, $matches1);
-    $indexScore = $matches1[0];
-    $partyPerPlayer = $this->scores[$indexScore];
+    public function updated($index, $userId)
+    {
+        preg_match('/\d+/', $index, $matches1);
+        $indexScore = $matches1[0];
+        $partyPerPlayer = $this->scores[$indexScore];
 
-    $rounds = ['round1', 'round2', 'round3', 'round4', 'round5'];
-    $totalScorePlayer = 0;
+        $rounds = ['round1', 'round2', 'round3', 'round4', 'round5'];
+        $totalScorePlayer = 0;
 
-    foreach ($rounds as $round) {
-        $totalScorePlayer += (int)$partyPerPlayer[$round]['round_score'];
+        foreach ($rounds as $round) {
+            $totalScorePlayer += (int)$partyPerPlayer[$round]['round_score'];
+        }
+
+        $partyPerPlayer['score'] = $totalScorePlayer;
+        $this->scores[$indexScore] = $partyPerPlayer;
     }
-
-    $partyPerPlayer['score'] = $totalScorePlayer;
-    $this->scores[$indexScore] = $partyPerPlayer;
-}
 
 
     public function save(Request $request)
@@ -191,33 +191,62 @@ public function updated($index, $userId)
                     'user_id' => $input['name'],
                 ]);
 
-                $topGame = Record::query()->where('type', 'TopGame')->firstOrFail();
-                if ($input['score'] > $topGame->score) {
-                    $topGame->score = $input['score'];
-                    $topGame->user_id = $input['name'];
-                    $topGame->save();
-                }
-
-                $worstGame = Record::query()->where('type', 'WorstGame')->firstOrFail();
-                if ($input['score'] < $worstGame->score) {
-                    $worstGame->score = $input['score'];
-                    $worstGame->user_id = $input['name'];
-                    $worstGame->save();
-                }
-
-                $topRound = Record::query()->where('type', 'TopRound')->firstOrFail();
-                $worstRound = Record::query()->where('type', 'WorstRound')->firstOrFail();
-                foreach ($this->rounds as $round) {
-                    if ((int)$input[$round['name']]['round_score'] > $topRound->score) {
-                        $topRound->score = (int)$input[$round['name']]['round_score'];
-                        $topRound->user_id = $input['name'];
-                        $topRound->save();
+                $topGame = Record::query()->where('type', 'TopGame')->where('user_id', $input['name'])->first();
+                if ($topGame) {
+                    if ($input['score'] > $topGame->score) {
+                        $topGame->score = $input['score'];
+                        $topGame->user_id = $input['name'];
+                        $topGame->save();
                     }
+                } else {
+                    $newTopGame = new Record();
+                    $newTopGame->user_id = $input['name'];
+                    $newTopGame->score = $input['score'];
+                    $newTopGame->type = 'TopGame';
+                    $newTopGame->save();
+                }
 
-                    if ((int)$input[$round['name']]['round_score'] < $worstRound->score) {
-                        $worstRound->score = (int)$input[$round['name']]['round_score'];
-                        $worstRound->user_id = $input['name'];
-                        $worstRound->save();
+                $worstGame = Record::query()->where('type', 'WorstGame')->where('user_id', $input['name'])->first();
+                if ($worstGame) {
+                    if ($input['score'] < $worstGame->score) {
+                        $worstGame->score = $input['score'];
+                        $worstGame->user_id = $input['name'];
+                        $worstGame->save();
+                    }
+                } else {
+                    $newWorstGame = new Record();
+                    $newWorstGame->user_id = $input['name'];
+                    $newWorstGame->score = $input['score'];
+                    $newWorstGame->type = 'WorstGame';
+                    $newWorstGame->save();
+                }
+
+                foreach ($this->rounds as $round) {
+                    $topRound = Record::query()->where('type', 'TopRound')->where('user_id', $input['name'])->first();
+                    $worstRound = Record::query()->where('type', 'WorstRound')->where('user_id', $input['name'])->first();
+                    if ($topRound && $worstRound) {
+                        if ((int)$input[$round['name']]['round_score'] > $topRound->score) {
+                            $topRound->score = (int)$input[$round['name']]['round_score'];
+                            $topRound->user_id = $input['name'];
+                            $topRound->save();
+                        }
+                        if ((int)$input[$round['name']]['round_score'] < $worstRound->score) {
+                            $worstRound->score = (int)$input[$round['name']]['round_score'];
+                            $worstRound->user_id = $input['name'];
+                            $worstRound->save();
+                        }
+                    } else {
+                        $newTopRound = new Record();
+                        $newTopRound->user_id = $input['name'];
+                        $newTopRound->score = (int)$input[$round['name']]['round_score'];
+                        $newTopRound->type = 'TopRound';
+                        $newTopRound->save();
+
+                        $newWorstRound = new Record();
+                        $newWorstRound->user_id = $input['name'];
+                        $newWorstRound->score = (int)$input[$round['name']]['round_score'];
+                        $newWorstRound->type = 'WorstRound';
+                        $newWorstRound->save();
                     }
                 }
             }

@@ -15,6 +15,10 @@ class Records extends Component
 {
     public $records;
     public $score = 0;
+    public $topRound;
+    public $worstRound;
+    public $worstGame;
+    public $topGame;
 
     protected $listeners = ['recordsChanged' => 'refreshRecords'];
 
@@ -29,7 +33,17 @@ class Records extends Component
 
     public function mount()
     {
-        $this->records = Record::query()->get();
+        $this->topRound = Record::query()->where('type', 'TopRound')->orderByDesc('score')->limit(1)->first();
+        $this->worstRound = Record::query()->where('type', 'WorstRound')->orderBy('score')->limit(1)->first();
+        $this->worstGame = Record::query()->where('type', 'WorstGame')->orderBy('score')->limit(1)->first();
+        $this->topGame = Record::query()->where('type', 'TopGame')->orderByDesc('score')->limit(1)->first();
+
+        $this->records = collect([
+            $this->topRound,
+            $this->worstRound,
+            $this->worstGame,
+            $this->topGame,
+        ]);
     }
 
     public function render()
