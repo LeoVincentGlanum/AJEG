@@ -15,15 +15,15 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Manche 2
                             </th>
-{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
-{{--                                Manche 3--}}
-{{--                            </th>--}}
-{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
-{{--                                Manche 4--}}
-{{--                            </th>--}}
-{{--                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
-{{--                                Manche 5--}}
-{{--                            </th>--}}
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Manche 3
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Manche 4
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Manche 5
+                            </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Total
                             </th>
@@ -45,8 +45,9 @@
                                 </td>
                                 @foreach($rounds as $round_index => $round)
                                     <td x-data class="px-6 py-4 whitespace-nowrap">
-                                        <input type="number" name="{{($round_index)}}" id="{{$round_index}}-{{ $index }}"
-                                               wire:model="scores.{{ $index }}.{{$round_index}}"
+                                        <input type="number" name="scores[{{ $index }}][round_score]"
+                                               id="{{$round_index}}-{{ $index }}"
+                                               wire:model="scores.{{ $index }}.{{$round_index}}.round_score"
                                                wire:focus="init_count()"
                                                wire:input="decrement_count()"
                                                data-player="{{$index}}"
@@ -54,7 +55,7 @@
                                                @if($round['throw_count'] == 0) disabled @endif
                                                class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         >
-                                         @error("scores.$index.$round_index") <span class="error" style="color: red">Manche requise</span> @enderror
+                                        @error("scores.$index.$round_index") <span class="error" style="color: red">Manche requise</span> @enderror
                                     </td>
                                 @endforeach
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -103,7 +104,6 @@
 
     function focusEvent(element) {
         inputId = element.id
-        console.log(element.id)
     }
 
     document.addEventListener('livewire:load', function (dartScore) {
@@ -114,7 +114,6 @@
 
         document.querySelector('#dartboard').addEventListener('throw', function (d) {
             var input = document.getElementById(inputId)
-            console.log(inputId, input)
 
             if (@this.count == 0) {
                 alert('Passe ton tour !')
