@@ -43,17 +43,19 @@
                                         @error("scores.".$index.".name") <span class="error" style="color: red">Nom requis</span> @enderror
                                     </div>
                                 </td>
-                                @foreach($rounds as $round)
+                                @foreach($rounds as $round_index => $round)
                                     <td x-data class="px-6 py-4 whitespace-nowrap">
-                                        <input type="number" name="{{$round}}" id="{{$round}}-{{ $index }}"
-                                               wire:model="scores.{{ $index }}.{{$round}}"
+                                        <input type="number" name="scores[{{ $index }}][round_score]"
+                                               id="{{$round_index}}-{{ $index }}"
+                                               wire:model="scores.{{ $index }}.{{$round_index}}.round_score"
                                                wire:focus="init_count()"
                                                wire:input="decrement_count()"
                                                data-player="{{$index}}"
                                                onfocus="focusEvent(this)"
+                                               @if($round['throw_count'] == 0) disabled @endif
                                                class="input-score shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         >
-                                         @error("scores.$index.$round") <span class="error" style="color: red">Manche requise</span> @enderror
+                                        @error("scores.$index.$round_index") <span class="error" style="color: red">Manche requise</span> @enderror
                                     </td>
                                 @endforeach
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -102,7 +104,6 @@
 
     function focusEvent(element) {
         inputId = element.id
-        console.log(element.id)
     }
 
     document.addEventListener('livewire:load', function (dartScore) {
@@ -113,7 +114,6 @@
 
         document.querySelector('#dartboard').addEventListener('throw', function (d) {
             var input = document.getElementById(inputId)
-            console.log(inputId, input)
 
             if (@this.count == 0) {
                 alert('Passe ton tour !')
