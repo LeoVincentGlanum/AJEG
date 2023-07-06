@@ -26,6 +26,123 @@ class Scores extends Component
     public function mount()
     {
         $this->users = User::query()->get()->toArray();
+        $this->initScores();
+        $this->index = 0;
+
+        $this->rounds = [
+            'round1' => [
+                'name' => "round1",
+                'throw_count' => 3,
+                'round_score' => $this->scores[$this->index]['round1']['round_score'] ?? "",
+            ],
+            'round2' => [
+                'name' => "round2",
+                'throw_count' => 3,
+                'round_score' => $this->scores[$this->index]['round2']['round_score'] ?? "",
+            ],
+            'round3' => [
+                'name' => "round3",
+                'throw_count' => 3,
+                'round_score' => $this->scores[$this->index]['round3']['round_score'] ?? "",
+            ],
+            'round4' => [
+                'name' => "round4",
+                'throw_count' => 3,
+                'round_score' => $this->scores[$this->index]['round4']['round_score'] ?? "",
+            ],
+            'round5' => [
+                'name' => "round5",
+                'throw_count' => 3,
+                'round_score' => $this->scores[$this->index]['round5']['round_score'] ?? "",
+            ],
+        ];
+    }
+
+    /**
+     * @param mixed $input
+     * @return void
+     */
+    public function topGame(mixed $input): void
+    {
+        $topGame = Record::query()->where('type', 'TopGame')->where('user_id', $input['name'])->first();
+        if ($topGame) {
+            if ($input['score'] > $topGame->score) {
+                $topGame->score = $input['score'];
+                $topGame->user_id = $input['name'];
+                $topGame->save();
+            }
+        } else {
+            $newTopGame = new Record();
+            $newTopGame->user_id = $input['name'];
+            $newTopGame->score = $input['score'];
+            $newTopGame->type = 'TopGame';
+            $newTopGame->save();
+        }
+    }
+
+    /**
+     * @param mixed $input
+     * @return void
+     */
+    public function worstGame(mixed $input): void
+    {
+        $worstGame = Record::query()->where('type', 'WorstGame')->where('user_id', $input['name'])->first();
+        if ($worstGame) {
+            if ($input['score'] < $worstGame->score) {
+                $worstGame->score = $input['score'];
+                $worstGame->user_id = $input['name'];
+                $worstGame->save();
+            }
+        } else {
+            $newWorstGame = new Record();
+            $newWorstGame->user_id = $input['name'];
+            $newWorstGame->score = $input['score'];
+            $newWorstGame->type = 'WorstGame';
+            $newWorstGame->save();
+        }
+    }
+
+    /**
+     * @param mixed $input
+     * @return void
+     */
+    public function worstAndTopRound(mixed $input): void
+    {
+        foreach ($this->rounds as $round) {
+            $topRound = Record::query()->where('type', 'TopRound')->where('user_id', $input['name'])->first();
+            $worstRound = Record::query()->where('type', 'WorstRound')->where('user_id', $input['name'])->first();
+            if ($topRound && $worstRound) {
+                if ((int)$input[$round['name']]['round_score'] > $topRound->score) {
+                    $topRound->score = (int)$input[$round['name']]['round_score'];
+                    $topRound->user_id = $input['name'];
+                    $topRound->save();
+                }
+                if ((int)$input[$round['name']]['round_score'] < $worstRound->score) {
+                    $worstRound->score = (int)$input[$round['name']]['round_score'];
+                    $worstRound->user_id = $input['name'];
+                    $worstRound->save();
+                }
+            } else {
+                $newTopRound = new Record();
+                $newTopRound->user_id = $input['name'];
+                $newTopRound->score = (int)$input[$round['name']]['round_score'];
+                $newTopRound->type = 'TopRound';
+                $newTopRound->save();
+
+                $newWorstRound = new Record();
+                $newWorstRound->user_id = $input['name'];
+                $newWorstRound->score = (int)$input[$round['name']]['round_score'];
+                $newWorstRound->type = 'WorstRound';
+                $newWorstRound->save();
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function initScores(): void
+    {
         $this->scores = [
             [
                 'name' => '',
@@ -56,35 +173,6 @@ class Scores extends Component
                 ],
                 'score' => '',
             ]
-        ];
-        $this->index = 0;
-
-        $this->rounds = [
-            'round1' => [
-                'name' => "round1",
-                'throw_count' => 3,
-                'round_score' => $this->scores[$this->index]['round1']['round_score'] ?? "",
-            ],
-            'round2' => [
-                'name' => "round2",
-                'throw_count' => 3,
-                'round_score' => $this->scores[$this->index]['round2']['round_score'] ?? "",
-            ],
-            'round3' => [
-                'name' => "round3",
-                'throw_count' => 3,
-                'round_score' => $this->scores[$this->index]['round3']['round_score'] ?? "",
-            ],
-            'round4' => [
-                'name' => "round4",
-                'throw_count' => 3,
-                'round_score' => $this->scores[$this->index]['round4']['round_score'] ?? "",
-            ],
-            'round5' => [
-                'name' => "round5",
-                'throw_count' => 3,
-                'round_score' => $this->scores[$this->index]['round5']['round_score'] ?? "",
-            ],
         ];
     }
 
@@ -191,98 +279,15 @@ class Scores extends Component
                     'user_id' => $input['name'],
                 ]);
 
-                $topGame = Record::query()->where('type', 'TopGame')->where('user_id', $input['name'])->first();
-                if ($topGame) {
-                    if ($input['score'] > $topGame->score) {
-                        $topGame->score = $input['score'];
-                        $topGame->user_id = $input['name'];
-                        $topGame->save();
-                    }
-                } else {
-                    $newTopGame = new Record();
-                    $newTopGame->user_id = $input['name'];
-                    $newTopGame->score = $input['score'];
-                    $newTopGame->type = 'TopGame';
-                    $newTopGame->save();
-                }
+                $this->topGame($input);
 
-                $worstGame = Record::query()->where('type', 'WorstGame')->where('user_id', $input['name'])->first();
-                if ($worstGame) {
-                    if ($input['score'] < $worstGame->score) {
-                        $worstGame->score = $input['score'];
-                        $worstGame->user_id = $input['name'];
-                        $worstGame->save();
-                    }
-                } else {
-                    $newWorstGame = new Record();
-                    $newWorstGame->user_id = $input['name'];
-                    $newWorstGame->score = $input['score'];
-                    $newWorstGame->type = 'WorstGame';
-                    $newWorstGame->save();
-                }
+                $this->worstGame($input);
 
-                foreach ($this->rounds as $round) {
-                    $topRound = Record::query()->where('type', 'TopRound')->where('user_id', $input['name'])->first();
-                    $worstRound = Record::query()->where('type', 'WorstRound')->where('user_id', $input['name'])->first();
-                    if ($topRound && $worstRound) {
-                        if ((int)$input[$round['name']]['round_score'] > $topRound->score) {
-                            $topRound->score = (int)$input[$round['name']]['round_score'];
-                            $topRound->user_id = $input['name'];
-                            $topRound->save();
-                        }
-                        if ((int)$input[$round['name']]['round_score'] < $worstRound->score) {
-                            $worstRound->score = (int)$input[$round['name']]['round_score'];
-                            $worstRound->user_id = $input['name'];
-                            $worstRound->save();
-                        }
-                    } else {
-                        $newTopRound = new Record();
-                        $newTopRound->user_id = $input['name'];
-                        $newTopRound->score = (int)$input[$round['name']]['round_score'];
-                        $newTopRound->type = 'TopRound';
-                        $newTopRound->save();
-
-                        $newWorstRound = new Record();
-                        $newWorstRound->user_id = $input['name'];
-                        $newWorstRound->score = (int)$input[$round['name']]['round_score'];
-                        $newWorstRound->type = 'WorstRound';
-                        $newWorstRound->save();
-                    }
-                }
+                $this->worstAndTopRound($input);
             }
             $this->emit('recordsChanged');
 
-            $this->scores = [
-                [
-                    'name' => '',
-                    'round1' => [
-                        'name' => "round1",
-                        'throw_count' => 3,
-                        'round_score' => "",
-                    ],
-                    'round2' => [
-                        'name' => "round2",
-                        'throw_count' => 3,
-                        'round_score' => "",
-                    ],
-                    'round3' => [
-                        'name' => "round3",
-                        'throw_count' => 3,
-                        'round_score' => "",
-                    ],
-                    'round4' => [
-                        'name' => "round4",
-                        'throw_count' => 3,
-                        'round_score' => "",
-                    ],
-                    'round5' => [
-                        'name' => "round5",
-                        'throw_count' => 3,
-                        'round_score' => "",
-                    ],
-                    'score' => '',
-                ]
-            ];
+            $this->initScores();
         } catch (\Exception $e) {
             $this->errorToast($e);
         }

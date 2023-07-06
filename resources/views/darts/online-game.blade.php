@@ -6,6 +6,7 @@
     </x-slot>
     <livewire:darts.online-game.board/>
     <livewire:darts.online-game.scores/>
-    <livewire:darts.online-game.records/>
+    <livewire:darts.online-game.more-info/>
+    <livewire:darts.online-game.table-rank/>
 
 </x-app-layout>

@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-coins fa-2xl" style="color: #eebc42;"></i>
             </span>
             <img class="h-9 w-9 rounded-full ml-3" src="https://zupimages.net/up/22/50/mide.png" alt="">
-            <p class="ml-3 whitespace-nowrap font-semibold">{{ $info_best_bet->name }}</p>
-            <p class="ml-28 mr-1 whitespace-nowrap font-semibold start-right">{{ $info_best_bet->wins }} paris réussis </p>
+            <p class="ml-3 whitespace-nowrap font-semibold">{{ $info_best_bet?->name }}</p>
+            <p class="ml-28 mr-1 whitespace-nowrap font-semibold start-right">{{ $info_best_bet?->wins }} paris réussis </p>
         </div>
     </div>
 </div>
