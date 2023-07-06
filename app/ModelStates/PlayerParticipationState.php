@@ -2,6 +2,7 @@
 
  namespace App\ModelStates;
 
+use App\ModelStates\GameStates\GameAccepted;
 use App\ModelStates\PlayerParticipationStates\Draft;
 use App\ModelStates\PlayerParticipationStates\Accepted;
 use App\ModelStates\PlayerParticipationStates\Declined;
@@ -22,7 +23,6 @@ abstract class PlayerParticipationState extends State
 
             ->allowTransition(Pending::class, Accepted::class)
             ->allowTransition(Pending::class, Declined::class)
-
 
             ->registerState(Pending::class)
             ->registerState(Accepted::class)

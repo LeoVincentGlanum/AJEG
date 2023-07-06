@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
             Route::view('/dashboard', 'chess.game.dashboard')->name('chess.game.dashboard');
             Route::view('/create', 'chess.game.create')->name('chess.game.create');
 //            Route::get('/create/{game?}', [GameChessController::class, 'create'])->name('chess.game.create');
-//            Route::get('/show/{game}', [GameChessController::class, 'show'])->name('chess.game.show-chess');
+            Route::get('/show/{game}', [GameChessController::class, 'show'])->name('chess.game.show-chess');
 //            Route::view('/history', 'chess.game.history-chess')->name('chess.game.history-chess');
 //            Route::get('/bet/{game}', [GameChessController::class, 'bet'])->name('chess.game.bet');
 

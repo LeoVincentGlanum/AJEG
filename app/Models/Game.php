@@ -26,7 +26,11 @@ class Game extends Model
     protected $table = 'ajeg_games';
 
     protected $fillable = [
+        'label',
         'status',
+        'bet_available',
+        'created_by',
+        'sport_id'
     ];
 
     protected $casts = [

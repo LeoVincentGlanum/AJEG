@@ -12,10 +12,10 @@ class BetChess extends Component
 
     public function mount(){
         $this->countGameInProgress =Game::query()
+                                    ->where('status', '=', 'gameaccepted')
                                     ->with(['bets', 'gamePlayers', 'gamePlayers.user', 'gamePlayers.user.elos' => function($query){
                                         $query->where('sport_id', '=', 1);
                                     }])
-                                    ->where('status', '=', 'inprogress')
                                     ->where('bet_available','1')
                                     ->orderByDesc('updated_at')
                                     ->count();

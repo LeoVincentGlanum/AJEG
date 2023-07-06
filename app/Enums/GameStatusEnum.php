@@ -8,7 +8,8 @@ use App\ModelStates\GameStates\ResultValidations;
 enum GameStatusEnum: string
 {
     case draft = "draft";
-    case AskingForGame = 'afg';
+    case AskingForGame = 'playersvalidation';
+    case gameAccepted = 'gameaccepted';
     case progress = 'in progress';
     case Ended = 'ended';
 

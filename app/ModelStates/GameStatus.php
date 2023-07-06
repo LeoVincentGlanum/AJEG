@@ -11,15 +11,19 @@ use App\ModelStates\GameStates\InProgress;
 use App\ModelStates\GameStates\PlayersValidation;
 use App\ModelStates\GameStates\ResultValidations;
 use App\ModelStates\GameStates\Validate;
+use App\ModelStates\PlayerParticipationStates\Accepted;
 use Spatie\ModelStates\State;
 use Spatie\ModelStates\StateConfig;
 
 abstract class GameStatus extends State
 {
+    abstract public function color(): string;
+    abstract public function name(): string;
     public static function config(): StateConfig
     {
         return parent::config()
             ->default(Draft::class)
+            ->default(PlayersValidation::class)
             ->allowTransition(Draft::class, PlayersValidation::class)
             ->allowTransition(Draft::class, Cancel::class)
             ->allowTransition(Draft::class, Archived::class)
@@ -43,9 +47,5 @@ abstract class GameStatus extends State
             ->registerState(Validate::class)
             ->registerState(Cancel::class);
     }
-
-    abstract public function color(): string;
-
-    abstract public function name(): string;
 }
 

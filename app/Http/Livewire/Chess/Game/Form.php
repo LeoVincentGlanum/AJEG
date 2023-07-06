@@ -2,14 +2,17 @@
 
 namespace App\Http\Livewire\Chess\Game;
 
+use App\Enums\GameStatusEnum;
 use App\Enums\SportEnum;
 use App\Http\Livewire\Chess\Game\Traits\HasBetMapperChess;
 use App\Http\Livewire\Traits\HasToast;
 use App\Models\Game;
 use App\Models\User;
+use App\ModelStates\GamePlayerResultState;
 use App\Notifications\GameInvitationNotification;
 use App\Notifications\GameInvitationNotificationSended;
 use App\Notifications\NewBetNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -25,13 +28,18 @@ class Form extends Component
 
     public int $playerTwoId = 0;
 
-    public string $date = '';
+    public string $date;
 
     public bool $isRanked = true;
 
     public bool $sendReminder = true;
 
     public bool $betAvailable = true;
+
+    public function mount()
+    {
+        $this->date = (string)Carbon::now()->format('Y-m-d');
+    }
 
     public array $rules = [
         'name' => 'nullable',
@@ -51,19 +59,24 @@ class Form extends Component
 
         try {
             $game = Game::query()->create([
-                'created_by' => Auth::id(),
+                'label' => $this->name,
+                'status' => GameStatusEnum::AskingForGame->value,
                 'bet_available' => $this->betAvailable,
+                'created_by' => Auth::id(),
                 'sport_id' => SportEnum::Chess->value,
             ]);
+
 
             $player1 = $game->gamePlayers()->create([
                 'user_id' => $this->playerOneId,
                 'color' => 'white',
+                'player_participation_validation' => Auth::id() === $this->playerOneId ? 'accepted' : 'pending' ,
             ]);
 
             $player2 = $game->gamePlayers()->create([
                 'user_id' => $this->playerTwoId,
-                'color' => 'white',
+                'color' => 'black',
+                'player_participation_validation' => Auth::id() === $this->playerTwoId ? 'accepted' : 'pending' ,
             ]);
 
             $this->calcBetRatio([$player1, $player2]);
@@ -75,7 +88,7 @@ class Form extends Component
                     ->get();
 
                 foreach ($usersBetNotif as $user){
-                    $user->notify(new NewBetNotification($game));
+//                    $user->notify(new NewBetNotification($game));
                 }
             }
 
@@ -85,7 +98,7 @@ class Form extends Component
                         ->where('id', $user['id'])
                         ->first();
 
-                    $user->notify(new GameInvitationNotificationSended($game));
+//                    $user->notify(new GameInvitationNotificationSended($game));
                 }
 
                 if ($user['id'] !== Auth::id()) {
@@ -93,7 +106,7 @@ class Form extends Component
                         ->where('id', $user['id'])
                         ->first();
 
-                    $user->notify(new GameInvitationNotification($game));
+//                    $user->notify(new GameInvitationNotification($game));
                 }
             }
 

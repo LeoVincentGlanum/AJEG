@@ -16,7 +16,7 @@ class BetInProgress extends Component
             ->with(['bets', 'gamePlayers', 'gamePlayers.user', 'gamePlayers.user.elos' => function($query){
                 $query->where('sport_id', '=', 1);
             }])
-            ->where('status', '=', 'inprogress')
+            ->where('status', '=', 'gameaccepted')
             ->where('bet_available','1')
             ->orderByDesc('updated_at')
             ->limit(4)

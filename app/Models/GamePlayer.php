@@ -23,6 +23,7 @@ class GamePlayer extends Model
         'game_id',
         'user_id',
         'result',
+        'color',
         'player_result_validation',
         'player_participation_validation'
     ];

@@ -93,6 +93,12 @@ final class ResultFormChess extends ModalComponent
             Pat::$name => $this->isPatSetResults(),
             Draw::$name => $this->isNulSetResults()
         };
+        $this->calculRank();
+    }
+
+    public function calculRank()
+    {
+        dd('calcul rank');
     }
 
     public function render()

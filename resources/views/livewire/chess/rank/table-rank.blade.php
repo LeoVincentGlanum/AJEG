@@ -142,7 +142,7 @@
                                     {{ $this->rank[$user->id] }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">= 0</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 text-center" style="display: flex; align-items: center;">
-                                    <img class="h-9 w-9 rounded-full" src="https://zupimages.net/up/22/50/mide.png" alt="">
+                                    <img class="h-9 w-9 rounded-full" src="{{ asset('img_profil/'.$user->photo) }}" alt="">
                                     &nbsp;<span>{{ $user->name }}</span>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{{ $this->elo_chess[$user->id] }}</td>

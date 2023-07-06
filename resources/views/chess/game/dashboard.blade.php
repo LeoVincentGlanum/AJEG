@@ -6,7 +6,7 @@
             </h2>
         </div>
     </header>
-    <hr class="text-custom-button"/>
+    <hr class="text-custom-button" />
     <div class="max-w-[100rem] mx-auto sm:px-6 lg:px-8 py-6 flex flex-row gap-x-[190px]">
         <div class="flex flex-col gap-y-[60px]">
             <div class="max-w-[50rem] mt-6">
@@ -27,5 +27,7 @@
             <livewire:chess.game.list-history/>
         </div>
     </div>
+    <div class="max-w-[100rem] mx-auto sm:px-6 lg:px-8 py-6">
+        <livewire:chess.game.change-status-game-to-start/>
+    </div>
 </x-app-layout>
-
