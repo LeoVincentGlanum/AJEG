@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ajeg_tournaments', function (Blueprint $table) {
+        Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organizer_id')->constrained('ajeg_users');
+            $table->foreignId('organizer_id')->constrained('users');
             $table->string('name');
             $table->integer('number_of_players');
             $table->integer('entrance_fee');
-            $table->foreignId('game_type_id')->constrained('ajeg_game_types');
+            $table->foreignId('game_type_id')->constrained('game_types');
             $table->boolean('notification')->default(false);
             $table->string('type');
             $table->string('elo_min')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('status');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->foreignId('winner_id')->nullable()->constrained('ajeg_users');
+            $table->foreignId('winner_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ajeg_tournaments');
+        Schema::dropIfExists('tournaments');
     }
 };

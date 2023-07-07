@@ -10,7 +10,7 @@ class Bet extends Model
 {
     use HasStates;
 
-    protected $table = "ajeg_bets";
+    protected $table = "bets";
 
     protected $fillable = [
         'game_id',

@@ -34,8 +34,8 @@ class HistoryChess extends Component
             ->with(['users', 'gamePlayers'])
             ->where('status', 'like', '%'.$this->searchStatus.'%')
             ->when(($this->searchPlayer !== '' && $this->searchResult !== ''), function ($query) {
-                $query->whereHas('users', fn($query) => $query->where('ajeg_users.name', 'like', '%'.$this->searchPlayer.'%')
-                    ->where('ajeg_game_players.result', 'like', '%'.$this->searchResult.'%'));
+                $query->whereHas('users', fn($query) => $query->where('users.name', 'like', '%'.$this->searchPlayer.'%')
+                    ->where('game_players.result', 'like', '%'.$this->searchResult.'%'));
             })
             ->when(($this->searchPlayer !== '' && $this->searchResult === ''), function ($query) {
                 $query->whereRelation('users', 'name', 'like', '%'.$this->searchPlayer.'%');

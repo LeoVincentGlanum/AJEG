@@ -27,27 +27,6 @@ class MoreInfo extends Component
         $this->worstGame = Record::query()->where('type', 'WorstGame')->with('user')->orderBy('score')->first();
         $this->topRound = Record::query()->where('type', 'TopRound')->with('user')->orderByDesc('score')->first();
         $this->worstRound = Record::query()->where('type', 'WorstRound')->with('user')->orderBy('score')->first();
-
-
-        $this->info_best_player = User::query()->join('ajeg_elo', function ($join) {
-            $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 1);
-        })->orderBy('ajeg_elo.elo', 'desc')->firstOrFail();
-
-        $userGames = GamePlayer::query()->whereHas('game', function (\Illuminate\Database\Eloquent\Builder $query) {
-            $query->where('status','=', 'validate');
-        })->where('user_id', $this->info_best_player->id)->get();
-
-        $this->win_best_player = $userGames->where('result', '=', GameResultEnum::Win->value)->count();
-
-        $this->info_best_bet = User::query()
-            ->join('ajeg_bets', function ($join) {
-                $join->on('ajeg_users.id', '=', 'ajeg_bets.gambler_id')
-                    ->where('ajeg_bets.bet_status', 'Win');
-            })
-            ->select('ajeg_users.*', DB::raw('count(ajeg_bets.id) as wins'))
-            ->groupBy('ajeg_users.id')
-            ->orderByDesc('wins')
-            ->first();
     }
 
     public function render()

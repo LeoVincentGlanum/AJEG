@@ -9,7 +9,7 @@ class DartGame extends Model
 {
     use HasFactory;
 
-    protected $table = 'ajeg_dart_games';
+    protected $table = 'dart_games';
 
     protected $fillable = [
         'id',

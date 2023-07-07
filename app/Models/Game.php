@@ -23,7 +23,7 @@ class Game extends Model
     use HasFactory;
     use HasStates;
 
-    protected $table = 'ajeg_games';
+    protected $table = 'games';
 
     protected $fillable = [
         'label',
@@ -45,7 +45,7 @@ class Game extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,'ajeg_game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result','color','player_participation_validation','player_result_validation');
+        return $this->belongsToMany(User::class,'game_players', 'game_id', 'user_id', 'id', 'id')->withPivot('result','color','player_participation_validation','player_result_validation');
     }
 
     public function creator(): HasOne

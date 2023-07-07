@@ -10,7 +10,7 @@ class UserNotification extends Model
 {
     use HasFactory;
 
-    protected $table = 'ajeg_user_notifications';
+    protected $table = 'user_notifications';
 
     protected $fillable = [
         'user_id',

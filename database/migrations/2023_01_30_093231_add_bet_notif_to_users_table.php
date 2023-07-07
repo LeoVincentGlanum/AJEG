@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ajeg_users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->boolean('bet_notif')->default(false);
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ajeg_users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('bet_notif');
         });
     }

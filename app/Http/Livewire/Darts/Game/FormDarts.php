@@ -158,9 +158,9 @@ class FormDarts extends Component
             $gameplayer->save();
         }
 
-        $users = User::query()->whereIn('ajeg_users.id', $this->playersId)->join('elo', function ($join) {
-            $join->on('ajeg_users.id', '=', 'ajeg_elo.user_id')->where('ajeg_elo.sport_id', 2);
-        })->orderBy('ajeg_elo.elo')->get();
+        $users = User::query()->whereIn('users.id', $this->playersId)->join('elo', function ($join) {
+            $join->on('users.id', '=', 'elo.user_id')->where('elo.sport_id', 2);
+        })->orderBy('elo.elo')->get();
         $this->calcBetRatio($users);
         if ($this->type == GameStatusEnum::waiting->value) {
             session()->flash('message_url', route('darts.game.show-darts', ['game' => $newGame->id]));

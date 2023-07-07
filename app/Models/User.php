@@ -17,7 +17,7 @@ class User extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "ajeg_users";
+    protected $table = "users";
 
     /**
      * The attributes that are mass assignable.
@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public function participating(): BelongsToMany
     {
-        return $this->belongsToMany(Tournament::class, 'ajeg_tournament_participants')
+        return $this->belongsToMany(Tournament::class, 'tournament_participants')
             ->using(TournamentParticipant::class)
             ->withPivot(['wins', 'paths', 'draws', 'losses']);
     }

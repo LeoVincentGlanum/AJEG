@@ -30,7 +30,7 @@ class HistoryDarts extends Component
             ->where('status', 'like', '%' . $this->searchStatus . '%')
             ->when(($this->searchPlayer !== '' && $this->searchResult !== ''), function ($query) {
                 $query->whereHas('users', fn($query) => $query->where('users.name', 'like', '%' . $this->searchPlayer . '%')
-                    ->where('ajeg_game_players.result', 'like', '%' . $this->searchResult . '%'));
+                    ->where('game_players.result', 'like', '%' . $this->searchResult . '%'));
             })
             ->when(($this->searchPlayer !== '' && $this->searchResult === ''), function ($query) {
                 $query->whereRelation('users', 'name', 'like', '%' . $this->searchPlayer . '%');

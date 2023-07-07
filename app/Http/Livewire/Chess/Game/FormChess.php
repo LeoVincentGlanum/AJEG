@@ -255,7 +255,7 @@ class FormChess extends Component
                 ->addSelect([
                     'elo' => $lastElo
                 ])
-                ->whereIn('ajeg_users.id', Arr::pluck($this->players, 'id'))
+                ->whereIn('users.id', Arr::pluck($this->players, 'id'))
                 ->get();
 
 

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ajeg_dart_games', function (Blueprint $table) {
+        Schema::create('dart_games', function (Blueprint $table) {
             $table->id()
                 ->autoIncrement();
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ajeg_dart_games');
+        Schema::dropIfExists('dart_games');
     }
 };

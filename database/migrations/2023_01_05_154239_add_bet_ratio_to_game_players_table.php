@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('ajeg_game_players', function (Blueprint $table) {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->decimal('bet_ratio', 10)->after('player_result_validation')->nullable();
         });
     }
@@ -24,7 +24,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('ajeg_game_players', function (Blueprint $table) {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->dropColumn('bet_ratio');
         });
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('score');
             $table->foreignId('user_id')
-                ->constrained('ajeg_users');
+                ->constrained('users');
             $table->timestamps();
         });
     }

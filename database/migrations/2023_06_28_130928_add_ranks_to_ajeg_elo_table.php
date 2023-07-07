@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ajeg_elo', function (Blueprint $table) {
+        Schema::table('elo', function (Blueprint $table) {
             $table->integer('rank')->nullable();
             $table->integer('old_rank')->nullable();
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ajeg_elo', function (Blueprint $table) {
+        Schema::table('elo', function (Blueprint $table) {
             $table->integer('rank');
             $table->integer('old_rank');
         });

@@ -9,7 +9,7 @@ class DartScore extends Model
 {
     use HasFactory;
 
-    protected $table = 'ajeg_dart_scores';
+    protected $table = 'dart_scores';
 
     protected $fillable = [
         'round_1',

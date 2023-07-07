@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ajeg_dart_scores', function (Blueprint $table) {
+        Schema::create('dart_scores', function (Blueprint $table) {
             $table->id()
                 ->autoIncrement();
             $table->foreignId('dart_game_id')
-                ->constrained('ajeg_dart_games')
+                ->constrained('dart_games')
                 ->cascadeOnDelete();
             $table->foreignId('user_id')
-                ->constrained('ajeg_users');
+                ->constrained('users');
             $table->integer('round_1');
             $table->integer('round_2');
             $table->integer('round_3');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ajeg_dart_scores');
+        Schema::dropIfExists('dart_scores');
     }
 };

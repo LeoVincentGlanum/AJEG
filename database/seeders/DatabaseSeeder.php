@@ -14,15 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('ajeg_game_types')->insert([
+        DB::table('game_types')->insert([
             'label' => 'standard',
             'ratio' => 1.0,
         ]);
 
-        DB::table('ajeg_sports')->insert([
+        DB::table('sports')->insert([
             'label' => 'Échecs',
         ]);
-        DB::table('ajeg_sports')->insert([
+        DB::table('sports')->insert([
             'label' => 'Fléchettes',
         ]);
 
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
 //            BetSeeder::class,
 //            TournamentSeeder::class,
 //            TournamentParticipantSeeder::class,
-//            RecordsTableSeeder::class,
+            RecordsTableSeeder::class,
         ]);
     }
 }
